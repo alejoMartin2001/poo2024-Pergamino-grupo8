@@ -1,0 +1,4 @@
+CREATE TABLE country(
+    idcountry INTEGER NOT NULL PRIMARY KEY,
+    nombre VARCHAR(30) NOT NULL
+);

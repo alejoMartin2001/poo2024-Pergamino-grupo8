@@ -1,0 +1,2 @@
+export JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64/bin/java
+export PATH=$JAVA_HOME/bin:$PATH

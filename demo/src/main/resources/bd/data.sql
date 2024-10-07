@@ -1,0 +1,1 @@
+INSERT INTO country(idcountry, nombre) VALUES (1,'Argentina'),(2,'Francia'),(3,'Holanda');
