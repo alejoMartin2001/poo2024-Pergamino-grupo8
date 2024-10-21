@@ -21,4 +21,9 @@ public class Song {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Genre genre;
+
+    @ManyToOne
+    @JoinColumn(name = "song_id", referencedColumnName = "id")  // 'user_id' será la FK en la tabla 'Playlist' que apunta a 'User'
+    private MusicArties author;
+
 }

@@ -31,4 +31,9 @@ public class Playlist {
             inverseJoinColumns = @JoinColumn(name = "song")
     )
     private List<Song> songs = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "playlist_id", referencedColumnName = "id")  // 'user_id' será la FK en la tabla 'Playlist' que apunta a 'User'
+    private User owner;
+
 }
