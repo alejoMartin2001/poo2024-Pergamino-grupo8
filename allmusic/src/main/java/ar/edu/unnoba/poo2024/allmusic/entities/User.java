@@ -32,17 +32,7 @@ public abstract class User {
     @Column(name = "password")
     private String password;
 
-    // Relación con Playlist
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Playlist> playlists;
-
     public abstract boolean canCreateSongs();
-
-    // Método para agregar una Playlist a la lista de playlists del usuario
-    public void addPlaylist(Playlist playlist) {
-        this.playlists.add(playlist);
-        playlist.setOwner(this);  // Establece la relación inversa
-    }
 
 }
 
