@@ -24,6 +24,6 @@ public class Song {
 
     @ManyToOne
     @JoinColumn(name = "music_arties_id", referencedColumnName = "id")  // 'user_id' será la FK en la tabla 'Playlist' que apunta a 'User'
-    private MusicArties author;
+    private MusicArtiesUser author;
 
 }
