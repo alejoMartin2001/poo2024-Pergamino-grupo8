@@ -18,7 +18,7 @@ public class UserServiceImp implements UserService{
         if(userRepository.getReferenceById(user.getId()) != null){
             throw new Exception();
         }
-        passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
     

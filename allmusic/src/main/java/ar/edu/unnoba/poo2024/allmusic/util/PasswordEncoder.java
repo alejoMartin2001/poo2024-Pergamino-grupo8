@@ -13,7 +13,7 @@ public class PasswordEncoder {
         
         public boolean verify(String rawPassword,String encodedPassword){
             // Verifica si la contraseña en texto plano coincide con el hash
-            return Password.check(rawPassword, encodedPassword).withBCrypt();
+            return Password.check(rawPassword, encodedPassword).withArgon2();
         }
     
 }
