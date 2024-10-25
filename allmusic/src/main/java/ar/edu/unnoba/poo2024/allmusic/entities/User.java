@@ -1,27 +1,22 @@
 package ar.edu.unnoba.poo2024.allmusic.entities;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-
-@Setter //genera los setters
-@Getter //genera los getters
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)  // Herencia JOINED entre User y subclases
+@Setter //genera los setters
+@Getter
+//genera los getters
+//@Inheritance(strategy = InheritanceType.JOINED)  // Herencia JOINED entre User y subclases
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="user_type",
+        discriminatorType = DiscriminatorType.STRING)
 public abstract class User {
 
     @Id
@@ -35,4 +30,5 @@ public abstract class User {
     public abstract boolean canCreateSongs();
 
 }
+
 

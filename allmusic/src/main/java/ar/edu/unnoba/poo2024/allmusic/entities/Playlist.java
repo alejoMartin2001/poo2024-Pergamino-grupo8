@@ -32,8 +32,7 @@ public class Playlist {
     )
     private List<Song> songs = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")  // 'user_id' será la FK en la tabla 'Playlist' que apunta a 'User'
+    @ManyToOne(cascade = CascadeType.ALL)
     private User owner;
 
 }

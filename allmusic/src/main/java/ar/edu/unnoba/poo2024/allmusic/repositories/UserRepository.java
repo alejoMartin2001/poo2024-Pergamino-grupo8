@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import ar.edu.unnoba.poo2024.allmusic.entities.User;
 
 
-public interface UserRepository extends JpaRepository{
+public interface UserRepository extends JpaRepository<User, Integer>{
 
     @Query("SELECT u FROM User u WHERE u.username = :username")
     public User findByUsername(@Param("username") String username);
