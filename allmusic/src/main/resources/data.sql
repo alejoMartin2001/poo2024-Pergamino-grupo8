@@ -16,5 +16,6 @@ INSERT INTO Song(id, nombre, genre) VALUES
 -- INSERT INTO MusicEnthusiastUser(id) VALUES
 --     (2);
 
-INSERT INTO Users (id, username, password, user_type) VALUES (1, 'User-1', '123456', 'Artist');
-INSERT INTO Users (id, username, password, user_type) VALUES (2, 'User-2', '123456', 'Prueba');
+INSERT INTO Users (username, password, user_type) VALUES ('User-1', '123456', 'Artist');
+INSERT INTO Users (username, password, user_type) VALUES ('User-2', '123456', 'Prueba');
+INSERT INTO Users (username, password, user_type) VALUES ('User-3', '123457', 'Prueba');

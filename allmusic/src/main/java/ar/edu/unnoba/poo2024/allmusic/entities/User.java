@@ -3,8 +3,6 @@ package ar.edu.unnoba.poo2024.allmusic.entities;
 import jakarta.persistence.*;
 
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 
