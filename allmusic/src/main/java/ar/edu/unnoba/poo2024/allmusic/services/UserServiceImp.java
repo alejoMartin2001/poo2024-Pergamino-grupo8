@@ -21,5 +21,9 @@ public class UserServiceImp implements UserService{
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
+
+    public User getReferenceId(Integer id){
+        return userRepository.getReferenceById(id);
+    }
         
 }
