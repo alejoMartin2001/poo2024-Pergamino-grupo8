@@ -1,9 +1,11 @@
 package ar.edu.unnoba.poo2024.allmusic;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import ar.edu.unnoba.poo2024.allmusic.dto.CreateUserRequestDTO;
 import ar.edu.unnoba.poo2024.allmusic.entities.MusicArtiesUser;
 import ar.edu.unnoba.poo2024.allmusic.entities.User;
 import ar.edu.unnoba.poo2024.allmusic.services.UserService;
@@ -17,11 +19,16 @@ public class AllmusicApplication {
         return new PasswordEncoder();
     }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
     public static void main(String[] args) {
         // Inicia el contexto de Spring
-        ApplicationContext context = SpringApplication.run(AllmusicApplication.class, args);
+        SpringApplication.run(AllmusicApplication.class, args);
     
-        // Obtén el servicio de usuario y el codificador de contraseñas desde el contexto de Spring
+        /*// Obtén el servicio de usuario y el codificador de contraseñas desde el contexto de Spring
         UserService userService = context.getBean(UserService.class);
         PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
     
@@ -37,6 +44,6 @@ public class AllmusicApplication {
             System.out.println("Usuario creado exitosamente.");
         } catch (Exception e) {
             System.out.println("Error al crear el usuario: " + e.getMessage());
-        }
+        }*/
     }
 }
