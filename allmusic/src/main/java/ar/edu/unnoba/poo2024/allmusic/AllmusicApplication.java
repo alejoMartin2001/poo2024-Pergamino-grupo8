@@ -4,12 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-
+import ar.edu.unnoba.poo2024.allmusic.services.AuthenticathionService;
 import ar.edu.unnoba.poo2024.allmusic.entities.MusicArtiesUser;
 import ar.edu.unnoba.poo2024.allmusic.entities.User;
-import ar.edu.unnoba.poo2024.allmusic.exceptions.UserPrincipalException;
-import ar.edu.unnoba.poo2024.allmusic.services.AuthenticathionService;
-import ar.edu.unnoba.poo2024.allmusic.services.AuthenticathionServiceImp;
+
 import ar.edu.unnoba.poo2024.allmusic.services.AuthorizationService;
 import ar.edu.unnoba.poo2024.allmusic.services.UserService;
 import ar.edu.unnoba.poo2024.allmusic.util.JwtTokenUtil;
@@ -41,6 +39,9 @@ public class AllmusicApplication {
         User user = new MusicArtiesUser();
         user.setUsername("alejinho");
         user.setPassword(passwordEncoder.encode("psq"));
+        User otherUser = new MusicArtiesUser();
+        otherUser.setUsername("robinho");
+        otherUser.setPassword(passwordEncoder.encode("parisBr"));
     
         try {
             // Llama al método create para guardar el usuario
@@ -61,7 +62,7 @@ public class AllmusicApplication {
         System.out.println(authenticathionService.authenticate(user));
         AuthorizationService authorizationService = context.getBean(AuthorizationService.class);
 
-        System.out.println((authorizationService.authorize(token)).getUsername());
+        System.out.println((authorizationService.authorize("token")).getUsername());
 
     }
 }

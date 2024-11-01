@@ -1,6 +1,7 @@
 package ar.edu.unnoba.poo2024.allmusic.dto;
 
-public class CreateUserRequestDTO {
+public class AuthenticationRequestDTO {
+
     private String username;
     private String password;
     
@@ -16,4 +17,7 @@ public class CreateUserRequestDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    
+    
 }

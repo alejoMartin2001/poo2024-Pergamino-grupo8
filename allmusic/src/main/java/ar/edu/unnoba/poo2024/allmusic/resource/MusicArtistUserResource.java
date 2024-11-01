@@ -1,5 +1,8 @@
 package ar.edu.unnoba.poo2024.allmusic.resource;
 
+import java.net.Authenticator;
+import java.util.Map;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import ar.edu.unnoba.poo2024.allmusic.services.AuthenticathionService;
+import ar.edu.unnoba.poo2024.allmusic.dto.AuthenticationRequestDTO;
 import ar.edu.unnoba.poo2024.allmusic.dto.CreateUserRequestDTO;
 import ar.edu.unnoba.poo2024.allmusic.entities.MusicArtiesUser;
+import ar.edu.unnoba.poo2024.allmusic.exceptions.AuthenticationException;
 import ar.edu.unnoba.poo2024.allmusic.services.UserService;
 
 @RestController
@@ -23,6 +28,9 @@ public class MusicArtistUserResource {
                                     // a un objeto de tipo MusicArtiesUser.
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthenticathionService authenticationService;
 
     @PostMapping
     //ResponseEntity se usa para controlar respuestas HTTP completas
@@ -46,4 +54,26 @@ public class MusicArtistUserResource {
             return new ResponseEntity<>("Error al crear el usuario", HttpStatus.CONFLICT);
         }
     }
+
+    //throws Exception esta porque el metodo authenticate, puede generar una Excepcion
+    @PostMapping(value = "/auth", produces = "application/json")
+    public ResponseEntity<?> authentication(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) throws Exception {
+        try {
+            //mapeamos un usuario musico que era de la clase authenticationRequestDTO
+            MusicArtiesUser musicArtistUser = modelMapper.map(authenticationRequestDTO, MusicArtiesUser.class);
+            //lo autenticamos y guardamos el token
+            String token = authenticationService.authenticate(musicArtistUser);
+
+            // Retornar el token en un formato JSON en el body
+            return ResponseEntity.ok().body(Map.of("token", token));
+        //retornamos el httpstatus 401
+        } catch (AuthenticationException auth) {
+            return new ResponseEntity<>("Error al autenticar usuario", HttpStatus.UNAUTHORIZED);
+        }
+    }
 }
+
+
+
+
+

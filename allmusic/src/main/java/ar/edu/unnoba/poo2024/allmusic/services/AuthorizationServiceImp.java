@@ -15,7 +15,8 @@ public class AuthorizationServiceImp implements AuthorizationService {
 
     @Autowired
     UserService userService;
-
+    //corregir que cuando se ingresa un token invalido no aparece 
+    //JWTVerificationException("Token inválido", jwtVerificationException);
     public User authorize(String token) throws Exception {
         try {
             jwtTokenUtil.verify(token);
