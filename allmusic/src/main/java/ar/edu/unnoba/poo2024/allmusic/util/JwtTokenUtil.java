@@ -2,6 +2,8 @@ package ar.edu.unnoba.poo2024.allmusic.util;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -10,7 +12,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-
+@Component
 public class JwtTokenUtil {
     private static final String TOKEN_SECRET = "SRFFewe3223423t65ndfdsfdsg";
         private static final Algorithm algorithm = Algorithm.HMAC512(TOKEN_SECRET);

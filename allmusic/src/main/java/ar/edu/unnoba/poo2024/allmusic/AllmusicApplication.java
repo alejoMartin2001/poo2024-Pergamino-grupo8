@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Bean;
 
 import ar.edu.unnoba.poo2024.allmusic.entities.MusicArtiesUser;
 import ar.edu.unnoba.poo2024.allmusic.entities.User;
+import ar.edu.unnoba.poo2024.allmusic.exceptions.UserPrincipalException;
+import ar.edu.unnoba.poo2024.allmusic.services.AuthenticathionService;
+import ar.edu.unnoba.poo2024.allmusic.services.AuthenticathionServiceImp;
+import ar.edu.unnoba.poo2024.allmusic.services.AuthorizationService;
 import ar.edu.unnoba.poo2024.allmusic.services.UserService;
 import ar.edu.unnoba.poo2024.allmusic.util.JwtTokenUtil;
 import ar.edu.unnoba.poo2024.allmusic.util.PasswordEncoder;
@@ -24,7 +28,7 @@ public class AllmusicApplication {
         return new ModelMapper();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // Inicia el contexto de Spring
         ApplicationContext context = SpringApplication.run(AllmusicApplication.class, args);
     
@@ -42,6 +46,7 @@ public class AllmusicApplication {
             // Llama al método create para guardar el usuario
             userService.create(user);
             System.out.println("Usuario creado exitosamente.");
+      
         } catch (Exception e) {
             System.out.println("Error al crear el usuario: " + e.getMessage());
         }
@@ -51,6 +56,12 @@ public class AllmusicApplication {
         System.out.println("Token: " + token); // Imprime el token generado
         System.out.println("Verificación del token: " + jwtTokenUtil.verify(token)); // Verifica el token
         System.out.println("Issuer del token: " + jwtTokenUtil.getSubject(token)); // Obtiene el subject
-        
+            
+        AuthenticathionService authenticathionService = context.getBean(AuthenticathionService.class);
+        System.out.println(authenticathionService.authenticate(user));
+        AuthorizationService authorizationService = context.getBean(AuthorizationService.class);
+
+        System.out.println((authorizationService.authorize(token)).getUsername());
+
     }
 }
