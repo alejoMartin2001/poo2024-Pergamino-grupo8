@@ -9,6 +9,7 @@ import ar.edu.unnoba.poo2024.allmusic.util.PasswordEncoder;
 
 @Service
 public class UserServiceImp implements UserService{
+    
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -24,6 +25,11 @@ public class UserServiceImp implements UserService{
 
     public User getReferenceId(Integer id){
         return userRepository.getReferenceById(id);
+    }
+
+    public User findByUsername(String username){
+        //retorna el usuario al que le pertenece el nombre de usuario
+        return userRepository.findByUsername(username);
     }
         
 }

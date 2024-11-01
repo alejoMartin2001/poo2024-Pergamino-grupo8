@@ -6,62 +6,59 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTDecodeException;
+
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import ar.edu.unnoba.poo2024.allmusic.dto.CreateUserRequestDTO;
-
 
 public class JwtTokenUtil {
-    private final static String TOKEN = "SRFFewe3223423t65ndfdsfdsg";
-    private final Date expirar = new Date();
-    private static Algorithm algorithm = Algorithm.HMAC512(TOKEN);
-    private CreateUserRequestDTO createUserRequestDTO;
+    private static final String TOKEN_SECRET = "SRFFewe3223423t65ndfdsfdsg";
+        private static final Algorithm algorithm = Algorithm.HMAC512(TOKEN_SECRET);
+    private String subject;
+    
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
     
     public String generateToken(String subject){
         try {
-            //seteamos el usuario, asi lo podemos usar para verificar el token
-            createUserRequestDTO.setUsername(subject);
-            //Header del token, le agregamos el algoritmo HMAC 512
-            expirar.setTime(864000000);
-            //Payload token
+            // Configura el tiempo de expiración a 10 días a partir de la fecha actual
+            Date expirar = new Date(System.currentTimeMillis() + 864000000); 
+            setSubject(subject);
+            // Genera el token JWT
             String token = JWT.create()
-                .withIssuer(subject)
+                .withIssuer(subject) // Configura el subject como issuer
                 .withExpiresAt(expirar)
                 .sign(algorithm);
             return "Bearer " + token;
-        } catch (JWTCreationException exception){
-            //User invalido, devolvemos mensaje de JWTCreationException.
+        } catch (JWTCreationException exception) {
             return exception.getMessage();
         }
     }
-
+    
     public boolean verify(String token){
-        try{
-            createUserRequestDTO.getUsername();
-            //configuramos el verificador, con el algoritmo HMAC 512, habria 
-            //que agregar tmb el usuario
+        try {
+            // Configura el verificador con el algoritmo HMAC 512 y el mismo issuer
             JWTVerifier verifier = JWT.require(algorithm)
-                .withIssuer(createUserRequestDTO.getUsername())
+                .withIssuer(getSubject()) // Reemplazar "alejinho" con el username configurado en generateToken
                 .build();
-            //verifica el token   
-            verifier.verify(token);
+            verifier.verify(token.replace("Bearer ", "")); // Remueve "Bearer " al inicio
             return true;
-        }catch(JWTVerificationException jwtVerificationException){
+        } catch (JWTVerificationException jwtVerificationException) {
             return false;
         }
     }
-
+    
     public String getSubject(String token){
         try {
-            // Decodifica el token sin verificarlo
-            DecodedJWT decodedJWT = JWT.decode(token);
-    
-            //devuelvo el payload completo del token
-            return decodedJWT.getPayload(); 
-        } catch (JWTDecodeException exception) {
-            // Si el token no se pudo decodificar, retorna null o maneja el error
+            // Decodifica el token para obtener el subject
+            DecodedJWT decodedJWT = JWT.decode(token.replace("Bearer ", ""));
+            return decodedJWT.getIssuer(); // Retorna el username como subject
+        } catch (JWTVerificationException exception) {
             return null;
         }
     }

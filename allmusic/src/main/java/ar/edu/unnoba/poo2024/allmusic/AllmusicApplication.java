@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import ar.edu.unnoba.poo2024.allmusic.dto.CreateUserRequestDTO;
 import ar.edu.unnoba.poo2024.allmusic.entities.MusicArtiesUser;
 import ar.edu.unnoba.poo2024.allmusic.entities.User;
 import ar.edu.unnoba.poo2024.allmusic.services.UserService;
+import ar.edu.unnoba.poo2024.allmusic.util.JwtTokenUtil;
 import ar.edu.unnoba.poo2024.allmusic.util.PasswordEncoder;
 
 @SpringBootApplication
@@ -26,9 +26,9 @@ public class AllmusicApplication {
 
     public static void main(String[] args) {
         // Inicia el contexto de Spring
-        SpringApplication.run(AllmusicApplication.class, args);
+        ApplicationContext context = SpringApplication.run(AllmusicApplication.class, args);
     
-        /*// Obtén el servicio de usuario y el codificador de contraseñas desde el contexto de Spring
+        // Obtén el servicio de usuario y el codificador de contraseñas desde el contexto de Spring
         UserService userService = context.getBean(UserService.class);
         PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
     
@@ -44,6 +44,13 @@ public class AllmusicApplication {
             System.out.println("Usuario creado exitosamente.");
         } catch (Exception e) {
             System.out.println("Error al crear el usuario: " + e.getMessage());
-        }*/
+        }
+
+        JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+        String token = jwtTokenUtil.generateToken("alejinho"); // Genera el token
+        System.out.println("Token: " + token); // Imprime el token generado
+        System.out.println("Verificación del token: " + jwtTokenUtil.verify(token)); // Verifica el token
+        System.out.println("Issuer del token: " + jwtTokenUtil.getSubject(token)); // Obtiene el subject
+        
     }
 }
