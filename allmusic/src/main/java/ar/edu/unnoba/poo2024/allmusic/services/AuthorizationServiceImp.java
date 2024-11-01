@@ -19,13 +19,15 @@ public class AuthorizationServiceImp {
       jwtTokenUtil.verify(token);
       jwtTokenUtil.getSubject(token);
       User usuario = userService.findByUsername(jwtTokenUtil.getSubject(token));
-      return usuario;
-
+      if (usuario == null) {
+        throw new UserPrincipalException("El usuario no fue encontrado.Crealo");
+      }else
+        return usuario;
+      
     }catch(JWTVerificationException jwtVerificationException){
       throw new JWTVerificationException("Token invalido",jwtVerificationException);
-    }catch(UserPrincipalException userPrincipal){
-      throw new UserPrincipalException("El usuario no fue encontrado.");
     }
+  
   }
 
 }
