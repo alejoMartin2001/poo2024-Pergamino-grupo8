@@ -44,7 +44,7 @@ public class MusicArtistUserResource {
             userService.create(musicArtistUser);
 
             // Retorna el estado 201 si el usuario se creo
-            return new ResponseEntity<>("El usuario " + musicArtistUser.getUsername()+" se creo correctamente", HttpStatus.CREATED);
+            return new ResponseEntity<>("El usuario " + musicArtistUser.getUsername()+ " se creo correctamente", HttpStatus.CREATED);
             //podemos hacer que retorne una respuesta con un encabezado tambien:
             /*HttpHeaders headers = new HttpHeaders();
             headers.add("Location", "/user/" + musicArtistUser.getId() + " /username/ " + musicArtistUser.getUsername()... .getPassword()); */

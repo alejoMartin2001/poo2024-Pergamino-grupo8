@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import ar.edu.unnoba.poo2024.allmusic.services.AuthenticathionService;
 import ar.edu.unnoba.poo2024.allmusic.entities.MusicArtiesUser;
 import ar.edu.unnoba.poo2024.allmusic.entities.User;
-
+import com.password4j.Password;
 import ar.edu.unnoba.poo2024.allmusic.services.AuthorizationService;
 import ar.edu.unnoba.poo2024.allmusic.services.UserService;
 import ar.edu.unnoba.poo2024.allmusic.util.JwtTokenUtil;
@@ -38,31 +38,23 @@ public class AllmusicApplication {
         // y al ser autoincremental tenemos que dejar que lo haga la base de datos.
         User user = new MusicArtiesUser();
         user.setUsername("alejinho");
-        user.setPassword(passwordEncoder.encode("psq"));
-        User otherUser = new MusicArtiesUser();
-        otherUser.setUsername("robinho");
-        otherUser.setPassword(passwordEncoder.encode("parisBr"));
-    
+        user.setPassword("psq");
+        String rawPassword = user.getPassword();
+        Password.hash(rawPassword);
         try {
             // Llama al método create para guardar el usuario
             userService.create(user);
             System.out.println("Usuario creado exitosamente.");
-      
+            System.out.println(passwordEncoder.verify(rawPassword,user.getPassword()));
+
+            /*JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+            String token = jwtTokenUtil.generateToken("alejinho"); // Genera el token
+            System.out.println("Token: " + token); // Imprime el token generado
+            System.out.println("Verificación del token: " + jwtTokenUtil.verify(token)); // Verifica el token
+            System.out.println("Issuer del token: " + jwtTokenUtil.getSubject(token)); // Obtiene el subject
+            */
         } catch (Exception e) {
             System.out.println("Error al crear el usuario: " + e.getMessage());
         }
-
-        JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
-        String token = jwtTokenUtil.generateToken("alejinho"); // Genera el token
-        System.out.println("Token: " + token); // Imprime el token generado
-        System.out.println("Verificación del token: " + jwtTokenUtil.verify(token)); // Verifica el token
-        System.out.println("Issuer del token: " + jwtTokenUtil.getSubject(token)); // Obtiene el subject
-            
-        AuthenticathionService authenticathionService = context.getBean(AuthenticathionService.class);
-        System.out.println(authenticathionService.authenticate(user));
-        AuthorizationService authorizationService = context.getBean(AuthorizationService.class);
-
-        System.out.println((authorizationService.authorize("token")).getUsername());
-
     }
 }

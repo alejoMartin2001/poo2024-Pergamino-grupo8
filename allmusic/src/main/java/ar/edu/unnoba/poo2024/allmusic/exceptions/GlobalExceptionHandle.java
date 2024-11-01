@@ -18,4 +18,10 @@ public class GlobalExceptionHandle {
     public ResponseEntity<String> manejarCancionesEncontradas(CancionNoEncontrada ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(PasswordEncoderExcepcion.class)
+    public ResponseEntity<String> manejarConstraseñaIncorrecta(PasswordEncoderExcepcion ex) {
+        // Devuelve una respuesta con el mensaje de la excepción y un estado 404 Not Found
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }
