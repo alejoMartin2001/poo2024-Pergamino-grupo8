@@ -18,5 +18,7 @@ public class SongServiceImp implements SongService{
         //devuelve una lista de canciones ya que en SongRepository la Entidad que se puso fue Song
         return songRepository.findAll();
     }
-    
+
+    public Song createSong(Song song){
+        return songRepository.save(song);}
 }

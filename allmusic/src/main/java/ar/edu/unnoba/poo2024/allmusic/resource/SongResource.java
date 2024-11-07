@@ -16,11 +16,12 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -47,4 +48,5 @@ public class SongResource {
         List<SongResponseDTO> songDTOs = modelMapper.map(songs, new TypeToken<List<SongResponseDTO>>() {}.getType());
         return new ResponseEntity<>(songDTOs, HttpStatus.OK);
     }
+    
 }

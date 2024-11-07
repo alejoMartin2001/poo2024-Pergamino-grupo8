@@ -41,20 +41,12 @@ public class AllmusicApplication {
         user.setPassword("psq");
         String rawPassword = user.getPassword();
         Password.hash(rawPassword);
-        try {
-            // Llama al método create para guardar el usuario
-            userService.create(user);
-            System.out.println("Usuario creado exitosamente.");
-            System.out.println(passwordEncoder.verify(rawPassword,user.getPassword()));
 
-            /*JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
-            String token = jwtTokenUtil.generateToken("alejinho"); // Genera el token
-            System.out.println("Token: " + token); // Imprime el token generado
-            System.out.println("Verificación del token: " + jwtTokenUtil.verify(token)); // Verifica el token
-            System.out.println("Issuer del token: " + jwtTokenUtil.getSubject(token)); // Obtiene el subject
-            */
-        } catch (Exception e) {
-            System.out.println("Error al crear el usuario: " + e.getMessage());
-        }
+        // Llama al método create para guardar el usuario
+        //userService.create(user);
+        //System.out.println("Usuario creado exitosamente.");
+        //System.out.println(passwordEncoder.verify(rawPassword,user.getPassword()));
+
+
     }
 }
