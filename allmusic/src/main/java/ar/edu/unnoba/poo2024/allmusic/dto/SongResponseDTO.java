@@ -1,7 +1,7 @@
 package ar.edu.unnoba.poo2024.allmusic.dto;
 
 import ar.edu.unnoba.poo2024.allmusic.entities.Genre;
-
+//este tipo de clases se usa para transferir datos entre las capas de aplicación.
 public class SongResponseDTO {
     /*Crear la clase SongResponseDTO con los atributos id (Long), name (String),
     description (String), genre (Genre) y artist (Artist - clase interna a la clase

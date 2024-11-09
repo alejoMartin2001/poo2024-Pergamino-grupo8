@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ar.edu.unnoba.poo2024.allmusic.entities.User;
 import ar.edu.unnoba.poo2024.allmusic.repositories.UserRepository;
 import ar.edu.unnoba.poo2024.allmusic.util.PasswordEncoder;
-
+//Clase que va a tener la lógia de negocio de User
 @Service
 public class UserServiceImp implements UserService{
     
