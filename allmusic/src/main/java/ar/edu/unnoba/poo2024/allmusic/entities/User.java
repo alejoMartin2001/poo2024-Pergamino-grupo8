@@ -24,7 +24,7 @@ public abstract class User {
 
     @Id //generamos un id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //especificamos que va a ser una PK autoincrementable
-    private Integer id;
+    private Long id;
     @Column(name = "username") //creamos la columna username.
     private String username;
     @Column(name = "password")//creamos la columna password.

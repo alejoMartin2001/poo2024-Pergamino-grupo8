@@ -23,7 +23,7 @@ public class UserServiceImp implements UserService{
         userRepository.save(user);
     }
 
-    public User getReferenceId(Integer id){
+    public User getReferenceId(Long id){
         return userRepository.getReferenceById(id);
     }
 

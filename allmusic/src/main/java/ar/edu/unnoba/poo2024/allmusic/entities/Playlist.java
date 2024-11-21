@@ -16,7 +16,7 @@ public class Playlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String nombre;
@@ -32,7 +32,9 @@ public class Playlist {
     )
     private List<Song> songs = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+//            (cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
 }

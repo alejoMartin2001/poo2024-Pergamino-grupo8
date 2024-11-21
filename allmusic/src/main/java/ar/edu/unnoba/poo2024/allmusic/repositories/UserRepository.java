@@ -10,7 +10,7 @@ import ar.edu.unnoba.poo2024.allmusic.entities.User;
 // Marca esta interfaz como un componente de repositorio en Spring, 
 // lo que permite que sea detectada automáticamente para la inyección de dependencias.
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends JpaRepository<User, Long>{
     // Método personalizado para buscar un usuario por su nombre de usuario.
     // La anotación @Query permite definir una consulta JPQL (Java Persistence Query Language).
     // En este caso, selecciona el usuario (User) cuyo nombre de usuario (username) coincide

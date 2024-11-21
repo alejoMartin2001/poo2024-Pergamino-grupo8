@@ -1,17 +1,25 @@
 package ar.edu.unnoba.poo2024.allmusic.controllers;
 
+import ar.edu.unnoba.poo2024.allmusic.dto.PlaylistCreateUpdateDTO;
+import ar.edu.unnoba.poo2024.allmusic.dto.PlaylistResponseDTO;
+import ar.edu.unnoba.poo2024.allmusic.dto.SongCreateUpdateDTO;
 import ar.edu.unnoba.poo2024.allmusic.entities.Playlist;
 import ar.edu.unnoba.poo2024.allmusic.entities.Song;
+import ar.edu.unnoba.poo2024.allmusic.entities.User;
 import ar.edu.unnoba.poo2024.allmusic.exceptions.CancionNoEncontrada;
+import ar.edu.unnoba.poo2024.allmusic.exceptions.PlaylistNoEncontradaException;
+import ar.edu.unnoba.poo2024.allmusic.services.AuthorizationService;
 import ar.edu.unnoba.poo2024.allmusic.services.PlaylistService;
 import ar.edu.unnoba.poo2024.allmusic.services.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/playlist")
@@ -21,32 +29,81 @@ public class PlaylistController {
     private PlaylistService playlistService;
 
     @Autowired
-    private SongService songService;
+    AuthorizationService authorizationService;
 
-//    @GetMapping
-//    public ResponseEntity<Playlist> examplePlaylists() throws CancionNoEncontrada {
-//        List<Song> songs = new ArrayList<>();
-//        songs.add(songService.getSongById(1));
-//        songs.add(songService.getSongById(2));
-//
-//        Playlist playlist = new Playlist();
-//        playlist.setSongs(songs);
-//        playlist.setNombre("Playlist 1");
-//        playlist.setDescription("Descripción 1");
-//
-//        playlistService.createPlaylist(playlist);
-//        return ResponseEntity.ok(playlist);
-//    }
-
-    @PostMapping
-    public ResponseEntity<Playlist> addPlaylist(@RequestBody Playlist playlist) throws CancionNoEncontrada {
-        Playlist playList = playlistService.createPlaylist(playlist);
-        return ResponseEntity.status(HttpStatus.CREATED).body(playList);
+    @GetMapping("{id}")
+    public ResponseEntity<?> getPlaylistById(@PathVariable Long id) throws PlaylistNoEncontradaException {
+        return ResponseEntity.ok(playlistService.getPlaylistById(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<?> getAllPlaylists() {
-        List<Playlist> playlists = playlistService.getAllPlaylists();
+        List<PlaylistResponseDTO> playlists = playlistService.getAllPlaylists();
         return ResponseEntity.ok(playlists);
     }
+
+    @PostMapping
+    public ResponseEntity<?> addPlaylist(@RequestHeader("Authorization") String token,
+         @RequestBody PlaylistCreateUpdateDTO playlistCreateUpdateDTO) throws Exception {
+
+        if(authorizationService.authorize(token) == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
+        }
+
+        User user = authorizationService.authorize(token);
+        playlistService.createPlaylist(playlistCreateUpdateDTO, user);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("{id}/songs")
+    public ResponseEntity<?> addSongToPlaylist(@RequestHeader("Authorization") String token,
+            @PathVariable Long id, @RequestBody Map<String, Long> body) throws Exception {
+
+        if(authorizationService.authorize(token) == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
+        }
+        User user = authorizationService.authorize(token);
+        Long songId = body.get("song_id");
+
+        playlistService.addSongToPlaylist(id, songId, user.getUsername());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> updatePlaylist(@RequestHeader("Authorization") String token,
+        @PathVariable Long id, @RequestBody PlaylistCreateUpdateDTO playlistCreateUpdateDTO) throws Exception {
+
+        if(authorizationService.authorize(token) == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
+        }
+        User user = authorizationService.authorize(token);
+        playlistService.updatePlaylistById(id, playlistCreateUpdateDTO, user.getUsername());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deletePlaylist(@RequestHeader("Authorization") String token, @PathVariable Long id)
+        throws Exception {
+
+        if(authorizationService.authorize(token) == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
+        }
+        User user = authorizationService.authorize(token);
+        playlistService.deletePlaylistById(id, user.getUsername());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{playlistId}/songs/{idSong}")
+    public ResponseEntity<?> deleteSongFromPlaylist(@RequestHeader("Authorization") String token,
+            @PathVariable Long playlistId, @PathVariable Long idSong) throws Exception {
+
+        if(authorizationService.authorize(token) == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
+        }
+
+        User user = authorizationService.authorize(token);
+        playlistService.deleteSongToPlaylist(playlistId, idSong, user.getUsername());
+        return ResponseEntity.ok().build();
+    }
+
 }

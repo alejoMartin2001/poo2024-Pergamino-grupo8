@@ -43,7 +43,7 @@ public class SongResponseDTO {
         this.artist = artist;
     }
 
-    public class  Artist {
+    public class Artist {
         private Long id;
         private String name;
         public Long getId() {
