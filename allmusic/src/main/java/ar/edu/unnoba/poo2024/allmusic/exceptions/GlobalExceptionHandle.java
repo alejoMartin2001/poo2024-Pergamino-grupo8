@@ -24,4 +24,9 @@ public class GlobalExceptionHandle {
         // Devuelve una respuesta con el mensaje de la excepción y un estado 404 Not Found
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<String> manejarAuthentication(AuthenticationException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
 }

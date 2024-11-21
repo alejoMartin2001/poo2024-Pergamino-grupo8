@@ -27,6 +27,6 @@ public class Song {
 //    private MusicArtiesUser author;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private MusicArtiesUser author;
+    private User author;
 
 }

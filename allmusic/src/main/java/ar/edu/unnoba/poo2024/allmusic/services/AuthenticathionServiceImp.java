@@ -21,6 +21,12 @@ public class AuthenticathionServiceImp implements AuthenticathionService{
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    /**
+     * Se compara la contraseña sin encriptación (user) y la contraseña encriptada (storedUser)
+     * @param user es el usuario que intenta hacer logging.
+     * @return un token único si la contraseña es correcta.
+     * @throws Exception si la contraseña es incorrecta.
+     */
     public String authenticate(User user) throws Exception {
 
         // Buscar el usuario por su nombre de usuario
@@ -29,11 +35,12 @@ public class AuthenticathionServiceImp implements AuthenticathionService{
         if (storedUser == null) {
             throw new UserPrincipalException("El usuario no fue encontrado.");
         }
-        String rawPassword = user.getPassword();
-        String password = passwordEncoder.encode(user.getPassword());
-        Password.hash(rawPassword);
+//        String rawPassword = user.getPassword();
+//        String password = passwordEncoder.encode(user.getPassword());
+//        Password.hash(rawPassword);
+
         // Verificar la contraseña ingresada en texto plano contra la almacenada encriptada
-        if(passwordEncoder.verify(rawPassword, password) == false){
+        if(!passwordEncoder.verify(user.getPassword(), storedUser.getPassword())) {
             throw new PasswordEncoderExcepcion("Contraseña incorrecta.");
         }
             

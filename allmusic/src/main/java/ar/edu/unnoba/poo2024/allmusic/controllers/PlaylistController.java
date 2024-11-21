@@ -23,20 +23,20 @@ public class PlaylistController {
     @Autowired
     private SongService songService;
 
-    @GetMapping
-    public ResponseEntity<Playlist> examplePlaylists() throws CancionNoEncontrada {
-        List<Song> songs = new ArrayList<>();
-        songs.add(songService.getSongById(1));
-        songs.add(songService.getSongById(2));
-
-        Playlist playlist = new Playlist();
-        playlist.setSongs(songs);
-        playlist.setNombre("Playlist 1");
-        playlist.setDescription("Descripción 1");
-
-        playlistService.createPlaylist(playlist);
-        return ResponseEntity.ok(playlist);
-    }
+//    @GetMapping
+//    public ResponseEntity<Playlist> examplePlaylists() throws CancionNoEncontrada {
+//        List<Song> songs = new ArrayList<>();
+//        songs.add(songService.getSongById(1));
+//        songs.add(songService.getSongById(2));
+//
+//        Playlist playlist = new Playlist();
+//        playlist.setSongs(songs);
+//        playlist.setNombre("Playlist 1");
+//        playlist.setDescription("Descripción 1");
+//
+//        playlistService.createPlaylist(playlist);
+//        return ResponseEntity.ok(playlist);
+//    }
 
     @PostMapping
     public ResponseEntity<Playlist> addPlaylist(@RequestBody Playlist playlist) throws CancionNoEncontrada {

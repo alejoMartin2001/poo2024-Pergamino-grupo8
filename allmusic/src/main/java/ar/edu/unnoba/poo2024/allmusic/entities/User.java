@@ -2,14 +2,17 @@ package ar.edu.unnoba.poo2024.allmusic.entities;
 
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity // Anotación para la persistencia de datos, osea para guardar los objetos de User,
 //como tuplas en la base de datos.
 @Setter //genera los setters
 @Getter //genera setters
-//genera los getters
+@AllArgsConstructor
+@NoArgsConstructor
 //@Inheritance(strategy = InheritanceType.JOINED)  // Herencia JOINED entre User y subclases
 @Table(name = "users")//define el nombre de la tabla de la bd, en donde vamos a guardar los datos
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)//definimos el tipo de herencia como SINGLE_TABLE

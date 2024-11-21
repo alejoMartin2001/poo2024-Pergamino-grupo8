@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -33,20 +33,20 @@ public class SongResource {
     
     @Autowired
     AuthorizationService authorizationService;
-    
-    @Autowired
-    ModelMapper modelMapper;
 
-    @GetMapping()
-    public ResponseEntity<?> getSong(@RequestHeader("Authorization") String token) throws Exception{
+
+    @GetMapping
+    public ResponseEntity<?> getSongs(@RequestHeader("Authorization") String token) throws Exception{
 
         if(authorizationService.authorize(token) == null){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);        
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
         }
 
+        // Todo el tema del mapeo se hace en los services.
         List<Song> songs = songService.getAll();
-        List<SongResponseDTO> songDTOs = modelMapper.map(songs, new TypeToken<List<SongResponseDTO>>() {}.getType());
-        return new ResponseEntity<>(songDTOs, HttpStatus.OK);
+        List<SongResponseDTO> songDTOs = songService.mapToDtoList(songs);
+
+        return ResponseEntity.ok(songDTOs);
     }
     
 }

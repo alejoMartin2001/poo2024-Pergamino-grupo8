@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class MusicArtistUserResource {
 
     @PostMapping
     //ResponseEntity se usa para controlar respuestas HTTP completas
-    public ResponseEntity<String> createUser(@RequestBody CreateUserRequestDTO userRequestDto) {
+    public ResponseEntity<?> createUser(@RequestBody CreateUserRequestDTO userRequestDto) {
         //hacemos un try por si no se crea un usuario correctamente
         try {
             //Convierte el objeto de la clase CreateUserRequestDTO a uno de MusicArtistUser con el metodo map.
@@ -44,7 +45,7 @@ public class MusicArtistUserResource {
             userService.create(musicArtistUser);
 
             // Retorna el estado 201 si el usuario se creo
-            return new ResponseEntity<>("El usuario " + musicArtistUser.getUsername()+ " se creo correctamente", HttpStatus.CREATED);
+            return ResponseEntity.ok(musicArtistUser);
             //podemos hacer que retorne una respuesta con un encabezado tambien:
             /*HttpHeaders headers = new HttpHeaders();
             headers.add("Location", "/user/" + musicArtistUser.getId() + " /username/ " + musicArtistUser.getUsername()... .getPassword()); */
@@ -67,8 +68,8 @@ public class MusicArtistUserResource {
             // Retornar el token en un formato JSON en el body
             return ResponseEntity.ok().body(Map.of("token", token));
         //retornamos el httpstatus 401
-        } catch (AuthenticationException auth) {
-            return new ResponseEntity<>("Error al autenticar usuario", HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            throw new AuthenticationException("Error al autenticar el usuario");
         }
     }
 }
