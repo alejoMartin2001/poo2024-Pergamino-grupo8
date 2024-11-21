@@ -60,7 +60,7 @@ public class MusicArtistUserResource {
     @PostMapping(value = "/auth", produces = "application/json")
     public ResponseEntity<?> authentication(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) throws Exception {
         try {
-            //mapeamos un usuario musico que era de la clase authenticationRequestDTO
+            //mapeamos un usuario artista que era de la clase authenticationRequestDTO
             MusicArtiesUser musicArtistUser = modelMapper.map(authenticationRequestDTO, MusicArtiesUser.class);
             //lo autenticamos y guardamos el token
             String token = authenticationService.authenticate(musicArtistUser);

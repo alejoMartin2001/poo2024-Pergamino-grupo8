@@ -1,6 +1,6 @@
 package ar.edu.unnoba.poo2024.allmusic.dto;
 
-
+import ar.edu.unnoba.poo2024.allmusic.entities.Genre;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserRequestDTO {
-    private String username;
-    private String password;
+public class SongCreateUpdateDTO {
+    private String name;
+    private Genre genre;
 }

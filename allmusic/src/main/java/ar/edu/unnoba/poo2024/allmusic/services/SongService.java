@@ -1,24 +1,32 @@
 package ar.edu.unnoba.poo2024.allmusic.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import ar.edu.unnoba.poo2024.allmusic.dto.SongCreateUpdateDTO;
 import ar.edu.unnoba.poo2024.allmusic.dto.SongResponseDTO;
+import ar.edu.unnoba.poo2024.allmusic.entities.Genre;
 import ar.edu.unnoba.poo2024.allmusic.entities.Song;
 
+import ar.edu.unnoba.poo2024.allmusic.entities.User;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface SongService {
 
-    //public Song createSong(Song song);
 
-    public List<Song> getAll();
+    List<Song> getAll();
+
+    List<SongResponseDTO> getFilterArtistGenre(String artist, Genre genre);
+
     List<SongResponseDTO> mapToDtoList(List<Song> songs );
 
-    /*public Song getSongById(Integer id) throws CancionNoEncontrada {
-        return songRepository.findById(id)
-                .orElseThrow(() -> new CancionNoEncontrada("Canción No Encontrada."));
-    }*/
+    SongResponseDTO getById(Long id);
 
+    void updateSongById(Long id, SongCreateUpdateDTO songCreateUpdateDTO, String username);
+
+    void deleteSongById(Long id, String username);
+
+    void createSong(SongCreateUpdateDTO dto, User user);
 
 }
