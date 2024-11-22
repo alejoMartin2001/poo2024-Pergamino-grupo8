@@ -25,7 +25,6 @@ import ar.edu.unnoba.poo2024.allmusic.services.AuthorizationService;
 import ar.edu.unnoba.poo2024.allmusic.services.PlaylistService;
 
 @RestController
-@RequestMapping() // Borrar?
 public class PlaylistController {
 
     @Autowired
@@ -39,7 +38,7 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.getPlaylistById(id));
     }
 
-    @GetMapping
+    @GetMapping("/playlists")
     public ResponseEntity<?> getAllPlaylists() {
         List<PlaylistResponseDTO> playlists = playlistService.getAllPlaylists();
         return ResponseEntity.ok(playlists);

@@ -202,7 +202,7 @@ public class PlaylistService {
         PlaylistResponseDTO playlistDTO = new PlaylistResponseDTO();
         UserDTO userDTO = new UserDTO();
         playlistDTO.setId(playlist.getId());
-        playlistDTO.setNombre(playlist.getNombre());
+        playlistDTO.setName(playlist.getNombre());
         playlistDTO.setDescripcion(playlist.getDescription());
         playlistDTO.setSongs(songService.mapToDtoList(playlist.getSongs()));
 

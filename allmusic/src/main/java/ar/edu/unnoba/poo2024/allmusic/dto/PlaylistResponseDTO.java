@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PlaylistResponseDTO {
     private Long id;
-    private String nombre;
+    private String name;
     private String descripcion;
     private List<SongResponseDTO> songs = new ArrayList<>();
     private UserDTO owner;

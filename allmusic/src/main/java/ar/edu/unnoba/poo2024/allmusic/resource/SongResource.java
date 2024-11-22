@@ -23,7 +23,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
-@RequestMapping("/songs") // Borrar?
 public class SongResource {
 
     @Autowired
@@ -33,7 +32,7 @@ public class SongResource {
     AuthorizationService authorizationService;
 
 
-    @GetMapping
+    @GetMapping("/songs")
     public ResponseEntity<?> getFilterSongs(
          @RequestParam(value = "artist", required = false) String artistName,
          @RequestParam(value = "genre", required = false) Genre genre) throws Exception {
@@ -53,21 +52,7 @@ public class SongResource {
         return ResponseEntity.ok(songService.getSongByMe(user.getUsername()));
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> getSongs(@RequestHeader("Authorization") String token) throws Exception{
-//
-//        if(authorizationService.authorize(token) == null){
-//            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
-//        }
-//
-//        // Todo el tema del mapeo se hace en los services.
-//        List<Song> songs = songService.getAll();
-//        List<SongResponseDTO> songDTOs = songService.mapToDtoList(songs);
-//
-//        return ResponseEntity.ok(songDTOs);
-//    }
-
-    @GetMapping("{id}")
+    @GetMapping("/songs/{id}")
     public ResponseEntity<?> getSongById(@RequestHeader("Authorization") String token , @PathVariable("id") Long id)
             throws Exception{
 
@@ -79,7 +64,7 @@ public class SongResource {
         return ResponseEntity.ok(songResponseDTO);
     }
 
-    @PostMapping
+    @PostMapping("/songs")
     public ResponseEntity<?> createSong(@RequestHeader("Authorization") String token,
             @RequestBody SongCreateUpdateDTO songDTO) throws Exception{
 
@@ -92,7 +77,7 @@ public class SongResource {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("/songs/{id}")
     public ResponseEntity<?> updateSong(@RequestHeader("Authorization") String token,
             @PathVariable("id") Long id, @RequestBody SongCreateUpdateDTO songDTO) throws Exception{
 
@@ -105,7 +90,7 @@ public class SongResource {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/songs/{id}")
     public ResponseEntity<?> deleteSong(@RequestHeader("Authorization") String token , @PathVariable("id") Long id)
         throws Exception{
 
