@@ -75,7 +75,6 @@ public class SongResource {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
         }
 
-//        User user = authorizationService.authorize(token);
         SongResponseDTO songResponseDTO = songService.getById(id);
         return ResponseEntity.ok(songResponseDTO);
     }

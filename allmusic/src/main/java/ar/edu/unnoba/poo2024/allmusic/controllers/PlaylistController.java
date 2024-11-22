@@ -1,28 +1,31 @@
 package ar.edu.unnoba.poo2024.allmusic.controllers;
 
-import ar.edu.unnoba.poo2024.allmusic.dto.PlaylistCreateUpdateDTO;
-import ar.edu.unnoba.poo2024.allmusic.dto.PlaylistResponseDTO;
-import ar.edu.unnoba.poo2024.allmusic.dto.SongCreateUpdateDTO;
-import ar.edu.unnoba.poo2024.allmusic.entities.Playlist;
-import ar.edu.unnoba.poo2024.allmusic.entities.Song;
-import ar.edu.unnoba.poo2024.allmusic.entities.User;
-import ar.edu.unnoba.poo2024.allmusic.exceptions.CancionNoEncontrada;
-import ar.edu.unnoba.poo2024.allmusic.exceptions.PlaylistNoEncontradaException;
-import ar.edu.unnoba.poo2024.allmusic.services.AuthorizationService;
-import ar.edu.unnoba.poo2024.allmusic.services.PlaylistService;
-import ar.edu.unnoba.poo2024.allmusic.services.SongService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import ar.edu.unnoba.poo2024.allmusic.dto.PlaylistCreateUpdateDTO;
+import ar.edu.unnoba.poo2024.allmusic.dto.PlaylistResponseDTO;
+import ar.edu.unnoba.poo2024.allmusic.entities.User;
+import ar.edu.unnoba.poo2024.allmusic.exceptions.PlaylistNoEncontradaException;
+import ar.edu.unnoba.poo2024.allmusic.services.AuthorizationService;
+import ar.edu.unnoba.poo2024.allmusic.services.PlaylistService;
+
 @RestController
-@RequestMapping("/playlist") // Borrar?
+@RequestMapping() // Borrar?
 public class PlaylistController {
 
     @Autowired
@@ -31,7 +34,7 @@ public class PlaylistController {
     @Autowired
     AuthorizationService authorizationService;
 
-    @GetMapping("{id}")
+    @GetMapping("/playlists/{id}")
     public ResponseEntity<?> getPlaylistById(@PathVariable Long id) throws PlaylistNoEncontradaException {
         return ResponseEntity.ok(playlistService.getPlaylistById(id));
     }
@@ -53,7 +56,7 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.playlistsByMe(user));
     }
 
-    @PostMapping
+    @PostMapping("/playlists")
     public ResponseEntity<?> addPlaylist(@RequestHeader("Authorization") String token,
          @RequestBody PlaylistCreateUpdateDTO playlistCreateUpdateDTO) throws Exception {
 
@@ -66,7 +69,7 @@ public class PlaylistController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("{id}/songs")
+    @PostMapping("/playlists/{id}/songs")
     public ResponseEntity<?> addSongToPlaylist(@RequestHeader("Authorization") String token,
             @PathVariable Long id, @RequestBody Map<String, Long> body) throws Exception {
 
@@ -80,7 +83,7 @@ public class PlaylistController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/playlists/{id}")
     public ResponseEntity<?> updatePlaylist(@RequestHeader("Authorization") String token,
         @PathVariable Long id, @RequestBody PlaylistCreateUpdateDTO playlistCreateUpdateDTO) throws Exception {
 
@@ -92,7 +95,7 @@ public class PlaylistController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/playlists/{id}")
     public ResponseEntity<?> deletePlaylist(@RequestHeader("Authorization") String token, @PathVariable Long id)
         throws Exception {
 
@@ -104,7 +107,7 @@ public class PlaylistController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{playlistId}/songs/{idSong}")
+    @DeleteMapping("/playlists/{playlistId}/songs/{idSong}")
     public ResponseEntity<?> deleteSongFromPlaylist(@RequestHeader("Authorization") String token,
             @PathVariable Long playlistId, @PathVariable Long idSong) throws Exception {
 
