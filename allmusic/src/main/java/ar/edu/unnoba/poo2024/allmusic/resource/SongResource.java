@@ -23,7 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
-@RequestMapping("/songs")
+@RequestMapping("/songs") // Borrar?
 public class SongResource {
 
     @Autowired
@@ -41,6 +41,16 @@ public class SongResource {
 
         List<SongResponseDTO> songs = songService.getFilterArtistGenre(artistName, genre);
         return ResponseEntity.ok(songs);
+    }
+
+    @GetMapping("me/songs")
+    public ResponseEntity<?> getSongsByMe(@RequestHeader("Authorization") String token) throws Exception {
+        if(authorizationService.authorize(token) == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
+        }
+
+        User user = authorizationService.authorize(token);
+        return ResponseEntity.ok(songService.getSongByMe(user.getUsername()));
     }
 
 //    @GetMapping

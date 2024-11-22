@@ -68,9 +68,10 @@ public class PlaylistService {
      * @return la playlist con el ID asociado.
      * @throws PlaylistNoEncontradaException en caso de que no se encuentre la playlist.
      */
-    public Playlist getPlaylistById(Long id) throws PlaylistNoEncontradaException {
-        return playlistRepository.findById(id)
+    public PlaylistResponseDTO getPlaylistById(Long id) throws PlaylistNoEncontradaException {
+        Playlist playlist = playlistRepository.findById(id)
                 .orElseThrow( () -> new PlaylistNoEncontradaException("Playlist No Encontrada."));
+        return this.mapToDTO(playlist);
     }
 
     /**
@@ -93,7 +94,7 @@ public class PlaylistService {
             playlist.setNombre(playlistCreateUpdateDTO.getNombre());
             playlistRepository.save(playlist);
         }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el playlist.");
         }
     }
 
@@ -180,6 +181,16 @@ public class PlaylistService {
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
+    }
+
+    /**
+     * Retorna una lista de las playlists creadas por el usuario actual.
+     * @param user es el usuario actual
+     * @return las canciones creadas por dicho usuario.
+     */
+    public List<PlaylistResponseDTO> playlistsByMe(User user){
+        List<Playlist> playlists = playlistRepository.findByOwner(user);
+        return playlists.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     /**

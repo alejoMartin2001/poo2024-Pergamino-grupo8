@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/playlist")
+@RequestMapping("/playlist") // Borrar?
 public class PlaylistController {
 
     @Autowired
@@ -40,6 +40,17 @@ public class PlaylistController {
     public ResponseEntity<?> getAllPlaylists() {
         List<PlaylistResponseDTO> playlists = playlistService.getAllPlaylists();
         return ResponseEntity.ok(playlists);
+    }
+
+    @GetMapping("me/playlists")
+    public ResponseEntity<?> getPlaylistByMe(@RequestHeader("Authorization") String token) throws Exception {
+
+        if(authorizationService.authorize(token) == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized");
+        }
+
+        User user = authorizationService.authorize(token);
+        return ResponseEntity.ok(playlistService.playlistsByMe(user));
     }
 
     @PostMapping

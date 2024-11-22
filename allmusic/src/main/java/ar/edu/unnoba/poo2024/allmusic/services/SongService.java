@@ -17,6 +17,8 @@ public interface SongService {
 
     List<Song> getAll();
 
+    List<SongResponseDTO> getSongByMe(String username);
+
     List<SongResponseDTO> getFilterArtistGenre(String artist, Genre genre);
 
     List<SongResponseDTO> mapToDtoList(List<Song> songs );

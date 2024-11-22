@@ -12,4 +12,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     @Query("SELECT s FROM Song s WHERE s.author.username = :artistName AND s.genre = :genre")
     List<Song> findByFilter(@Param("artistName") String artistName, @Param("genre") Genre genre);
+
+    @Query("SELECT s FROM Song s WHERE s.author.username = :artistName")
+    List<Song> findByAuthor(@Param("artistName") String artistName);
 }

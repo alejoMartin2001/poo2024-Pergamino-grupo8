@@ -2,10 +2,12 @@ package ar.edu.unnoba.poo2024.allmusic.services;
 
 import ar.edu.unnoba.poo2024.allmusic.exceptions.UserPrincipalException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import ar.edu.unnoba.poo2024.allmusic.entities.User;
 import ar.edu.unnoba.poo2024.allmusic.util.JwtTokenUtil;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthorizationServiceImp implements AuthorizationService {
@@ -22,7 +24,7 @@ public class AuthorizationServiceImp implements AuthorizationService {
             String subject = jwtTokenUtil.getSubject(token);
             User usuario = userService.findByUsername(subject);
             if (usuario == null) {
-                throw new UserPrincipalException("El usuario no fue encontrado. Créalo");
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no fue encontrado. Créalo");
             }
             return usuario;
 

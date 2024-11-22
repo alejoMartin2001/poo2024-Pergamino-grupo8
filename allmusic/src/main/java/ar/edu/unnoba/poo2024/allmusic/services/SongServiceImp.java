@@ -73,6 +73,11 @@ public class SongServiceImp implements SongService{
         return this.mapToDto(song);
     }
 
+    /**
+     *  Crea una canción, solo usuarios artistas pueden hacerlo.
+     * @param dto contiene los datos para crear la canción.
+     * @param user es el usuario que quiere crear la canción.
+     */
     public void createSong(SongCreateUpdateDTO dto, User user) {
 
         if (!user.canCreateSongs())
@@ -135,6 +140,22 @@ public class SongServiceImp implements SongService{
         }
     }
 
+    /**
+     * Retorna una lista de las canciones creadas por el usuario actual.
+     * @param username es el nombre del usuario actual.
+     * @return las canciones creadas por dicho usuario.
+     */
+    public List<SongResponseDTO> getSongByMe(String username){
+        try {
+            List<Song> songs = songRepository.findByAuthor(username);
+            return this.mapToDtoList(songs);
+
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener resultados");
+        }
+    }
+
+
     private SongResponseDTO mapToDto(Song song){
         SongResponseDTO dto = new SongResponseDTO();
         dto.setId(song.getId());
@@ -143,7 +164,7 @@ public class SongServiceImp implements SongService{
         dto.setGenre(song.getGenre());
 
         SongResponseDTO.Artist artist= dto.new Artist();
-        artist.setId(song.getAuthor().getId().longValue());
+        artist.setId(song.getAuthor().getId());
         artist.setName(song.getAuthor().getUsername());
         dto.setArtist(artist);
         return dto;
