@@ -43,6 +43,9 @@ public class SongResponseDTO {
         this.artist = artist;
     }
 
+    /**
+     * Sólo el Username del Artista.
+     */
     public class Artist {
         private Long id;
         private String name;

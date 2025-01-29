@@ -65,7 +65,7 @@ public class PlaylistController {
 
         User user = authorizationService.authorize(token);
         playlistService.createPlaylist(playlistCreateUpdateDTO, user);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/playlists/{id}/songs")

@@ -81,7 +81,7 @@ public class SongServiceImp implements SongService{
     public void createSong(SongCreateUpdateDTO dto, User user) {
 
         if (!user.canCreateSongs())
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "El usuario NO puede crear el song");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "El usuario NO puede crear songs");
 
         try {
             Song song = new Song();

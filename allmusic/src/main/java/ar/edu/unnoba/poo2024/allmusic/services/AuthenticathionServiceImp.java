@@ -35,9 +35,6 @@ public class AuthenticathionServiceImp implements AuthenticathionService{
         if (storedUser == null) {
             throw new UserPrincipalException("El usuario no fue encontrado.");
         }
-//        String rawPassword = user.getPassword();
-//        String password = passwordEncoder.encode(user.getPassword());
-//        Password.hash(rawPassword);
 
         // Verificar la contraseña ingresada en texto plano contra la almacenada encriptada
         if(!passwordEncoder.verify(user.getPassword(), storedUser.getPassword())) {

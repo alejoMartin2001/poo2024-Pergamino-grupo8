@@ -17,4 +17,9 @@ public class MusicEnthusiastUser extends User{
     public boolean canCreateSongs() {
         return false;
     }
+
+    @Override
+    public void example() {
+        System.out.println(this.getUsername());
+    }
 }

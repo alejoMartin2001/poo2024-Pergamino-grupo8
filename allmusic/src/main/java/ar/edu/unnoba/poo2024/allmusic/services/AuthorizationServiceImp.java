@@ -18,7 +18,7 @@ public class AuthorizationServiceImp implements AuthorizationService {
     @Autowired
     UserService userService;
     
-    public User authorize(String token) throws Exception {
+    public User authorize(String token) {
         try {
             jwtTokenUtil.verify(token);
             String subject = jwtTokenUtil.getSubject(token);

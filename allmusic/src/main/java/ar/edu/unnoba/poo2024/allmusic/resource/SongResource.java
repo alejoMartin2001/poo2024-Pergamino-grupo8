@@ -35,7 +35,7 @@ public class SongResource {
     @GetMapping("/songs")
     public ResponseEntity<?> getFilterSongs(
          @RequestParam(value = "artist", required = false) String artistName,
-         @RequestParam(value = "genre", required = false) Genre genre) throws Exception {
+         @RequestParam(value = "genre", required = false) Genre genre) {
 
 
         List<SongResponseDTO> songs = songService.getFilterArtistGenre(artistName, genre);
@@ -74,7 +74,7 @@ public class SongResource {
 
         User user = authorizationService.authorize(token);
         songService.createSong(songDTO, user);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/songs/{id}")

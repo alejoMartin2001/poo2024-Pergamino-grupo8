@@ -31,6 +31,7 @@ public abstract class User {
     private String password;
 
     public abstract boolean canCreateSongs();
+    public abstract void example();
 
 }
 

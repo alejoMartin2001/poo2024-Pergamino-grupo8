@@ -18,4 +18,8 @@ public class MusicArtiesUser extends User{
         return true;
     }
 
+    @Override
+    public void example() {
+        System.out.println(this.getUsername());
+    }
 }
