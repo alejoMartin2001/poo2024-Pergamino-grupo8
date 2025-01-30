@@ -8,10 +8,16 @@ export const App = ({ }: Props) => {
   return (
 
     <>
-      <div className="flex flex-1 justify-center items-center bg-[#1A1B25]">
-        <div className="h-[40px] w-[40px] p-20 m-2 bg-amber-300 flex justify-center items-center">Color 1</div>
-        <div className="h-[40px] w-[40px] p-20 m-2 bg-amber-600 flex justify-center items-center ">Color 2</div>
-      </div>
+      <div className="flex justify-center items-center bg-[#1A1B25] h-screen w-screen">
+      <div className="
+          h-[150px] w-[150px] rounded-xl
+          flex justify-center items-center
+          bg-gradient-to-l from-[#a21caf] via-[#be185d] to-[#b91c1c]"
+        >
+         Enthusiast </div>
+        <div className="h-[150px] w-[150px] rounded-xl m-2 flex justify-center 
+        items-center bg-gradient-to-r from-blue-600 to-[#48E5C2]"> Artist </div>
+      </div> 
     </>
   )
 }
