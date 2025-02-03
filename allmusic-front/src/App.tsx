@@ -5,10 +5,12 @@ interface Props {
 }
 
 export const App = ({ }: Props) => {
+
   return (
 
+
     <>
-      <div className="flex justify-center items-center bg-[#1A1B25] h-screen w-screen">
+      {/* <div className="flex justify-center items-center bg-[#1A1B25] h-screen w-screen">
       <div className="
           h-[150px] w-[150px] rounded-xl
           flex justify-center items-center
@@ -17,7 +19,7 @@ export const App = ({ }: Props) => {
          Enthusiast </div>
         <div className="h-[150px] w-[150px] rounded-xl m-2 flex justify-center 
         items-center bg-gradient-to-r from-blue-600 to-[#48E5C2]"> Artist </div>
-      </div> 
+      </div>  */}
     </>
-  )
-}
+  );
+};
