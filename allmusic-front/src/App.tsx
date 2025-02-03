@@ -1,7 +1,6 @@
+import { Login } from "./pages/Login";
 
 interface Props {
-  nombre: string;
-  apellido?: string;
 }
 
 export const App = ({ }: Props) => {
@@ -20,6 +19,7 @@ export const App = ({ }: Props) => {
         <div className="h-[150px] w-[150px] rounded-xl m-2 flex justify-center 
         items-center bg-gradient-to-r from-blue-600 to-[#48E5C2]"> Artist </div>
       </div>  */}
+      <Login />
     </>
   );
 };
