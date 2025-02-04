@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form"
-import { FormInputField } from "../../shared/components/form/FormInputField"
+import { FormInputField } from '../../shared/components/form/FormInputField'
+import logo from "../../images/logo.svg";
+
 
 interface Props {
 };
@@ -14,9 +16,10 @@ export const LoginForm = ({}: Props) => {
   
   return (
     <form 
-      className="bg-gray-800 px-15 py-20 rounded-3xl shadow-2xl w-full mx-10"
+      className="bg-gray-800 px-15 py-15 rounded-3xl shadow-2xl w-full mx-10"
       onSubmit={onSubmit}
     >
+      <img className="h-auto w-[50px] mb-4" src={logo} alt="AllMusic" />
       <h1 className="text-4xl font-bold text-[#db2777]">¡Bienvenido a 
         <span className="
           ml-1.5
@@ -29,7 +32,7 @@ export const LoginForm = ({}: Props) => {
       <p className="font-medium text-lg text-gray-400 mt-4">Inicia sesión como Entusiasta</p>
 
       <div className="mt-8">
-        <FormInputField 
+        <FormInputField
           label="Nombre de usuario"
           name="username"
           register={register}
@@ -54,7 +57,8 @@ export const LoginForm = ({}: Props) => {
       <div className="mt-2 flex">
         <button className="
           py-3 rounded-md w-1/2 bg-[#db2777] text-lg font-bold transition-all
-          active:scale-[.98] hover:scale-[1.01] drop-shadow-lg"
+          active:scale-[.98] hover:scale-[1.01] drop-shadow-lg
+          cursor-pointer"
         >
           Iniciar sesión
         </button>

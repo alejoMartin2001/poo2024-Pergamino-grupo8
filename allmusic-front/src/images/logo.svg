@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" class="icon flat-color" data-name="Flat Color">
+ <g class="layer">
+  <title>Layer 1</title>
+  <path d="m18,4l0,12a2,2 0 0 1 -2,2l-12,0a2,2 0 0 1 -2,-2l0,-12a2,2 0 0 1 2,-2l12,0a2,2 0 0 1 2,2zm4,13l0,-12a1,1 0 0 0 -2,0l0,12a3,3 0 0 1 -3,3l-10,0a1,1 0 0 0 0,2l10,0a5,5 0 0 0 5,-5z" fill="url(#svg_3)" id="primary"/>
+  <path d="m13,5l-3,0a1,1 0 0 0 -1,1l0,3.18a3,3 0 1 0 2,2.82l0,-5l2,0a1,1 0 0 0 0,-2z" fill="#1a1b25" id="secondary" opacity="0.7"/>
+ </g>
+ <defs>
+  <linearGradient id="svg_3" x1="0" x2="1" y1="1" y2="0">
+   <stop id="jq_stop_8256" offset="0" stop-color="#9333ea" stop-opacity="1"/>
+   <stop id="jq_stop_9452" offset="1" stop-color="#db2777" stop-opacity="1"/>
+  </linearGradient>
+ </defs>
+</svg>
