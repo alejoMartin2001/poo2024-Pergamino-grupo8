@@ -10,7 +10,7 @@ interface Props {
 export const Login = ({}: Props) => {
   return (
     <div className="flex h-screen w-full text-white">
-      <div className={`w-full flex items-center justify-center bg-[#1A1B25] bg-repeat bg-center h-full`}
+      <div className={`w-full flex items-center justify-center bg-[#1A1B25] bg-no-repeatbg-center h-full`}
         style={{ 
           backgroundImage: `linear-gradient(to top, rgba(26,27,37,1), rgba(26,27,37,0)), url(${pattern})`, 
           backgroundSize: 'auto'
