@@ -12,7 +12,8 @@
       "@pages/*": ["src/pages/*"],
       "@utils/*": ["src/utils/*"],
       "@shared/*": ["src/shared/*"],
-      "@images/*": ["src/images/*"]
+      "@images/*": ["src/images/*"],
+      "@routes/*":["src/routes/*"],
     },
 
     /* Bundler mode */

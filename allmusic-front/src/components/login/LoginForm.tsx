@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form"
 import logo from "@images/logo.svg";
-import { FormInputField } from "@shared/components/form/FormInputField";
+import { FormInputText } from "@shared/components/form/FormInputText";
+import { useNavigate } from "react-router";
 
 
 interface FormData {
@@ -10,6 +11,7 @@ interface FormData {
 
 export const LoginForm = () => {
   
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm<FormData>();
 
   const onSubmit = handleSubmit((data) => {
@@ -34,12 +36,12 @@ export const LoginForm = () => {
       <p className="font-medium text-lg text-gray-400 mt-4">Inicia sesión como Entusiasta</p>
 
       <div className="mt-8">
-        <FormInputField
+        <FormInputText
           label="Nombre de usuario"
           name="username"
           register={register}
         />
-        <FormInputField 
+        <FormInputText 
           label="Contraseña"
           name="password"
           type="password"
@@ -67,7 +69,10 @@ export const LoginForm = () => {
         </button>
         <div className="flex justify-center items-center w-1/2 max-md:w-full max-md:mt-3">
           <p className="font-medium text-base text-gray-400 mr-1.5">¿No tienes cuenta?</p>
-          <button className="text-[#db2777] text-base font-medium cursor-pointer" type="button">Registrate</button>
+          <button className="text-[#db2777] text-base font-medium cursor-pointer" 
+            type="button"
+            onClick={() => navigate("/register")}
+          >Registrate</button>
         </div>
       </div>
 

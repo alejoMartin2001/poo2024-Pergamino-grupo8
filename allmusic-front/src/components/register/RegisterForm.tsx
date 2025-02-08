@@ -1,7 +1,9 @@
-import { FormInputField } from "@shared/components/form/FormInputField"
+import { FormInputFile } from "@shared/components/form/FormInputFile";
+import { FormInputText } from "@shared/components/form/FormInputText"
 import { FormTextArea } from "@shared/components/form/FormTextArea";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router";
 
 interface FormData {
   firstName: string;
@@ -21,7 +23,9 @@ const bgArtist: string = 'from-blue-600 to-[#48E5C2]';
 
 export const RegisterForm = () => {
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>();
+  const navigate = useNavigate();
+
+  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>();
 
   // Lógica para la contraseña
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -44,7 +48,7 @@ export const RegisterForm = () => {
 
   return (
     <form
-      className="flex flex-col px-10 py-15 bg-gray-800 rounded-3xl max-md:m-3 max-md:px-5"
+      className="flex flex-col px-10 bg-gray-800 py-15 rounded-3xl max-md:m-3 max-md:px-5"
       onSubmit={onSubmit}
     >
       <h1 className={`text-4xl font-bold ${isArtist ? colorArtist : colorEnthusiast} max-md:text-3xl`}>Registrate en
@@ -58,38 +62,47 @@ export const RegisterForm = () => {
         </span>
       </h1>
       
-      <hr className="border-t border-gray-700 my-4" />
+      <hr className="my-4 border-t border-gray-700" />
 
       <div className="flex w-full gap-5 max-md:flex-col">
 
-        <div className="w-2/5 max-md:w-full">
+        <div className="flex flex-col justify-between w-2/5 max-md:w-full">
           <div className="max-md:hidden">
             <h1 className="text-3xl font-medium text-gray-400">Perfil</h1>
             <p className="text-gray-100">Esta información se mostrará públicamente, así que tenga cuidado con lo que comparte.</p>
           </div>
 
-          <p className="mt-4 text-gray-400 text-xl">Te registrarás como
-            <button className={`
-              ml-2 font-medium cursor-pointer 
-              bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast} bg-clip-text text-transparent`}
-              type="button"
-              onClick={ () => setIsArtist(!isArtist) }
-            >
-              {isArtist ? "Artista" : "Entusiasta"}
-            </button>
-          </p>
+          <div>
+            <p className="mt-4 text-xl text-gray-400">Te registrarás como
+              <button className={`
+                ml-2 font-medium cursor-pointer 
+                bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast} bg-clip-text text-transparent`}
+                type="button"
+                onClick={ () => setIsArtist(!isArtist) }
+              >
+                {isArtist ? "Artista" : "Entusiasta"}
+              </button>
+            </p>
+            <p>¿Ya tienes cuenta? 
+              <button 
+                className={`${isArtist ? colorArtist : colorEnthusiast} ml-2 font-semibold cursor-pointer`} 
+                type="button"
+                onClick={() => navigate("/login")}
+              >Inicia sesión</button>
+            </p>
+          </div>
         </div>
 
         <div className="w-3/5 max-md:w-full">
           <div className="flex gap-6">
-            <FormInputField
+            <FormInputText
               label="Nombre"
               name="firstName"
               register={register}
               error={errors.firstName}
               requiredMessage="El campo NO puede estar vacio."
             />
-            <FormInputField
+            <FormInputText
               label="Apellido"
               name="lastName"
               register={register}
@@ -99,7 +112,7 @@ export const RegisterForm = () => {
           </div>
 
           <div className="mt-5">
-            <FormInputField
+            <FormInputText
               label="Email"
               type="email"
               name="email"
@@ -114,7 +127,17 @@ export const RegisterForm = () => {
           </div>
 
           <div className="mt-5">
-            <FormInputField
+            <FormInputFile 
+              label="Foto de perfil" 
+              name="profilePicture" 
+              register={register} 
+              setValue={setValue} 
+              isArtist={isArtist}
+            />
+          </div>
+
+          <div className="mt-5">
+            <FormInputText
               label="Nombre de usuario"
               name="username"
               register={register}
@@ -123,9 +146,9 @@ export const RegisterForm = () => {
             />
           </div>
 
-          <hr className="border-t border-gray-700 my-4" />
+          <hr className="my-4 border-t border-gray-700" />
           <div className="flex gap-6 mt-5">
-            <FormInputField
+            <FormInputText
               type="password"
               label="Contraseña"
               name="password"
@@ -141,7 +164,7 @@ export const RegisterForm = () => {
                 type="password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
-              {!passwordValid && <p className="text-red-500 text-sm mt-1">El password no conincide</p>}
+              {!passwordValid && <p className="mt-1 text-sm text-red-500">El password no conincide</p>}
             </div>
 
           </div>
