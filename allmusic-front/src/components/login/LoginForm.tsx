@@ -1,8 +1,9 @@
-import { useForm } from "react-hook-form"
-import logo from "@images/logo.svg";
-import { FormInputText } from "@shared/components/form/FormInputText";
-import { useNavigate } from "react-router";
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { useLogin } from 'src/hooks/useLogin';
 
+import logo from '@images/icon-poo.svg';
+import { FormInputText } from '@shared/components/form';
 
 interface FormData {
   username: string;
@@ -12,10 +13,12 @@ interface FormData {
 export const LoginForm = () => {
   
   const navigate = useNavigate();
+  const { handleLogin } = useLogin();
   const { register, handleSubmit } = useForm<FormData>();
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
+    handleLogin(data.username, data.password);
   });
   
   return (

@@ -10,7 +10,7 @@ export const Login = () => {
         style={{ 
           backgroundImage: `linear-gradient(to top, rgba(26,27,37,1), rgba(26,27,37,0)), url(${pattern})`,
         }}>
-        <LoginForm />
+        <LoginForm/>
       </div>
     </div>
   );

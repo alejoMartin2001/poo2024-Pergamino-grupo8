@@ -1,20 +1,9 @@
-import { FormInputFile } from "@shared/components/form/FormInputFile";
-import { FormInputText } from "@shared/components/form/FormInputText"
-import { FormTextArea } from "@shared/components/form/FormTextArea";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router";
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthday: Date,
-  profilePicture: string;
-  bio: string;
-  username: string;
-  password: string;
-}
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useRegister } from 'src/hooks/useRegister';
+
+import { RegisterFormInputs } from './RegisterFormInputs';
 
 const colorEnthusiast: string = 'text-[#db2777]';
 const colorArtist: string = 'text-blue-600';
@@ -25,8 +14,6 @@ export const RegisterForm = () => {
 
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>();
-
   // Lógica para la contraseña
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
@@ -34,37 +21,35 @@ export const RegisterForm = () => {
   // Verificar si el usuario quiere ser artista.
   const [isArtist, setIsArtist] = useState<boolean>(false);
 
+  // Lógica del registro.
+  const { register, handleSubmit, watch, setValue, onSubmit, errors, isSubmitting, isLoading } = useRegister(isArtist);
+
 
   useEffect(() => {
-    if (watch("password").length === 0) setPasswordValid(false);
+    const password = watch("password") || "";
+    setPasswordValid(confirmPassword === password);
+  }, [confirmPassword, watch("password")]);
 
-    setPasswordValid(confirmPassword === watch("password"));
-  }, [confirmPassword])
-
-
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-  });
 
   return (
     <form
-      className="flex flex-col px-10 bg-gray-800 py-15 rounded-3xl max-md:m-3 max-md:px-5"
-      onSubmit={onSubmit}
+      className="flex flex-col px-6 py-10 my-2 bg-gray-800 rounded-3xl max-md:m-3 max-md:px-5"
+      onSubmit={handleSubmit((data) => onSubmit(data, passwordValid))}
     >
       <h1 className={`text-4xl font-bold ${isArtist ? colorArtist : colorEnthusiast} max-md:text-3xl`}>Registrate en
         <span className={`
           ml-2.5
           bg-gradient-to-tr ${isArtist ? bgArtist : bgEnthusiast}
           bg-clip-text text-transparent`
-          }
+        }
         >
           AllMusic
         </span>
       </h1>
-      
+
       <hr className="my-4 border-t border-gray-700" />
 
-      <div className="flex w-full gap-5 max-md:flex-col">
+      <div className="flex w-full gap-3 max-md:flex-col">
 
         <div className="flex flex-col justify-between w-2/5 max-md:w-full">
           <div className="max-md:hidden">
@@ -78,14 +63,14 @@ export const RegisterForm = () => {
                 ml-2 font-medium cursor-pointer 
                 bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast} bg-clip-text text-transparent`}
                 type="button"
-                onClick={ () => setIsArtist(!isArtist) }
+                onClick={() => setIsArtist(!isArtist)}
               >
                 {isArtist ? "Artista" : "Entusiasta"}
               </button>
             </p>
-            <p>¿Ya tienes cuenta? 
-              <button 
-                className={`${isArtist ? colorArtist : colorEnthusiast} ml-2 font-semibold cursor-pointer`} 
+            <p>¿Ya tienes cuenta?
+              <button
+                className={`${isArtist ? colorArtist : colorEnthusiast} ml-2 font-semibold cursor-pointer`}
                 type="button"
                 onClick={() => navigate("/login")}
               >Inicia sesión</button>
@@ -93,94 +78,35 @@ export const RegisterForm = () => {
           </div>
         </div>
 
-        <div className="w-3/5 max-md:w-full">
-          <div className="flex gap-6">
-            <FormInputText
-              label="Nombre"
-              name="firstName"
-              register={register}
-              error={errors.firstName}
-              requiredMessage="El campo NO puede estar vacio."
-            />
-            <FormInputText
-              label="Apellido"
-              name="lastName"
-              register={register}
-              error={errors.lastName}
-              requiredMessage="El campo NO puede estar vacio."
-            />
-          </div>
+        {isLoading ?
+          <p className="w-3/5 max-md:w-full max-md:h-full">Cargando..</p> :
 
-          <div className="mt-5">
-            <FormInputText
-              label="Email"
-              type="email"
-              name="email"
+          <div className="w-3/5 max-md:w-full">
+            <RegisterFormInputs
               register={register}
-              error={errors.email}
-              requiredMessage="El email no es valido."
-            />
-          </div>
-
-          <div className="mt-5">
-            <FormTextArea label="Descripción" name="bio" register={register} text="Escribe algunas frases sobre ti." />
-          </div>
-
-          <div className="mt-5">
-            <FormInputFile 
-              label="Foto de perfil" 
-              name="profilePicture" 
-              register={register} 
-              setValue={setValue} 
+              errors={errors}
               isArtist={isArtist}
+              passwordValid={passwordValid}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
+              setValue={setValue}
             />
-          </div>
 
-          <div className="mt-5">
-            <FormInputText
-              label="Nombre de usuario"
-              name="username"
-              register={register}
-              error={errors.username}
-              requiredMessage="El campo es obligatorio!"
-            />
-          </div>
 
-          <hr className="my-4 border-t border-gray-700" />
-          <div className="flex gap-6 mt-5">
-            <FormInputText
-              type="password"
-              label="Contraseña"
-              name="password"
-              register={register}
-              error={errors.firstName}
-              requiredMessage="El campo NO puede estar vacio."
-            />
-            <div className="w-full">
-              <label htmlFor="confirmPassword" className="block text-sm font-medium">Confirmar contraseña</label>
-              <input
-                className="w-full rounded-md p-2 mt-1 bg-[#1A1B25]"
-                id="confirmPassword"
-                type="password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              {!passwordValid && <p className="mt-1 text-sm text-red-500">El password no conincide</p>}
-            </div>
-
-          </div>
-
-          <div className="mt-5">
-            <button className={`p-2 w-full rounded-md font-medium text-white 
+            <div className="mt-5">
+              <button className={`p-2 w-full rounded-md font-medium text-white 
               bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast}
               bg-[length:200%_200%] bg-left 
               transition-all duration-300 ease-in-out 
               hover:bg-right hover:scale-[1.01] active:scale-[.98]`}
-            >
-              Crear Usuario
-            </button>
-          </div>
+                disabled={isSubmitting}
+              >
+                Crear Usuario
+              </button>
+            </div>
 
-        </div>
+          </div>
+        }
       </div>
 
     </form>

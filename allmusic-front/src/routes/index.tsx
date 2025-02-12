@@ -1,7 +1,9 @@
 
-import { Login, Preview, Register } from "../pages";
-import { Header } from "@shared/components/header/Header";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from 'react-router';
+
+import { Header } from '@shared/components/header/Header';
+
+import { Login, Preview, Register } from '../pages';
 
 export const router = createBrowserRouter([
   {
