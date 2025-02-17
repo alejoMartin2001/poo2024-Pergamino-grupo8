@@ -2,8 +2,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { useLogin } from 'src/hooks/useLogin';
 
-import logo from '@images/icon-poo.svg';
-import { FormInputText } from '@shared/components/form';
+import logo from '@images/logo.svg';
+import { FormInputText } from '@shared/form';
 
 interface FormData {
   username: string;

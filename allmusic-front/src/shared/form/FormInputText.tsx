@@ -19,7 +19,15 @@ export const FormInputText = ({ label, type = 'text', name, register , error, re
         type={type} 
         id={name}
         placeholder={label}
-        {...register(name, requiredMessage ? {required: requiredMessage} : {})}
+        {...register(name, {
+          required: requiredMessage,
+          ...(type === 'email' && {
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: 'Por favor ingresa un correo electrónico válido'
+            }
+          })
+        })}
       />
       {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
     </div>

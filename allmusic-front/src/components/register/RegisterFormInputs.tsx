@@ -2,7 +2,7 @@
 import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { UserRequestDto } from 'src/interfaces/user-interface';
 
-import { FormInputFile, FormInputText, FormTextArea } from '@shared/components/form';
+import { FormInputFile, FormInputText, FormTextArea } from '@shared/form';
 
 interface Props {
   isArtist: boolean;
@@ -34,14 +34,14 @@ export const RegisterFormInputs = ({
           name="firstName"
           register={register}
           error={errors.firstName}
-          requiredMessage="El campo NO puede estar vacio."
+          requiredMessage="El campo Nombre está vacio."
         />
         <FormInputText
           label="Apellido"
           name="lastName"
           register={register}
           error={errors.lastName}
-          requiredMessage="El campo NO puede estar vacio."
+          requiredMessage="El campo Apellido está vacio."
         />
       </div>
 
@@ -52,7 +52,7 @@ export const RegisterFormInputs = ({
           name="email"
           register={register}
           error={errors.email}
-          requiredMessage="El email no es valido."
+          requiredMessage="El campo Email está vacio."
         />
       </div>
 
@@ -76,7 +76,7 @@ export const RegisterFormInputs = ({
           name="username"
           register={register}
           error={errors.username}
-          requiredMessage="El campo es obligatorio!"
+          requiredMessage="El nombre de usuario es obligatorio."
         />
       </div>
 
@@ -87,8 +87,8 @@ export const RegisterFormInputs = ({
           label="Contraseña"
           name="password"
           register={register}
-          error={errors.firstName}
-          requiredMessage="El campo NO puede estar vacio."
+          error={errors.password}
+          requiredMessage="La contraseña es obligatoria."
         />
         <div className="w-full">
           <label htmlFor="confirmarPassword" className="block text-sm font-medium">Confirmar contraseña</label>

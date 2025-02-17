@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
-import logo from "../../../images/logo.svg";
-import { InputLabel } from "../form/formInput/InputLabel";
+import logo from "@images/logo.svg";
+// import { InputLabel } from "../../form/formInput/InputLabel";
 import { useForm } from "react-hook-form"; // Importamos el hook
 import lupa from "../../../images/lupa.svg";
 
