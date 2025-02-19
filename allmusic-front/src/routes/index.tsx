@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router';
 import { Header } from '@shared/header/Header';
 
 import { Login, Preview, Register } from '../pages';
+import { Error404 } from '@shared/Error/Error404';
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Preview />
+    element: <Preview /> 
+  },
+  // Ruta de error 404 para cualquier URL no encontrada
+  {
+    path: "*",  // * es un comodín que captura todas las rutas no coincidentes
+    element: <Error404 />
   }
 ]);

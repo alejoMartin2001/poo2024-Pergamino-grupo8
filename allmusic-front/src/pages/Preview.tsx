@@ -1,6 +1,9 @@
 
 export const Preview = () => {
+
   return (
-    <div>Preview</div>
+    <h1>
+        PREVIEW
+    </h1>
   )
 }
