@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useRegister } from 'src/hooks/useRegister';
 
+import { LoaderSpinner } from '@shared/components';
+
 import { RegisterFormInputs } from './RegisterFormInputs';
 
 const colorEnthusiast: string = 'text-[#db2777]';
@@ -34,7 +36,10 @@ export const RegisterForm = () => {
   return (
     <form
       className="flex flex-col px-6 py-10 my-2 bg-gray-800 rounded-3xl max-md:m-3 max-md:px-5"
-      onSubmit={handleSubmit((data) => onSubmit(data, passwordValid))}
+      onSubmit={handleSubmit((data) => {
+        onSubmit(data, passwordValid)
+        setConfirmPassword("");
+      })}
     >
       <h1 className={`text-4xl font-bold ${isArtist ? colorArtist : colorEnthusiast} max-md:text-3xl`}>Registrate en
         <span className={`
@@ -79,7 +84,9 @@ export const RegisterForm = () => {
         </div>
 
         {isLoading ?
-          <p className="w-3/5 max-md:w-full max-md:h-full">Cargando..</p> :
+          <p className="flex items-center justify-center w-3/5 max-md:w-full max-md:h-full">
+            <LoaderSpinner />
+          </p> :
 
           <div className="w-3/5 max-md:w-full">
             <RegisterFormInputs
@@ -101,7 +108,7 @@ export const RegisterForm = () => {
               hover:bg-right hover:scale-[1.01] active:scale-[.98]`}
                 disabled={isSubmitting}
               >
-                Crear Usuario
+                {`Crear ${isArtist ? "Artista" : "Usuario"}`}
               </button>
             </div>
 

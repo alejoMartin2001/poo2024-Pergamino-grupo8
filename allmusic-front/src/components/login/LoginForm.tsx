@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { useLogin } from 'src/hooks/useLogin';
 
-import logo from '@images/logo.svg';
+import logo from '@images/logo-web.svg';
 import { FormInputText } from '@shared/form';
 
 interface FormData {
@@ -26,7 +26,7 @@ export const LoginForm = () => {
       className="bg-gray-800 px-15 py-15 max-md:px-5 rounded-3xl shadow-2xl w-2xl max-md:mx-3"
       onSubmit={onSubmit}
     >
-      <img className="h-auto w-[50px] mb-4" src={logo} alt="AllMusic" />
+      <img className="h-auto w-[50px] mb-4 cursor-pointer hover:scale-[1.1]" onClick={() => navigate("/")} src={logo} alt="AllMusic" />
       <h1 className="text-4xl font-bold text-[#db2777] max-md:text-3xl">¡Bienvenido a 
         <span className="
           ml-2.5

@@ -70,6 +70,8 @@ export const RegisterFormInputs = ({
         />
       </div>
 
+      <hr className="my-4 border-t border-gray-700" />
+      
       <div className="mt-5">
         <FormInputText
           label="Nombre de usuario"
@@ -80,7 +82,6 @@ export const RegisterFormInputs = ({
         />
       </div>
 
-      <hr className="my-4 border-t border-gray-700" />
       <div className="flex gap-3 mt-5">
         <FormInputText
           type="password"

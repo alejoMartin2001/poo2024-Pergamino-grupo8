@@ -23,7 +23,7 @@ export const useRegister = (isArtist: boolean) => {
   const mutation = useMutation({
     mutationFn: isArtist ? registerArtistAction : registerEnthAction,
     onSuccess: () => {
-      localStorage.setItem("alertMessage", "Te has registrado"); // Guarda el mensaje de alerta
+      localStorage.setItem("alertMessage", "Tu cuenta ha sido creada. ¡Bienvenido!"); // Guarda el mensaje de alerta
       localStorage.setItem("alertType", "success"); // Guarda el tipo de alerta
       localStorage.setItem("alertTitle", "Registro exitoso")
       navigate("/login");
@@ -31,12 +31,15 @@ export const useRegister = (isArtist: boolean) => {
     onError: (error: AxiosError) => {
       console.log(error);
       showAlert("Error", "Hubo un error en el registro", "error");
+      
     }
   });
 
   const onSubmit = (formData: UserRequestDto, passwordValid: boolean) => {
-    if (passwordValid && !formData.profilePicture) {
-      mutation.mutate({...formData, profilePicture: "admin-0.png"});
+    if (passwordValid ) {
+      // mutation.mutate({...formData, profilePicture: "admin-0.png"});
+      mutation.mutate(formData);
+
     };
     return;
 

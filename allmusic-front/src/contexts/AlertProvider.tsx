@@ -20,7 +20,7 @@ export const AlertProvider = ({ children }: PropsWithChildren) => {
   const [alertId, setAlertId] = useState(0);
 
   const showAlert = (title: string, message: string, type: AlertType = "info", duration: number = 5000) => {
-    setAlertId(prev => prev + 1); // Incrementa el ID para forzar el cambio
+    setAlertId(prev => prev + 1);
     setAlert({ title, message, type, duration, id: alertId + 1 });
   };
 
