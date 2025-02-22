@@ -4,7 +4,8 @@ import { createBrowserRouter } from 'react-router';
 import { Header } from '@shared/header/Header';
 
 import { Login, Preview, Register } from '../pages';
-import { Error404 } from '@shared/Error/Error404';
+import { Error404 } from '@shared/page/Error404';
+
 
 export const router = createBrowserRouter([
   {

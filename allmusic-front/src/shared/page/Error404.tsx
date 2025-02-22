@@ -4,7 +4,7 @@ import error from '@images/404.svg';
 
 export const Error404 = () => {
   const navigate = useNavigate();
-
+  //HACERLO REUTILIZABLE.
   return (
     <div className="flex w-full min-h-screen">
       <div

@@ -6,6 +6,7 @@ import { authLoginAction } from "src/services/actions/auth-action";
 
 const decodeToken = (token: string): TokenDecode | null => {
   try {
+    
     const payload: string = token.split(".")[1];
     const decodeString: string = atob(payload);
     const rawData = JSON.parse(decodeString);
@@ -47,7 +48,7 @@ export const useLogin = () => {
       }
 
       login(token, claims);
-      navigate("/");
+      navigate("/navbar");
     } catch (error) {
       setError("Error al login");
     } finally {
