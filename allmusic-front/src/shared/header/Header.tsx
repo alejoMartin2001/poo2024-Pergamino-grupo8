@@ -8,20 +8,22 @@ export const Header = () => {
 
   return (
     <>
-      <header className="flex items-center justify-between px-5 text-white bg-gray-800 fixed w-full z-10">
-        <div className="flex">
+      <header className="z-10 h-16 bg-gray-800 text-white transition-all duration-300 ">
+        <div className="flex items-center justify-between px-5 h-full">
           <nav className="m-2 mr-auto font-bold text-xl bg-gradient-to-l from-[#9333ea] to-[#db2777] bg-clip-text text-transparent">
             AllMusic
           </nav>
 
           {isAuth ? (
-            <MenuUser></MenuUser>
+            <MenuUser />
           ) : (
             <div>
               <button
                 type="button"
                 className="m-4 font-bold cursor-pointer"
-                onClick={() => navigate("/login")}
+                onClick={() => {
+                  navigate("/login");
+                }}
               >
                 Iniciar sesión
               </button>
