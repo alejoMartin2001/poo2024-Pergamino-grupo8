@@ -1,11 +1,12 @@
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useRegister } from 'src/hooks/useRegister';
 
 import { LoaderSpinner } from '@shared/components';
 
-import { RegisterFormInputs } from './RegisterFormInputs';
+import { RegisterFormProfile } from './RegisterFormProfile';
+import { RegisterFormData } from './RegisterFormData';
 
 const colorEnthusiast: string = 'text-[#db2777]';
 const colorArtist: string = 'text-blue-600';
@@ -16,6 +17,9 @@ export const RegisterForm = () => {
 
   const navigate = useNavigate();
 
+  const [step, setStep] = useState<number>(1);
+  const [isValidProfile, setIsValidProfile] = useState(false);
+
   // Lógica para la contraseña
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
@@ -24,14 +28,9 @@ export const RegisterForm = () => {
   const [isArtist, setIsArtist] = useState<boolean>(false);
 
   // Lógica del registro.
-  const { register, handleSubmit, watch, setValue, onSubmit, errors, isSubmitting, isLoading } = useRegister(isArtist);
+  const { register, handleSubmit, watch, setValue, onSubmit, control, errors, isLoading } = useRegister(isArtist);
 
-
-  useEffect(() => {
-    const password = watch("password") || "";
-    setPasswordValid(confirmPassword === password);
-  }, [confirmPassword, watch("password")]);
-
+  console.log(isValidProfile)
 
   return (
     <form
@@ -58,7 +57,7 @@ export const RegisterForm = () => {
 
         <div className="flex flex-col justify-between w-2/5 max-md:w-full">
           <div className="max-md:hidden">
-            <h1 className="text-3xl font-medium text-gray-400">Perfil</h1>
+            <h1 className="text-3xl font-medium text-gray-400">{step === 1 ? "Perfil" : "Autenticación"}</h1>
             <p className="text-gray-100">Esta información se mostrará públicamente, así que tenga cuidado con lo que comparte.</p>
           </div>
 
@@ -83,37 +82,63 @@ export const RegisterForm = () => {
           </div>
         </div>
 
-        {isLoading ?
-          <p className="flex items-center justify-center w-3/5 max-md:w-full max-md:h-full">
-            <LoaderSpinner />
-          </p> :
+        <div className="w-3/5 max-md:w-full">
+          {isLoading ?
+            (<p className="flex items-center justify-center ">
+              <LoaderSpinner />
+            </p>) : (
 
-          <div className="w-3/5 max-md:w-full">
-            <RegisterFormInputs
-              register={register}
-              errors={errors}
-              isArtist={isArtist}
-              passwordValid={passwordValid}
-              confirmPassword={confirmPassword}
-              setConfirmPassword={setConfirmPassword}
-              setValue={setValue}
-            />
+              <>
+                {step === 1 ? (
+                  <RegisterFormProfile
+                    errors={errors}
+                    control={control}
+                    isArtist={isArtist}
+                    setIsValidProfile={setIsValidProfile}
+                    register={register}
+                    setValue={setValue}
+                  />
+                ) : (
+                  <RegisterFormData
+                    confirmPassword={confirmPassword}
+                    errors={errors}
+                    passwordValid={passwordValid}
+                    register={register}
+                    setConfirmPassword={setConfirmPassword}
+                    setPasswordValid={setPasswordValid}
+                    watch={watch}
+                  />
+                )}
 
+                <div className="mt-5 flex gap-2">
+                  {step === 2 && (
+                    <button
+                      className="p-2 w-full rounded-md font-medium text-white bg-gray-500 hover:bg-gray-600 transition-all"
+                      onClick={() => setStep(1)}
+                    >
+                      Atrás
+                    </button>
+                  )}
 
-            <div className="mt-5">
-              <button className={`p-2 w-full rounded-md font-medium text-white 
-              bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast}
-              bg-[length:200%_200%] bg-left 
-              transition-all duration-300 ease-in-out 
-              hover:bg-right hover:scale-[1.01] active:scale-[.98]`}
-                disabled={isSubmitting}
-              >
-                {`Crear ${isArtist ? "Artista" : "Usuario"}`}
-              </button>
-            </div>
+                  <button
+                    type={step === 1 ? "button" : "submit"}
+                    className={`p-2 w-full rounded-md font-medium text-white 
+                      ${step === 1 ? "bg-blue-500 hover:bg-blue-600" : `bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast}`}
+                      bg-[length:200%_200%] bg-left 
+                      transition-all duration-300 ease-in-out 
+                      hover:bg-right hover:scale-[1.01] active:scale-[.98]
+                      cursor-pointer
+                      disabled:cursor-not-allowed`}
+                    onClick={() => (step === 1 ? setStep(2) : undefined)}
+                    disabled={!isValidProfile}
+                  >
+                    {step === 1 ? "Continuar" : `Crear ${isArtist ? "Artista" : "Usuario"}`}
+                  </button>
+                </div>
+              </>
+            )}
+        </div>
 
-          </div>
-        }
       </div>
 
     </form>

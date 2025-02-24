@@ -2,9 +2,13 @@ import { SideBarItem } from "@shared/sidebar";
 import { Home, Library, ListMusic } from "lucide-react";
 import { useState } from "react";
 
-export const SideBar = () => {
+interface Props {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+}
 
-  const [collapsed, setCollapsed] = useState<boolean>(true);
+export const SideBar = ({ collapsed, setCollapsed }: Props) => {
+
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [animating, setAnimating] = useState(true);
 
@@ -15,7 +19,7 @@ export const SideBar = () => {
 
   return (
     <div
-      className={`h-screen bg-gray-900 text-white p-3 transition-all duration-300 ${collapsed ? "w-16" : "w-64"}
+      className={`h-screen fixed top-0 left-0 bg-gray-900 text-white p-3 transition-all duration-300 ${collapsed ? "w-16" : "w-64"}
       relative`}
       onTransitionEnd={() => setAnimating(false)}
     >

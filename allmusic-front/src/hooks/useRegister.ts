@@ -17,6 +17,7 @@ export const useRegister = (isArtist: boolean) => {
     watch,
     setValue,
     setError,
+    control,
     formState: { errors, isSubmitting }
   } = useForm<UserRequestDto>();
 
@@ -47,6 +48,7 @@ export const useRegister = (isArtist: boolean) => {
 
   return {
     errors,
+    control,
     isSubmitting,
     isLoading: mutation.isPending,
 

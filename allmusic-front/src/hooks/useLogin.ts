@@ -48,7 +48,7 @@ export const useLogin = () => {
       }
 
       login(token, claims);
-      navigate("/navbar");
+      navigate("/home");
     } catch (error) {
       setError("Error al login");
     } finally {

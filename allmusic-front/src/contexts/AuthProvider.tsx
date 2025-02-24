@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const login = (token: string, decodedToken: TokenDecode) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(decodedToken.user));
+    localStorage.setItem("isArtist", JSON.stringify(decodedToken.isArtist))
 
     dispatch({ type: "login", payload: { user: decodedToken.user, isArtist: decodedToken.isArtist } });
     
@@ -45,6 +46,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("isArtist");
     localStorage.clear();
 
     dispatch({ type: "logout" });
