@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAuth } from 'src/contexts/AuthProvider';
 
 interface Props {
@@ -13,6 +14,11 @@ export const useImage = ({setAvatar}:Props) => {
             }
         }
     }
+
+    //el useEffect llama a imgAvatar(), pero deberia hacerlo cuando algo cambia.
+    useEffect(() => {
+        imgAvatar();     
+    }, [imgAvatar]);
 
     return { imgAvatar }
 }

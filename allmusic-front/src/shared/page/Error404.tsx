@@ -1,6 +1,7 @@
 import background from '@images/bg-register.svg';
 import { useNavigate } from 'react-router';
 import error from '@images/404.svg';
+import { ButtonGenerico } from '@shared/components/ButtonGenerico';
 
 export const Error404 = () => {
   const navigate = useNavigate();
@@ -25,40 +26,25 @@ export const Error404 = () => {
 
           {/* Buttons */}
           <div className="flex justify-center gap-4">
-            <button
+            <ButtonGenerico 
               type="button"
-              className="font-bold text-white 
-              bg-gradient-to-tr from-[#9333ea] to-[#db1e73] 
-              px-4 py-2 
-              rounded 
-              transition 
-              delay-150 
-              duration-300 
-              ease-in-out 
-              hover:-translate-y-1 
-              hover:scale-110 
-              cursor-pointer"
-              onClick={() => navigate("/login")}
-            >
-              Iniciar Sesión
-            </button>
-            <button
+              className="font-bold text-white bg-gradient-to-tr from-[#9333ea] to-[#db1e73] 
+              px-4 py-2 rounded transition delay-150 duration-300 
+              ease-in-out hover:-translate-y-1 hover:scale-110 cursor-pointer"
+              onClick={() => navigate("/login")} nombreButton="Iniciar Sesión"
+            />
+            <ButtonGenerico
               type="button"
               className="font-bold text-white bg-gradient-to-tr from-blue-600 to-[#3de2be] 
-              px-4 py-2 rounded 
-              transition 
-              delay-150 
-              duration-300 
-              ease-in 
-              hover:-translate-y-1 
-              hover:scale-110 cursor-pointer"
-              onClick={() => navigate("/register")}
-            >
-              Registrarse
-            </button>
+              px-4 py-2 rounded transition delay-150 duration-300 
+              ease-in hover:-translate-y-1 hover:scale-110 cursor-pointer"
+              onClick={() => navigate("/register")} nombreButton='Registrarse'/>
           </div>
+
         </div>
+
       </div>
+      
     </div>
   );
 };
