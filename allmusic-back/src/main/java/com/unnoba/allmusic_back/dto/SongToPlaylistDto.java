@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SongToPlaylistRequestDto {
+public class SongToPlaylistDto {
     private String playlistTitle;
     private String songTitle;
     private String albumTitle;
