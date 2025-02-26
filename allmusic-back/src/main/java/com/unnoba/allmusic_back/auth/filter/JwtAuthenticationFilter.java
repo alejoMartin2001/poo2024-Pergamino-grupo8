@@ -75,12 +75,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .stream()
                 .anyMatch(r -> r.getAuthority().equals("ROLE_MUSICARTIESUSER"));
 
-        UserResponseDto userResponseDto = userService.getUserByUsername(username);
-
         Claims claims = Jwts.claims()
                 .add("authorities", new ObjectMapper().writeValueAsString(roles))
                 .add("isArtist", isArtist)
-                .add("user", new ObjectMapper().writeValueAsString(userResponseDto))
                 .build();
 
         // Token generado con JSON Token Web
@@ -95,7 +92,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader(TokenJwtConfig.HEADER_AUTHORIZATION, TokenJwtConfig.PREFIX_TOKEN + token);
         Map<String, Object> datas = new HashMap<>();
         datas.put("token", token);
-        datas.put("message", String.format("Hola %s, has iniciado sesión con exito", username));
+        datas.put("message", String.format("Hola %s, has iniciado sesión con éxito", username));
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(datas));
         response.setStatus(HttpServletResponse.SC_OK);

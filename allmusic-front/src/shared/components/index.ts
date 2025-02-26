@@ -1,4 +1,4 @@
 export * from './Alert';
-export * from './CustomButton';
+export * from './ButtonGenerico';
 export * from './Dropdown';
 export * from './LoaderSpinner';

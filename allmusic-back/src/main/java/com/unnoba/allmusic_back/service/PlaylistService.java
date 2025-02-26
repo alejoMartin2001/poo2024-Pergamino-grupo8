@@ -51,14 +51,6 @@ public class PlaylistService {
      */
     @Transactional
     public void addSongsToPlaylist(SongToPlaylistDto songToPlaylistRequestDto, String username) {
-//        User user = userRepository.findByUsername(username).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "El usuario no existe")
-//        );
-//
-//        Playlist playlist = playlistRepository.findByTitleAndOwner(
-//                songToPlaylistRequestDto.getPlaylistTitle(), user).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "La playlist no existe")
-//        );
 
         Playlist playlist = this.findPlaylistByUserAndTitle(username, songToPlaylistRequestDto.getPlaylistTitle());
 
@@ -101,13 +93,6 @@ public class PlaylistService {
      * @param username es el nombre de usuario del usuario propietario de la playlist.
      */
     public void isPrivatePlaylist(String title, String username){
-//        User user = userRepository.findByUsername(username).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe")
-//        );
-//
-//        Playlist playlist = playlistRepository.findByTitleAndOwner(title, user).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "La playlist no existe")
-//        );
         Playlist playlist = this.findPlaylistByUserAndTitle(username, title);
 
         try{
@@ -126,13 +111,6 @@ public class PlaylistService {
      * @param title es el título de la playlist que se va a actualizar.
      */
     public void updatePlaylist(PlaylistUpdateDto playlistUpdateDto, String username, String title) {
-//        User user = userRepository.findByUsername(username).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe")
-//        );
-
-//        Playlist playlist = playlistRepository.findByTitleAndOwner(title, user).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "La playlist no existe")
-//        );
 
         Playlist playlist = this.findPlaylistByUserAndTitle(username, title);
 
@@ -158,13 +136,6 @@ public class PlaylistService {
      */
     @Transactional
     public void deletePlaylist(String title, String username) {
-//        User user = userRepository.findByUsername(username).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe")
-//        );
-//
-//        Playlist playlist = playlistRepository.findByTitleAndOwner(title, user).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "La playlist no existe")
-//        );
 
         Playlist playlist = this.findPlaylistByUserAndTitle(username, title);
 

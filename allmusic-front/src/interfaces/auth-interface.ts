@@ -7,7 +7,7 @@ interface Authority {
 export interface TokenDecode {
   authorities: Authority[];
   isArtist: boolean;
-  user: UserResponseDto;
+  // user: UserResponseDto;
   sub: string;
   iat: number;
   exp: number;

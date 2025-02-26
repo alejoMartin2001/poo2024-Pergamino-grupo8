@@ -38,6 +38,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Se obtiene los datos del usuario mediante su nombre de usuario.
+     * @param username es el nombre de usuario.
+     * @return retorna la información del usuario.
+     */
     public UserResponseDto getUserByUsername(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe")

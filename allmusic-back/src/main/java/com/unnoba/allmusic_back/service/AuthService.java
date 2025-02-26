@@ -24,7 +24,7 @@ public class AuthService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = usuarioRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException(String.format("Username %s no encontrada", username))
+                () -> new UsernameNotFoundException(String.format("Nombre de usuario %s no encontrada", username))
         );
 
         String userTypeRole = "ROLE_" + user.getClass().getSimpleName().toUpperCase();

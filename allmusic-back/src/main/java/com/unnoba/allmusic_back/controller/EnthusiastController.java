@@ -5,10 +5,7 @@ import com.unnoba.allmusic_back.entity.MusicEnthusiastUser;
 import com.unnoba.allmusic_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/enth")
@@ -16,6 +13,8 @@ public class EnthusiastController {
 
     @Autowired
     private UserService userService;
+
+//    @GetMapping
 
     @PostMapping
     public ResponseEntity<?> createEnthusiast(@RequestBody UserRequestDto userRequestDto) {

@@ -38,10 +38,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, UserService userService) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/example/artist").hasRole(ARTIST)
-                        .requestMatchers(HttpMethod.GET, "/example/enth").hasRole(ENTHUSIAST)
                         .requestMatchers(HttpMethod.POST, "/artist").permitAll()
                         .requestMatchers(HttpMethod.POST, "/enth").permitAll()
+                        .requestMatchers("/user/**").permitAll()
                         .requestMatchers("/playlists/**").hasAnyRole(ARTIST, ENTHUSIAST)
                         .requestMatchers("/me/**").hasAnyRole(ARTIST, ENTHUSIAST)
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "src/contexts/AuthProvider"
 import { TokenDecode } from "src/interfaces/auth-interface";
 import { authLoginAction } from "src/services/actions/auth-action";
+import { userGetAction } from "src/services/users/user-get-action";
 
 const decodeToken = (token: string): TokenDecode | null => {
   try {
@@ -13,8 +14,7 @@ const decodeToken = (token: string): TokenDecode | null => {
 
     const parseData: TokenDecode = {
       ...rawData,
-      authorities: JSON.parse(rawData.authorities),
-      user: JSON.parse(rawData.user)
+      authorities: JSON.parse(rawData.authorities)
     };
 
     return parseData;
@@ -46,8 +46,10 @@ export const useLogin = () => {
         console.error("Error: No se pudo decodificar el token.");
         return;
       }
+      console.log(claims);
+      const userInfo = await userGetAction(claims.sub);
 
-      login(token, claims);
+      login(token, claims, userInfo);
       navigate("/home");
     } catch (error) {
       setError("Error al login");

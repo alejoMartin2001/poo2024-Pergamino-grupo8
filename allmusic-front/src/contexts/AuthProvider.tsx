@@ -4,7 +4,7 @@ import { UserResponseDto } from "src/interfaces/user-interface";
 import { authReducer } from "src/reducers/authReducer";
 
 interface AuthContextType extends AuthState {
-  login: (token: string, decodedToken: TokenDecode) => void;
+  login: (token: string, decodedToken: TokenDecode, user: UserResponseDto) => void;
   logout: () => void;
 }
 
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
 
   useEffect(() => {
-    // Recupero la sesión si hay un token guardado.
+
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
 
@@ -34,12 +34,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
 
-  const login = (token: string, decodedToken: TokenDecode) => {
+  const login = (token: string, decodedToken: TokenDecode, user: UserResponseDto) => {
     localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(decodedToken.user));
+    localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("isArtist", JSON.stringify(decodedToken.isArtist))
 
-    dispatch({ type: "login", payload: { user: decodedToken.user, isArtist: decodedToken.isArtist } });
+    dispatch({ type: "login", payload: { user, isArtist: decodedToken.isArtist } });
     
   };
 
