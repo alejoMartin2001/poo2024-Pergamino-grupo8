@@ -1,6 +1,7 @@
 package com.unnoba.allmusic_back.service;
 
 import com.unnoba.allmusic_back.dto.UserResponseDto;
+import com.unnoba.allmusic_back.dto.UserUpdateDto;
 import com.unnoba.allmusic_back.entity.User;
 import com.unnoba.allmusic_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,52 @@ public class UserService {
             );
         }
     }
+
+    /**
+     * 
+     * @param userUpdateDto
+     * @param username
+     */
+   public void UpdateUser(UserUpdateDto userUpdateDto, String username){
+        User user = userRepository.findByUsername(username).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe")
+        );
+        try{
+            if(userUpdateDto.getBio() != null){
+                user.setBio(userUpdateDto.getBio());
+            }if(userUpdateDto.getFirstName() != null){
+                user.setFirstName(userUpdateDto.getFirstName());
+            }if(userUpdateDto.getEmail() != null){
+                user.setEmail(userUpdateDto.getEmail());
+            }if(userUpdateDto.getPassword() != null){
+                user.setPassword(userUpdateDto.getPassword());
+            }if(userUpdateDto.getLastName() != null){
+                user.setLastName(userUpdateDto.getLastName());
+            }if(userUpdateDto.getProfilePicture() != null){
+                user.setProfilePicture(userUpdateDto.getProfilePicture());
+            }
+            userRepository.save(user);
+        }catch(Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el usuario"
+            );
+        }
+   } 
+   /***
+    @param username
+    */
+   public void deleteByUser(String username){
+        User user = userRepository.findByUsername(username).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No se puede eliminar un usuario inexistente.")
+        );
+        try{
+            userRepository.delete(user);
+        }catch(Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el usuario"
+            );
+        }
+   }
 
     private UserResponseDto mapToDto(User user) {
         return UserResponseDto.builder()
