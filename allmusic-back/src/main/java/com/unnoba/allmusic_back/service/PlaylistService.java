@@ -1,6 +1,10 @@
 package com.unnoba.allmusic_back.service;
 
-import com.unnoba.allmusic_back.dto.*;
+import com.unnoba.allmusic_back.dto.playlist.PlaylistRequestDto;
+import com.unnoba.allmusic_back.dto.playlist.PlaylistResponseDto;
+import com.unnoba.allmusic_back.dto.playlist.PlaylistUpdateDto;
+import com.unnoba.allmusic_back.dto.song.SongResponseDto;
+import com.unnoba.allmusic_back.dto.song.SongToPlaylistDto;
 import com.unnoba.allmusic_back.entity.Playlist;
 import com.unnoba.allmusic_back.entity.Song;
 import com.unnoba.allmusic_back.entity.User;

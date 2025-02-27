@@ -30,7 +30,7 @@ export const RegisterForm = () => {
   // Lógica del registro.
   const { register, handleSubmit, watch, setValue, onSubmit, control, errors, isLoading } = useRegister(isArtist);
 
-  console.log(isValidProfile)
+  // console.log(isValidProfile)
 
   return (
     <form

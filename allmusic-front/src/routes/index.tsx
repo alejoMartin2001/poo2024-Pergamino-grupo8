@@ -3,7 +3,7 @@ import { createBrowserRouter } from 'react-router';
 
 import { Header } from '@shared/header/Header';
 
-import { Home, Login, Preview, Register } from '../pages';
+import { Example, Home, Login, Preview, Register } from '../pages';
 import { Error404 } from '@shared/page/Error404';
 
 export const router = createBrowserRouter([
@@ -26,6 +26,10 @@ export const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home /> 
+  },
+  {
+    path: "/example",
+    element: <Example /> 
   },
   // Ruta de error 404 para cualquier URL no encontrada
   {

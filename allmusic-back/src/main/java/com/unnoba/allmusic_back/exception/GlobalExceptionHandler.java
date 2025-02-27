@@ -9,13 +9,8 @@ import org.springframework.web.server.ResponseStatusException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ErrorMessage> handle(ResponseStatusException ex, HttpServletRequest request){
-        ErrorMessage errorMessage = new ErrorMessage(
-                ex.getReason(),
-                ex.getStatusCode().value(),
-                request.getRequestURI()
-        );
-        return new ResponseEntity<>(errorMessage, ex.getStatusCode());
+    public ResponseEntity<String> handle(ResponseStatusException ex, HttpServletRequest request){
+        return ResponseEntity.status(ex.getStatusCode()).body(ex.getReason());
     }
 }
 

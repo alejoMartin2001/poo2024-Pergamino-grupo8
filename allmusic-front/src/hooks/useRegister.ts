@@ -30,10 +30,15 @@ export const useRegister = (isArtist: boolean) => {
       navigate("/login");
     },
     onError: (error: AxiosError) => {
-      console.log(error);
-      showAlert("Error", "Hubo un error en el registro", "error");
-      
+      let message: string = "";
+      if (error.response) {
+        message = error.response.data as string;
+      }else if (error.request) {
+        message = "Hubo un error en el registro"
+      }
+      showAlert("Error", message, "error");
     }
+    
   });
 
   const onSubmit = (formData: UserRequestDto, passwordValid: boolean) => {

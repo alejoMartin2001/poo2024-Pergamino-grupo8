@@ -1,5 +1,6 @@
-package com.unnoba.allmusic_back.dto;
+package com.unnoba.allmusic_back.dto.album;
 
+import com.unnoba.allmusic_back.dto.song.SongRequestDto;
 import lombok.*;
 
 import java.time.LocalDate;

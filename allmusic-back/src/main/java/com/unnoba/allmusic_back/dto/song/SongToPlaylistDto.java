@@ -1,4 +1,4 @@
-package com.unnoba.allmusic_back.dto;
+package com.unnoba.allmusic_back.dto.song;
 
 import lombok.*;
 

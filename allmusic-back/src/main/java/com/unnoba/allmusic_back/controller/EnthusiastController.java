@@ -1,7 +1,8 @@
 package com.unnoba.allmusic_back.controller;
 
-import com.unnoba.allmusic_back.dto.UserRequestDto;
+import com.unnoba.allmusic_back.dto.user.UserRequestDto;
 import com.unnoba.allmusic_back.entity.MusicEnthusiastUser;
+import com.unnoba.allmusic_back.mapper.UserMapper;
 import com.unnoba.allmusic_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,8 @@ public class EnthusiastController {
     @Autowired
     private UserService userService;
 
-//    @GetMapping
+    @Autowired
+    private UserMapper userMapper;
 
     @PostMapping
     public ResponseEntity<?> createEnthusiast(@RequestBody UserRequestDto userRequestDto) {
@@ -23,14 +25,6 @@ public class EnthusiastController {
     }
 
     private MusicEnthusiastUser mapToDtoEnthusiast(UserRequestDto userRequestDto){
-        MusicEnthusiastUser musicEnthusiastUser = new MusicEnthusiastUser();
-        musicEnthusiastUser.setFirstName(userRequestDto.getFirstName());
-        musicEnthusiastUser.setLastName(userRequestDto.getLastName());
-        musicEnthusiastUser.setEmail(userRequestDto.getEmail());
-        musicEnthusiastUser.setUsername(userRequestDto.getUsername());
-        musicEnthusiastUser.setPassword(userRequestDto.getPassword());
-        musicEnthusiastUser.setBio(userRequestDto.getBio());
-        musicEnthusiastUser.setProfilePicture(userRequestDto.getProfilePicture());
-        return musicEnthusiastUser;
+        return userMapper.mapToUser(new MusicEnthusiastUser(), userRequestDto);
     }
 }

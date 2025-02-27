@@ -1,9 +1,9 @@
 package com.unnoba.allmusic_back.controller;
 
-import com.unnoba.allmusic_back.dto.PlaylistRequestDto;
-import com.unnoba.allmusic_back.dto.PlaylistResponseDto;
-import com.unnoba.allmusic_back.dto.PlaylistUpdateDto;
-import com.unnoba.allmusic_back.dto.SongToPlaylistDto;
+import com.unnoba.allmusic_back.dto.playlist.PlaylistRequestDto;
+import com.unnoba.allmusic_back.dto.playlist.PlaylistResponseDto;
+import com.unnoba.allmusic_back.dto.playlist.PlaylistUpdateDto;
+import com.unnoba.allmusic_back.dto.song.SongToPlaylistDto;
 import com.unnoba.allmusic_back.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

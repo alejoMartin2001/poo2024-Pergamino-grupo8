@@ -1,6 +1,7 @@
-package com.unnoba.allmusic_back.dto;
+package com.unnoba.allmusic_back.dto.playlist;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unnoba.allmusic_back.dto.song.SongResponseDto;
 import lombok.*;
 
 import java.util.List;

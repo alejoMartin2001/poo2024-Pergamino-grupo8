@@ -1,8 +1,8 @@
 package com.unnoba.allmusic_back.controller;
 
-import com.unnoba.allmusic_back.dto.AlbumRequestDto;
-import com.unnoba.allmusic_back.dto.AlbumResponseDto;
-import com.unnoba.allmusic_back.dto.SongRequestDto;
+import com.unnoba.allmusic_back.dto.album.AlbumRequestDto;
+import com.unnoba.allmusic_back.dto.album.AlbumResponseDto;
+import com.unnoba.allmusic_back.dto.song.SongRequestDto;
 import com.unnoba.allmusic_back.entity.Album;
 import com.unnoba.allmusic_back.entity.AlbumExtendedPlay;
 import com.unnoba.allmusic_back.entity.AlbumLongPlay;
@@ -59,6 +59,21 @@ public class AlbumController {
         String username = this.getUsername();
         List<AlbumResponseDto> albums = albumService.getAllAlbumsByMe(username);
         return ResponseEntity.ok(albums);
+    }
+
+    @PutMapping("albums/{albumName}")
+    public ResponseEntity<?> updateAlbum(
+            @PathVariable String albumName, @RequestBody AlbumRequestDto albumRequestDto) {
+        String username = this.getUsername();
+        albumService.updateAlbum(albumRequestDto, username, albumName);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("albums/{albumName}")
+    public ResponseEntity<?> deleteAlbum(@PathVariable String albumName) {
+        String username = this.getUsername();
+        albumService.deleteAlbum(albumName, username);
+        return ResponseEntity.ok().build();
     }
 
     //    Métodos privados - Mappers.

@@ -3,7 +3,6 @@ package com.unnoba.allmusic_back.auth.filter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unnoba.allmusic_back.auth.TokenJwtConfig;
-import com.unnoba.allmusic_back.dto.UserResponseDto;
 import com.unnoba.allmusic_back.entity.User;
 import com.unnoba.allmusic_back.service.UserService;
 import io.jsonwebtoken.Claims;

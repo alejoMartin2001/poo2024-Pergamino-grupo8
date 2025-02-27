@@ -1,7 +1,7 @@
 package com.unnoba.allmusic_back.service;
 
-import com.unnoba.allmusic_back.dto.UserResponseDto;
-import com.unnoba.allmusic_back.dto.UserUpdateDto;
+import com.unnoba.allmusic_back.dto.user.UserResponseDto;
+import com.unnoba.allmusic_back.dto.user.UserUpdateDto;
 import com.unnoba.allmusic_back.entity.User;
 import com.unnoba.allmusic_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
