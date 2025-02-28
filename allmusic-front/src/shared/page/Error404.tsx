@@ -1,7 +1,6 @@
 import background from '@images/bg-register.svg';
 import { useNavigate } from 'react-router';
 import error from '@images/404.svg';
-import { ButtonGenerico } from '@shared/components/ButtonGenerico';
 
 export const Error404 = () => {
   const navigate = useNavigate();
@@ -26,19 +25,18 @@ export const Error404 = () => {
 
           {/* Buttons */}
           <div className="flex justify-center gap-4">
-            <ButtonGenerico 
+            <button 
               type="button"
               className="font-bold text-white bg-gradient-to-tr from-[#9333ea] to-[#db1e73] 
               px-4 py-2 rounded transition delay-150 duration-300 
               ease-in-out hover:-translate-y-1 hover:scale-110 cursor-pointer"
-              onClick={() => navigate("/login")} nombreButton="Iniciar Sesión"
-            />
-            <ButtonGenerico
+              onClick={() => navigate("/login")}>Iniciar Sesión</button>
+            <button
               type="button"
               className="font-bold text-white bg-gradient-to-tr from-blue-600 to-[#3de2be] 
               px-4 py-2 rounded transition delay-150 duration-300 
               ease-in hover:-translate-y-1 hover:scale-110 cursor-pointer"
-              onClick={() => navigate("/register")} nombreButton='Registrarse'/>
+              onClick={() => navigate("/register")}>Registrarse</button>
           </div>
 
         </div>

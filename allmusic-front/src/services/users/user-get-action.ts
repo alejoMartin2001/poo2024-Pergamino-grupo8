@@ -5,3 +5,4 @@ export const userGetAction = async (username: string): Promise<UserResponseDto> 
   const { data } = await AuthService.get(`/user/${username}`);
   return data;
 }
+

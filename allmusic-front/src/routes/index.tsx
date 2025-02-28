@@ -5,6 +5,7 @@ import { Header } from '@shared/header/Header';
 
 import { Example, Home, Login, Preview, Register } from '../pages';
 import { Error404 } from '@shared/page/Error404';
+import { ConfigUser } from '@components/configUser/ConfiguracionUser';
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
     element: <Example /> 
   },
   // Ruta de error 404 para cualquier URL no encontrada
+  {
+    path: "/configUser",
+    element: <ConfigUser />
+  },
   {
     path: "*",  // * es un comodín que captura todas las rutas no coincidentes
     element: <Error404 />

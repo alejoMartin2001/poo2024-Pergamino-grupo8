@@ -17,3 +17,12 @@ export interface UserRequestDto {
     profilePicture: string;
     bio: string;
 }
+
+export interface UserUpdateDto {
+    firstName: string | null;
+    lastName: string | null;
+    email: string | null;
+    password: string | null;
+    profilePicture: string | null;
+    bio: string | null;
+}
