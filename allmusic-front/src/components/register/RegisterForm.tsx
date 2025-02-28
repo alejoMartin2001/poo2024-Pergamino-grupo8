@@ -84,7 +84,7 @@ export const RegisterForm = () => {
 
         <div className="w-3/5 max-md:w-full">
           {isLoading ?
-            (<p className="flex items-center justify-center ">
+            (<p className="flex items-center justify-center h-full ">
               <LoaderSpinner />
             </p>) : (
 

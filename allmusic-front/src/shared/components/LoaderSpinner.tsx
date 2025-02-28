@@ -4,10 +4,17 @@ interface Props {
   colorHex?: string;
 }
 
-export const LoaderSpinner = ({ size = 20, colorHex = 'db2777' }: Props) => {
+export const LoaderSpinner = ({ size = 36, colorHex = 'db2777' }: Props) => {
   return (
-    <div className="flex items-center justify-center flex-1">
-        <div className={`w-${size} h-${size} bg-transparent border-3 border-[#${colorHex}] border-r-transparent animate-spin rounded-full`}/>
-    </div>
+    <div
+      className="inline-block animate-spin rounded-full border-4 border-solid border-r-transparent"
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        borderWidth: `${size / 8}px`,
+        borderColor: `#${colorHex}`,
+        borderRightColor: "transparent",
+      }}
+    />
   )
 }

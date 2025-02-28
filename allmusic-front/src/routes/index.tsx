@@ -1,8 +1,6 @@
 
 import { createBrowserRouter } from 'react-router';
 
-import { Header } from '@shared/header/Header';
-
 import { Example, Home, Login, Preview, Register } from '../pages';
 import { Error404 } from '@shared/page/Error404';
 import { ConfigUser } from '@components/configUser/ConfiguracionUser';
@@ -15,10 +13,6 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />
-  },
-  {
-    path: "/navbar",
-    element: <Header />
   },
   {
     path: "/",

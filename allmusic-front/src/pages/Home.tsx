@@ -1,5 +1,4 @@
 import { SideBar } from "@components/semantic";
-import { Header } from "@shared/header/Header";
 import { useState } from "react"
 
 
@@ -10,8 +9,7 @@ export const Home = () => {
     <div className="flex ">
       <SideBar collapsed={collapsed} setCollapsed={setCollapsed}/>
 
-      <div className={`flex-1 flex flex-col transition-all duration-300`}>
-        <Header />
+      <div className={`flex-1 overflow-y-auto flex-col transition-all duration-300`}>
         <div className="bg-emerald-400">
           Color
         </div>

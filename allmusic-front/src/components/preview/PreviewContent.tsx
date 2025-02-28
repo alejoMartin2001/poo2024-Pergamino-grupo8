@@ -39,6 +39,7 @@ export const PreviewContent = () => {
 					  text-white p-3 text-xl
 						font-medium
 						rounded-3xl cursor-pointer
+            transition
 						active:scale-[.98] hover:scale-[1.01]
             max-md:w-full
 					"
