@@ -10,11 +10,9 @@ interface Props {
   errors: FieldErrors<UserRequestDto>;
   control: Control<UserRequestDto, any>;
 
-  setIsValidProfile: (isValidProfile: boolean) => void;
   register: UseFormRegister<UserRequestDto>;
   setValue: UseFormSetValue<UserRequestDto>;
-  // watch: UseFormWatch<UserRequestDto>;
-
+  setIsValidProfile: (isValidProfile: boolean) => void;
 }
 
 export const RegisterFormProfile = ({
@@ -23,22 +21,8 @@ export const RegisterFormProfile = ({
   control,
   register,
   setValue,
-  // watch,
   setIsValidProfile
 }: Props) => {
-
-  // useEffect(() => {
-  //   const isValid =
-  //     !!watch("firstName") &&
-  //     !!watch("lastName") &&
-  //     !!watch("email") &&
-  //     !errors.firstName &&
-  //     !errors.lastName &&
-  //     !errors.email
-  //   ;
-
-  //   setIsValidProfile(isValid);
-  // }, [watch("firstName"), watch("lastName"), watch("email")]);
 
   const [firstName, lastName, email] = useWatch({
     control,

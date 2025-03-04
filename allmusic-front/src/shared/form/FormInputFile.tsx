@@ -17,7 +17,8 @@ export const FormInputFile = ({ label, name, isArtist = false, register, setValu
   const [preview, setPreview] = useState<string | null>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
-  // Guardo solo el nombre de la imagen cargada
+  // Guardo sólo el nombre de la imagen cargada
+  // TODO: Si no se envia una imagen, se envia un Archivo File (Error).
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -27,7 +28,7 @@ export const FormInputFile = ({ label, name, isArtist = false, register, setValu
     }
   };
 
-  // Solo guardo el nombre del avatar seleccionada
+  // Sólo guardo el nombre del avatar seleccionada
   const handleSelectAvatar = (avatarPath: string) => {
     const avatarName = avatarPath.split("/").pop();
     setPreview(avatarPath);

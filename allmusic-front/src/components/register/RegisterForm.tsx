@@ -28,9 +28,16 @@ export const RegisterForm = () => {
   const [isArtist, setIsArtist] = useState<boolean>(false);
 
   // Lógica del registro.
-  const { register, handleSubmit, watch, setValue, onSubmit, control, errors, isLoading } = useRegister(isArtist);
-
-  // console.log(isValidProfile)
+  const { 
+    register, 
+    handleSubmit, 
+    watch, 
+    setValue, 
+    onSubmit, 
+    control, 
+    errors,
+    isLoading 
+  } = useRegister(isArtist);
 
   return (
     <form
@@ -84,9 +91,9 @@ export const RegisterForm = () => {
 
         <div className="w-3/5 max-md:w-full">
           {isLoading ?
-            (<p className="flex items-center justify-center h-full ">
+            (<div className="flex items-center justify-center h-full ">
               <LoaderSpinner />
-            </p>) : (
+            </div>) : (
 
               <>
                 {step === 1 ? (
@@ -128,7 +135,8 @@ export const RegisterForm = () => {
                       transition-all duration-300 ease-in-out 
                       hover:bg-right hover:scale-[1.01] active:scale-[.98]
                       cursor-pointer
-                      disabled:cursor-not-allowed`}
+                      disabled:cursor-not-allowed
+                    `}
                     onClick={() => (step === 1 ? setStep(2) : undefined)}
                     disabled={!isValidProfile}
                   >

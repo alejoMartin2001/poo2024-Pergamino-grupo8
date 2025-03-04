@@ -19,7 +19,9 @@ export const SideBarItem = ({ icon: Icon, label, collapsed, hoveredItem, setHove
       {!collapsed && !animating ? (
         <span className="font-medium">{label}</span>
       ) : collapsed && hoveredItem === label ? (
-        <span className="absolute px-2 py-1 text-xs text-white bg-gray-800 rounded-md left-18">{label}</span>
+        <span className="
+          absolute px-2 py-1 text-base font-medium text-white bg-gray-800 rounded-md left-18"
+        >{label}</span>
       ) : null}
     </div>
   )

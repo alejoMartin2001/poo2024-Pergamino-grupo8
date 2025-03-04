@@ -1,13 +1,17 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { useAuth } from "src/contexts/AuthProvider"
-import { TokenDecode } from "src/interfaces/auth-interface";
-import { authLoginAction } from "src/services/actions/auth-action";
-import { userGetAction } from "src/services/users/user-get-action";
+import { AxiosError } from 'axios';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { useAlert } from 'src/contexts/AlertProvider';
+import { useAuth } from 'src/contexts/AuthProvider';
+import { Login, tokenAuth, TokenDecode } from 'src/interfaces/auth-interface';
+import { authLoginAction } from 'src/services/actions/auth-action';
+import { userGetAction } from 'src/services/users/user-get-action';
+
+import { useMutation } from '@tanstack/react-query';
 
 const decodeToken = (token: string): TokenDecode | null => {
   try {
-    
+
     const payload: string = token.split(".")[1];
     const decodeString: string = atob(payload);
     const rawData = JSON.parse(decodeString);
@@ -30,38 +34,44 @@ export const useLogin = () => {
   const navigate = useNavigate();
 
   const { login } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { showAlert } = useAlert();
+  const { register, handleSubmit } = useForm<Login>();
 
-  const handleLogin = async (username: string, password: string): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
+  const mutation = useMutation({
+    mutationFn: authLoginAction,
+    onSuccess: (data) => handleLoginSucess(data),
+    onError: (error: AxiosError) => {
+      let message: string = (error.response) ? error.response.data as string : "Hubo un error en el registro";
+      showAlert("Error de Autenticación", message, "error");
+    }
+  });
 
-    try {
-      const data = await authLoginAction(username, password);
-      const token = data.token;
-      const claims = decodeToken(token);
+  const onSubmit = (login: Login) => {
+    mutation.mutate(login)
+  }
 
-      if (!claims) {
-        console.error("Error: No se pudo decodificar el token.");
-        return;
-      }
-      console.log(claims);
-      const userInfo = await userGetAction(claims.sub);
+  // Privado.
+  const handleLoginSucess = async (data: tokenAuth) => {
+    const token = data.token;
+    const claims = decodeToken(token);
 
-      login(token, claims, userInfo);
-      navigate("/home");
-    } catch (error) {
-      setError("Error al login");
-    } finally {
-      setIsLoading(false);
-    };
+    if (!claims) {
+      console.error("Error: No se pudo decodificar el token.");
+      return;
+    }
+    
+    const userInfo = await userGetAction(claims.sub);
 
+    login(token, claims, userInfo);
+    navigate("/");
   }
 
   return {
-    isLoading,
-    error,
-    handleLogin,
+    isLoading: mutation.isPending,
+
+    register,
+    handleSubmit,
+    onSubmit,
+
   }
 }

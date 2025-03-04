@@ -1,6 +1,5 @@
 import { PreviewContent, PreviewFeatures, PreviewFooter } from "@components/preview"
 import { Head } from "@components/semantic/Head"
-// import { Header } from "@shared/header/Header"
 
 export const Preview = () => {
 

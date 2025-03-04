@@ -30,13 +30,8 @@ export const useRegister = (isArtist: boolean) => {
       navigate("/login");
     },
     onError: (error: AxiosError) => {
-      let message: string = "";
-      if (error.response) {
-        message = error.response.data as string;
-      }else if (error.request) {
-        message = "Hubo un error en el registro"
-      }
-      showAlert("Error", message, "error");
+      let message: string = (error.response) ? error.response.data as string : "Hubo un error en el registro";
+      showAlert("Error de registro", message, "error");
     }
     
   });
@@ -44,6 +39,7 @@ export const useRegister = (isArtist: boolean) => {
   const onSubmit = (formData: UserRequestDto, passwordValid: boolean) => {
     if (passwordValid ) {
       // mutation.mutate({...formData, profilePicture: "admin-0.png"});
+      console.log(formData);
       mutation.mutate(formData);
 
     };

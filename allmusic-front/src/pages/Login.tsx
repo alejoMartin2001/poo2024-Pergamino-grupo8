@@ -1,9 +1,10 @@
 
-import { LoginForm } from "@components/login";
-import pattern from "../images/bg-pattern.svg";
-import { useAlert } from "src/contexts/AlertProvider";
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { useAlert } from 'src/contexts/AlertProvider';
 
+import { LoginForm } from '@components/login';
+
+import pattern from '../images/bg-pattern.svg';
 
 export const Login = () => {
 
