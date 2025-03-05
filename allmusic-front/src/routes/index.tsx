@@ -15,22 +15,22 @@ export const CreateAppRouter = () => {
       {/* Rutas públicas */}
       {!isAuth && (
         <>
-        
           <Route path="/" element={<Preview />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/*" element={<Error404 />} />
         </>
       )}
 
       {/* Rutas privadas */}
       {isAuth && (
         <>
-          <Route path="/" element={<Home />} />
-        </>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/*" element={<Error404 />} />
+        </>  
       )}
-
-      {/* Rutas no definidas */}
-      <Route path="*" element={<Error404 />} />
-    </Routes>
+      </Routes>
   );
 };

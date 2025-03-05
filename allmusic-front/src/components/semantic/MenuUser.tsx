@@ -42,23 +42,13 @@ export const MenuUser = () => {
               <span className="block text-sm px-2 py-1 text-gray-800 dark:text-white">
                 {user?.username}
               </span>
-
               <ul className="py-1">
-              <li>
-                  <button
-                    onClick={() => navigate("/configUser")}
-                    className="w-full text-left block px-2 py-1 text-sm text-gray-800 hover:bg-gray-200 dark:hover:bg-gray-600 dark:text-gray-200 cursor-pointer"
-                  >
-                    Configuración
-                  </button>
-                </li>
                 <li>
                   <button
                     onClick={handleLogout}
                     className="w-full text-left block px-2 py-1 text-sm text-gray-800 hover:bg-gray-200 dark:hover:bg-gray-600 dark:text-gray-200 cursor-pointer">Cerrar sesión</button>
                 </li>
               </ul>
-
             </div>
           )}
         </div>
