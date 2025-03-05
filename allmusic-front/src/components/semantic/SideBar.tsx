@@ -22,7 +22,7 @@ export const SideBar = ({ collapsed, setCollapsed }: Props) => {
 
   return (
     <aside
-      className={`h-screen fixed top-0 left-0 bg-gray-900 text-white p-3 transition-all duration-300 ${collapsed ? "w-16" : "w-64"}
+      className={`h-screen sticky top-0 left-0 bg-gray-900 text-white p-3 transition-all duration-300 ${collapsed ? "w-16" : "w-64"}
   flex flex-col justify-between relative`}
       onTransitionEnd={() => setAnimating(false)}
     >

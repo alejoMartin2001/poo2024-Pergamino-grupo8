@@ -4,7 +4,7 @@ import { useAuth } from 'src/contexts/AuthProvider';
 
 import { Error404 } from '@shared/page/Error404';
 
-import { Home, Login, Preview, Register } from '../pages';
+import { Album, Home, Login, Playlist, Preview, Register, Setting } from '../pages';
 
 export const CreateAppRouter = () => {
 
@@ -24,9 +24,11 @@ export const CreateAppRouter = () => {
       {/* Rutas privadas */}
       {isAuth && (
         <>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Home />} >
+            <Route path='albums' element={<Album />}/>
+            <Route path='settings' element={<Setting />}/>
+            <Route path='playlists' element={<Playlist />}/>
+          </Route>
         </>
       )}
 
