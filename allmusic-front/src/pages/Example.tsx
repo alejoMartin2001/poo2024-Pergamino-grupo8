@@ -1,8 +1,5 @@
-interface Props {
-  
-}
 
-export const Example = ({}: Props) => {
+export const Example = () => {
   return (
     <div>Example</div>
   )

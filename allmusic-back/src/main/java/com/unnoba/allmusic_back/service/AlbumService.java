@@ -1,5 +1,6 @@
 package com.unnoba.allmusic_back.service;
 
+import com.unnoba.allmusic_back.dto.album.AlbumDto;
 import com.unnoba.allmusic_back.dto.album.AlbumRequestDto;
 import com.unnoba.allmusic_back.dto.album.AlbumResponseDto;
 import com.unnoba.allmusic_back.dto.song.SongRequestDto;
@@ -77,9 +78,23 @@ public class AlbumService {
         List<Album> albums = albumRepository.findAlbumByAuthorUsername(username);
 
         try{
-            return albums.stream().map(this::getAlbumDto).collect(Collectors.toList());
+            return albums.stream().map(this::getAlbumResponseDto).collect(Collectors.toList());
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener el album");
+        }
+    }
+
+    /**
+     * Devuelve TODOS los álbumes registrados.
+     * @return retorna todos los álbumes.
+     */
+    public List<AlbumDto> getAllAlbums(){
+        List<Album> albums = albumRepository.findAll();
+
+        try {
+            return albums.stream().map(this::mapToAlbumDto).collect(Collectors.toList());
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener los álbumes");
         }
     }
 
@@ -127,7 +142,16 @@ public class AlbumService {
         }
     }
 
-    private AlbumResponseDto getAlbumDto(Album album){
+    private AlbumDto mapToAlbumDto(Album album) {
+        String nameArtist = album.getAuthor().getFirstName() + " " + album.getAuthor().getLastName();
+        return AlbumDto.builder()
+                .albumName(album.getTitle())
+                .artistName(nameArtist)
+                .artistUsername(album.getAuthor().getUsername())
+                .build();
+    }
+
+    private AlbumResponseDto getAlbumResponseDto(Album album){
         AlbumResponseDto albumDto = new AlbumResponseDto();
         albumDto.setAlbumName(album.getTitle());
         albumDto.setImageUrl(album.getImageUrl());

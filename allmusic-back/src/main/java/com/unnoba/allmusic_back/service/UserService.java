@@ -87,7 +87,7 @@ public class UserService {
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el usuario"
             );
         }
-   } 
+   }
    /***
     @param username
     */

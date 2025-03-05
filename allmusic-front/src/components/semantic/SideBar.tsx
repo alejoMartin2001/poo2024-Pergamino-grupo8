@@ -2,6 +2,7 @@
 import { SideBarItem } from "@shared/sidebar";
 import { Compass, Disc, Library, ListMusic, Settings } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "src/contexts/AuthProvider";
 
 interface Props {
   collapsed: boolean;
@@ -12,6 +13,7 @@ export const SideBar = ({ collapsed, setCollapsed }: Props) => {
 
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [animating, setAnimating] = useState(true);
+  const { isArtist } = useAuth();
 
   const toggleSidebar = () => {
     setAnimating(true);
@@ -47,19 +49,22 @@ export const SideBar = ({ collapsed, setCollapsed }: Props) => {
           <SideBarItem
             icon={ListMusic}
             label="Playlists"
+            navigate="playlists"
             collapsed={collapsed}
             animating={animating}
             hoveredItem={hoveredItem}
             setHoveredItem={setHoveredItem}
           />
-          <SideBarItem
-            icon={Disc}
-            label="Álbumes"
-            collapsed={collapsed}
-            animating={animating}
-            hoveredItem={hoveredItem}
-            setHoveredItem={setHoveredItem}
-          />
+          {isArtist &&
+            <SideBarItem
+              icon={Disc}
+              label="Álbumes"
+              navigate="albums"
+              collapsed={collapsed}
+              animating={animating}
+              hoveredItem={hoveredItem}
+              setHoveredItem={setHoveredItem}
+            />}
         </nav>
 
         <hr className="my-3 border-t border-gray-700" />
@@ -71,6 +76,7 @@ export const SideBar = ({ collapsed, setCollapsed }: Props) => {
         <SideBarItem
           icon={Settings}
           label="Configuración"
+          navigate="settings"
           collapsed={collapsed}
           animating={animating}
           hoveredItem={hoveredItem}

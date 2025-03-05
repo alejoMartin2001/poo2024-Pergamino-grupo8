@@ -1,5 +1,6 @@
 package com.unnoba.allmusic_back.controller;
 
+import com.unnoba.allmusic_back.dto.album.AlbumDto;
 import com.unnoba.allmusic_back.dto.album.AlbumRequestDto;
 import com.unnoba.allmusic_back.dto.album.AlbumResponseDto;
 import com.unnoba.allmusic_back.dto.song.SongRequestDto;
@@ -52,6 +53,12 @@ public class AlbumController {
         String username = this.getUsername();
         albumService.addSongsByAlbum(songsRequestDtoList, albumName, username);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("albums")
+    public ResponseEntity<List<AlbumDto>> getAllAlbums() {
+        List<AlbumDto> albums = albumService.getAllAlbums();
+        return ResponseEntity.ok().body(albums);
     }
 
     @GetMapping("albums/me")
