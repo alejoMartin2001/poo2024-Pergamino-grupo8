@@ -28,7 +28,11 @@ export const SideBar = ({ collapsed, setCollapsed }: Props) => {
     >
       <div>
         <button
-          className="flex gap-3 p-2 mb-3 bg-gray-800 rounded-md hover:bg-gray-700 hover:text-[#db2777] transition cursor-pointer"
+          className={`flex gap-3 p-2 mb-3 bg-gray-800 rounded-md 
+            hover:bg-gray-700
+            text-${isArtist ? "blue-500" : "[#db2777]"} 
+            transition cursor-pointer
+          `}
           onClick={toggleSidebar}
         >
           <Library size={24} />
