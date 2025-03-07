@@ -4,7 +4,8 @@ import { useAuth } from 'src/contexts/AuthProvider';
 
 import { Error404 } from '@shared/page/Error404';
 
-import { Album, Home, Login, Playlist, Preview, Register, Setting } from '../pages';
+import { Album, Home, Login, Playlist, Preview,Register, Setting } from '../pages';
+import { Profile } from '@pages/Profile';
 
 export const CreateAppRouter = () => {
 
@@ -28,6 +29,7 @@ export const CreateAppRouter = () => {
             <Route path='albums' element={<Album />}/>
             <Route path='settings' element={<Setting />}/>
             <Route path='playlists' element={<Playlist />}/>
+            <Route path='profile' element={<Profile />}/>
           </Route>
         </>
       )}

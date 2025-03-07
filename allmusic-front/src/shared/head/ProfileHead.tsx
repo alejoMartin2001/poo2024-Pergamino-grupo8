@@ -43,7 +43,8 @@ export const ProfileHead = ({ logout, user, isArtist }: Props) => {
             </p>
           }
 
-          <button className="flex items-center gap-2 w-full px-4 py-2 text-white hover:bg-gray-700/50 transition cursor-pointer">
+          <button className="flex items-center gap-2 w-full px-4 py-2 text-white hover:bg-gray-700/50 transition cursor-pointer"
+          onClick={() => navigate("/profile")}>
             <User size={18} />
             Tu Perfil
           </button>

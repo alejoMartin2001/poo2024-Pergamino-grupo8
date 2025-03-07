@@ -1,10 +1,9 @@
+import { InfoProfile } from "@components/profile/InfoProfile";
 
-interface Props {
-
-}
-
-export const Profile = ({}: Props) => {
+export const Profile = () => {
   return (
-    <div>Profile</div>
-  )
-}
+    <div className="flex justify-center mt-12 bg-transparent">
+      <InfoProfile />
+    </div>
+  );
+};
