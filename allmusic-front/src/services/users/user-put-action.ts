@@ -3,6 +3,10 @@ import { AuthService } from "../AuthService";
 
 
 export const userUpdateAction = async (userUpdateDto: UserUpdateDto) => {
-  const{data} = await AuthService.put("/user", userUpdateDto);
-  return data;
-}
+  const token = localStorage.getItem("token"); // O el lugar donde guardes el token
+  return await AuthService.put("/user", userUpdateDto, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

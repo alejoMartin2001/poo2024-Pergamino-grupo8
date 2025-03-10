@@ -19,10 +19,10 @@ export interface UserRequestDto {
 }
 
 export interface UserUpdateDto {
-    firstName: string | null;
-    lastName: string | null;
-    email: string | null;
-    password: string | null;
-    profilePicture: string | null;
-    bio: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string | null;
+    profilePicture?: string | null;
+    bio?: string | null;
+    password?: string | null;
 }
