@@ -52,15 +52,22 @@ export const RegisterFormData = ({
           error={errors.password}
           requiredMessage="La contraseña es obligatoria."
         />
-        <div className="w-full">
-          <label htmlFor="confirmarPassword" className="block text-sm font-medium">Confirmar contraseña</label>
+        <div className="relative w-full">
           <input
-            className="w-full rounded-md p-2 mt-1 bg-[#1A1B25]"
+            className="peer w-full rounded-md p-3 pt-5 mb-2 bg-[#1A1B25] text-white focus:outline-none focus:ring-1 focus:ring-gray-500"
             id="confirmarPassword"
             type="password"
+            placeholder=" "
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          {!passwordValid && confirmPassword && <p className="mt-1 text-sm text-red-500">La contraseña no conincide</p>}
+          <label 
+            htmlFor="confirmarPassword" 
+            className="absolute left-3 top-1 text-gray-400 text-xs transition-all 
+              peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 
+              peer-focus:top-1 peer-focus:text-xs peer-focus:text-gray-300
+            "
+            >Confirmar contraseña</label>
+          {!passwordValid && confirmPassword && <p className="text-sm text-red-500">La contraseña no conincide</p>}
         </div>
 
       </div>

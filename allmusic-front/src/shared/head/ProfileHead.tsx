@@ -25,7 +25,7 @@ export const ProfileHead = ({ logout, user, isArtist }: Props) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
-          src={ getAvatarEnthusiast(user!.profilePicture) }
+          src={getAvatarEnthusiast(user!.profilePicture)}
           alt="Perfil"
           className="w-9 h-9 rounded-full object-cover"
         />
@@ -34,21 +34,22 @@ export const ProfileHead = ({ logout, user, isArtist }: Props) => {
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-40 py-2 bg-gray-900/80 backdrop-blur-md shadow-lg rounded-lg overflow-hidden z-50 border border-gray-700">
-          {isArtist && 
-            <p 
+          {isArtist &&
+            <p
               className=" flex items-center px-4 pb-2 bg-gradient-to-tr from-blue-500 to-[#48E5C2] bg-clip-text text-transparent font-medium italic"
             >
-              <GradientIcon Icon={MicVocal} size={20} fromColorHex='2196F3' toColorHex='48E5C2'/>
+              <GradientIcon Icon={MicVocal} size={20} fromColorHex='2196F3' toColorHex='48E5C2' />
               Artista
             </p>
           }
 
           <button className="flex items-center gap-2 w-full px-4 py-2 text-white hover:bg-gray-700/50 transition cursor-pointer"
-          onClick={() => navigate("/profile")}>
+            onClick={() => navigate("/profile")}
+          >
             <User size={18} />
             Tu Perfil
           </button>
-          <button 
+          <button
             className="flex items-center gap-2 w-full px-4 py-2 text-red-400 hover:bg-gray-700/50 transition cursor-pointer"
             onClick={() => {
               logout();

@@ -48,11 +48,9 @@ public class AlbumService {
     /**
      * Agrega una lista de canciones para un álbum.
      * @param songsRequestDto es la lista de canciones para el album.
-     * @param albumName es el nombre del álbum.
-     * @param username es el nombre de usuario del artista.
      */
-    public void addSongsByAlbum(List<SongRequestDto> songsRequestDto, String albumName, String username) {
-        Album album = albumRepository.findAlbumByTitleAndArtist(albumName, username).orElseThrow(
+    public void addSongsByAlbum(List<SongRequestDto> songsRequestDto, Long albumId) {
+        Album album = albumRepository.findById(albumId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")
         );
 
@@ -101,11 +99,10 @@ public class AlbumService {
     /**
      * Actualiza el nombre, imagen y fecha de lanzamiento de un álbum.
      * @param albumRequestDto son los datos actualizados del álbum a actualizar.
-     * @param albumName es el nombre del álbum.
-     * @param username es el nombre de usuario del artista.
+     * @param albumId es el ID del álbum.
      */
-    public void updateAlbum(AlbumRequestDto albumRequestDto, String username, String albumName) {
-        Album album = albumRepository.findAlbumByTitleAndArtist(albumName, username).orElseThrow(
+    public void updateAlbum(AlbumRequestDto albumRequestDto, Long albumId) {
+        Album album = albumRepository.findById(albumId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")
         );
 
@@ -127,12 +124,11 @@ public class AlbumService {
 
     /**
      * Elimina un álbum
-     * @param albumName es el nombre del álbum.
-     * @param username es el nombre de usuario del artista.
+     * @param albumId es el ID del álbum.
      */
-    public void deleteAlbum(String albumName, String username) {
-        Album album = albumRepository.findAlbumByTitleAndArtist(albumName, username).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")
+    public void deleteAlbum(Long albumId) {
+        Album album = albumRepository.findById(albumId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El álbum no existe")
         );
 
         try {
@@ -145,6 +141,7 @@ public class AlbumService {
     private AlbumDto mapToAlbumDto(Album album) {
         String nameArtist = album.getAuthor().getFirstName() + " " + album.getAuthor().getLastName();
         return AlbumDto.builder()
+                .albumId(album.getId_album())
                 .albumName(album.getTitle())
                 .artistName(nameArtist)
                 .artistUsername(album.getAuthor().getUsername())
@@ -153,6 +150,7 @@ public class AlbumService {
 
     private AlbumResponseDto getAlbumResponseDto(Album album){
         AlbumResponseDto albumDto = new AlbumResponseDto();
+        albumDto.setAlbumId(album.getId_album());
         albumDto.setAlbumName(album.getTitle());
         albumDto.setImageUrl(album.getImageUrl());
         albumDto.setArtistName(album.getAuthor().getUsername());

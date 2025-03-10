@@ -47,11 +47,10 @@ public class AlbumController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("albums/{albumName}")
+    @PostMapping("albums/{albumId}")
     public ResponseEntity<?> addSongsInAlbum(
-            @PathVariable String albumName, @RequestBody List<SongRequestDto> songsRequestDtoList) {
-        String username = this.getUsername();
-        albumService.addSongsByAlbum(songsRequestDtoList, albumName, username);
+            @PathVariable Long albumId, @RequestBody List<SongRequestDto> songsRequestDtoList) {
+        albumService.addSongsByAlbum(songsRequestDtoList, albumId);
         return ResponseEntity.ok().build();
     }
 
@@ -68,18 +67,16 @@ public class AlbumController {
         return ResponseEntity.ok(albums);
     }
 
-    @PutMapping("albums/{albumName}")
+    @PutMapping("albums/{albumId}")
     public ResponseEntity<?> updateAlbum(
-            @PathVariable String albumName, @RequestBody AlbumRequestDto albumRequestDto) {
-        String username = this.getUsername();
-        albumService.updateAlbum(albumRequestDto, username, albumName);
+            @PathVariable Long albumId, @RequestBody AlbumRequestDto albumRequestDto) {
+        albumService.updateAlbum(albumRequestDto, albumId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("albums/{albumName}")
-    public ResponseEntity<?> deleteAlbum(@PathVariable String albumName) {
-        String username = this.getUsername();
-        albumService.deleteAlbum(albumName, username);
+    @DeleteMapping("albums/{albumId}")
+    public ResponseEntity<?> deleteAlbum(@PathVariable Long albumId) {
+        albumService.deleteAlbum(albumId);
         return ResponseEntity.ok().build();
     }
 

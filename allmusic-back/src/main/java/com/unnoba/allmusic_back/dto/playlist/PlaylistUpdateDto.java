@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PlaylistUpdateDto {
+    private Long playlistId;
     private String title;
     private String description;
 }

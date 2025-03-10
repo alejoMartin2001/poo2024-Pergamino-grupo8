@@ -54,7 +54,7 @@ export const RegisterFormProfile = ({
         />
       </div>
 
-      <div className="mt-5">
+      <div className="mt-3">
         <FormInputText
           label="Email"
           type="email"
@@ -65,11 +65,11 @@ export const RegisterFormProfile = ({
         />
       </div>
 
-      <div className="mt-5">
+      <div className="mt-3">
         <FormTextArea label="Descripción" name="bio" register={register} text="Escribe algunas frases sobre ti." />
       </div>
 
-      <div className="mt-5">
+      <div className="mt-3">
         <FormInputFile
           label="Foto de perfil"
           name="profilePicture"

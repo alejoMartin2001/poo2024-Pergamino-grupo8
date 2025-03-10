@@ -30,7 +30,7 @@ public class PlaylistController {
     @PostMapping("/playlists/song")
     public ResponseEntity<?> addPlaylist(@RequestBody SongToPlaylistDto songToPlaylistRequestDto) {
         String username = this.getUsername();
-        playlistService.addSongsToPlaylist(songToPlaylistRequestDto, username);
+        playlistService.addSongsToPlaylist(songToPlaylistRequestDto);
         return ResponseEntity.ok().build();
     }
 
@@ -41,26 +41,26 @@ public class PlaylistController {
         return ResponseEntity.ok(playlists);
     }
 
-    @PatchMapping("/playlists/private/{title}")
-    public ResponseEntity<?> changeIsPrivate(@PathVariable String title) {
+    @PatchMapping("/playlists/private/{playlistId}")
+    public ResponseEntity<?> changeIsPrivate(@PathVariable Long playlistId) {
         String username = this.getUsername();
-        playlistService.isPrivatePlaylist(title, username);
+        playlistService.isPrivatePlaylist(playlistId);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/playlists/{title}")
+    @PutMapping("/playlists")
     public ResponseEntity<?> updatePlaylist(
-            @RequestBody PlaylistUpdateDto playlistUpdateDto, @PathVariable String title) {
+            @RequestBody PlaylistUpdateDto playlistUpdateDto) {
 
         String username = this.getUsername();
-        playlistService.updatePlaylist(playlistUpdateDto, username, title);
+        playlistService.updatePlaylist(playlistUpdateDto);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/playlists/{title}")
-    public ResponseEntity<?> deletePlaylist(@PathVariable String title) {
+    @DeleteMapping("/playlists/{playlistId}")
+    public ResponseEntity<?> deletePlaylist(@PathVariable Long playlistId) {
         String username = this.getUsername();
-        playlistService.deletePlaylist(title, username);
+        playlistService.deletePlaylist(playlistId);
         return ResponseEntity.ok().build();
     }
 

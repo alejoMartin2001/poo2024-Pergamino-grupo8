@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class SongResponseDto {
+    private Long songId;
     private String title;
     private int duration;
     private Genre genre;

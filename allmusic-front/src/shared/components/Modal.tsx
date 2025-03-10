@@ -21,13 +21,13 @@ export const Modal = ({ isOpen, onClose, title, children, size = "medium" }: Pro
   if (size === "xl") modalSize = "w-[40rem] p-5";  
   if (size === "xxl") modalSize = "w-[50rem] p-6"; 
 
-
+// backdrop-blur-xs
   const modalContent = (
-    <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-30 backdrop-blur-xs z-50">
-      <div className={`bg-white rounded-lg shadow-lg ${modalSize}`}>
+    <div className="fixed inset-0 flex items-center justify-center bg-black/60 bg-opacity-30 z-50">
+      <div className={`bg-gray-800 rounded-lg shadow-lg ${modalSize}`}>
         {title &&
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold">{title}</h2>
+          <div className="flex justify-between items-center max-lg:mb-2">
+            <h2 className="text-xl text-white font-semibold">{title}</h2>
             <button
               onClick={onClose}
               className="text-gray-500 hover:text-gray-600 cursor-pointer"
@@ -37,18 +37,17 @@ export const Modal = ({ isOpen, onClose, title, children, size = "medium" }: Pro
           </div>
         }
 
-        {title && <hr className="my-2 border-t-2 border-gray-300" />}
-
         <div>{children}</div>
 
-        <hr className="my-2 border-t-2 border-gray-300" />
+        <div className="mt-4 w-full flex justify-end">
+          <button
+            onClick={onClose}
+            className="w-1/2 bg-[#db2777] text-white py-2 rounded-lg font-medium max-lg:w-full"
+          >
+            Guardar
+          </button>
 
-        <button
-          onClick={onClose}
-          className="mt-4 w-full bg-[#db2777] text-white py-2 rounded-lg hover:bg-red-600"
-        >
-          Aceptar
-        </button>
+        </div>
       </div>
     </div>
   );

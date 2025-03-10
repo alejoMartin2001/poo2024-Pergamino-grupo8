@@ -23,7 +23,7 @@ export const SideBarItem = ({ icon: Icon, label, collapsed, hoveredItem, setHove
         <span className="font-medium">{label}</span>
       ) : collapsed && hoveredItem === label ? (
         <span className="
-          absolute px-2 py-1 text-base font-medium text-white bg-gray-800 rounded-md left-18"
+          absolute px-2 py-1 text-base font-medium text-white bg-gray-800 rounded-md left-18 z-40"
         >{label}</span>
       ) : null}
     </Link>

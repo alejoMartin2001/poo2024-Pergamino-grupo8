@@ -45,5 +45,8 @@ public abstract class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Playlist> playlists = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserFavorites> favorites = new ArrayList<>();
+
     public abstract boolean canCreateSongs();
 }

@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 
 // Prueba
 interface MediaData {
@@ -11,13 +12,15 @@ interface MediaCardProps {
 }
 
 export const MediaCard = ({ data }: MediaCardProps) => {
+
   return (
-    <div className={`w-48 p-2 ${data ?? "animate-pulse"}`}>
+    <Link className={`w-48 p-3 ${data ? "hover:bg-gray-800 rounded-lg transition duration-200 cursor-pointer" : "animate-pulse"}`}
+      to={`/album/${data?.title}`}>
       {data ? (
         <>
           <img src={data.image} alt={data.title} className="w-full h-48 rounded-lg object-cover" />
-          <div className="mt-2 text-sm font-semibold">{data.title}</div>
-          <div className="mt-1 text-xs text-gray-500">{data.subtitle}</div>
+          <div className="mt-1 text-base font-semibold">{data.title}</div>
+          <div className="mt-1 text-sm font-medium text-gray-500 hover:underline hover:text-gray-400">{data.subtitle}</div>
         </>
       ) : (
         <>
@@ -26,6 +29,6 @@ export const MediaCard = ({ data }: MediaCardProps) => {
           <div className="mt-1 h-4 bg-gray-600 rounded w-1/2"></div>
         </>
       )}
-    </div>
+    </Link>
   )
 }

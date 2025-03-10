@@ -30,7 +30,14 @@ export const useRegister = (isArtist: boolean) => {
       navigate("/login");
     },
     onError: (error: AxiosError) => {
-      let message: string = (error.response) ? error.response.data as string : "Hubo un error en el registro";
+      // Solucionar esto!!
+      let message = "Hubo un error en el registro";
+
+      if (error.response && error.response.data) {
+        const errorData = error.response as { data?: string };
+        message = errorData.data || message;
+      }
+
       showAlert("Error de registro", message, "error");
     }
     

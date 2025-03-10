@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     localStorage.setItem("isArtist", JSON.stringify(decodedToken.isArtist))
 
     dispatch({ type: "login", payload: { user, isArtist: decodedToken.isArtist } });
-    
   };
 
   const logout = () => {

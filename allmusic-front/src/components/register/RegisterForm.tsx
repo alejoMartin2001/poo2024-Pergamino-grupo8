@@ -126,21 +126,34 @@ export const RegisterForm = () => {
                       Atrás
                     </button>
                   )}
+                  
+                  <button
+                    type='button'
+                    className={`${step === 2 && "hidden"} p-2 w-full rounded-md text-white 
+                      ${ !isArtist ? "bg-[#db2777] disabled:bg-[#db277887]" : "bg-blue-600 disabled:bg-blue-800"}
+                      transition-all duration-300 ease-in-out
+                      hover:bg-right hover:scale-[1.01] active:scale-[.98]
+                      disabled:cursor-not-allowed
+                      cursor-pointer
+                    `}
+                    onClick={() => setStep(2)}
+                    disabled={!isValidProfile}
+                  >
+                    Continuar
+                  </button>
 
                   <button
-                    type={step === 1 ? "button" : "submit"}
-                    className={`p-2 w-full rounded-md font-medium text-white 
-                      ${step === 1 ? "bg-blue-500 hover:bg-blue-600" : `bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast}`}
+                    type={"submit"}
+                    className={` ${step === 1 && "hidden"} p-2 w-full rounded-md font-medium text-white 
+                      bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast}
                       bg-[length:200%_200%] bg-left 
                       transition-all duration-300 ease-in-out 
                       hover:bg-right hover:scale-[1.01] active:scale-[.98]
                       cursor-pointer
                       disabled:cursor-not-allowed
                     `}
-                    onClick={() => (step === 1 ? setStep(2) : undefined)}
-                    disabled={!isValidProfile}
                   >
-                    {step === 1 ? "Continuar" : `Crear ${isArtist ? "Artista" : "Usuario"}`}
+                    {`Crear ${isArtist ? "Artista" : "Usuario"}`}
                   </button>
                 </div>
               </>

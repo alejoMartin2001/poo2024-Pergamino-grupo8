@@ -12,7 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class PlaylistResponseDto {
+    public Long playlistId;
     public String title;
+    public String owner;
     public String username;
     public String description;
     public String imageUrl;

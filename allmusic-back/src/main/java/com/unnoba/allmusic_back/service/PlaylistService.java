@@ -50,17 +50,21 @@ public class PlaylistService {
 
     /**
      * Agrega una canción a la playlist del propietario autenticado. La canción tiene que existir.
-     * @param songToPlaylistRequestDto son los datos de la canción ya existente.
-     * @param username es el nombre de usuario.
+     * @param songToPlaylistDto son los datos de la canción ya existente.
      */
     @Transactional
-    public void addSongsToPlaylist(SongToPlaylistDto songToPlaylistRequestDto, String username) {
+    public void addSongsToPlaylist(SongToPlaylistDto songToPlaylistDto) {
 
-        Playlist playlist = this.findPlaylistByUserAndTitle(username, songToPlaylistRequestDto.getPlaylistTitle());
+        Playlist playlist = playlistRepository.findById(songToPlaylistDto.getPlaylistId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "La Playlist no existe"
+                )
+        );
 
-        Song song = songRepository.findByTitleAndAlbumTitle(
-                songToPlaylistRequestDto.getSongTitle(), songToPlaylistRequestDto.getAlbumTitle()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "La canción no existe")
+        Song song = songRepository.findById(songToPlaylistDto.getSongId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "La canción no existe"
+                )
         );
 
         if (playlist.getSongs().contains(song))
@@ -93,11 +97,14 @@ public class PlaylistService {
 
     /**
      * Cambia la visibilidad de la playlist.
-     * @param title es el titulo de la playlist
-     * @param username es el nombre de usuario del usuario propietario de la playlist.
+     * @param playlistId es el ID de la playlist.
      */
-    public void isPrivatePlaylist(String title, String username){
-        Playlist playlist = this.findPlaylistByUserAndTitle(username, title);
+    public void isPrivatePlaylist(Long playlistId){
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "La Playlist no existe"
+                )
+        );
 
         try{
             boolean isPrivate = playlist.isPrivate();
@@ -111,12 +118,14 @@ public class PlaylistService {
     /**
      * Actualiza el título, descripción y (Muy Pronto) la portada de la playlist.
      * @param playlistUpdateDto es la información a actualizar en la playlist.
-     * @param username es el nombre de usuario del propietario de la playlist.
-     * @param title es el título de la playlist que se va a actualizar.
      */
-    public void updatePlaylist(PlaylistUpdateDto playlistUpdateDto, String username, String title) {
+    public void updatePlaylist(PlaylistUpdateDto playlistUpdateDto) {
 
-        Playlist playlist = this.findPlaylistByUserAndTitle(username, title);
+        Playlist playlist = playlistRepository.findById(playlistUpdateDto.getPlaylistId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "La Playlist no existe"
+                )
+        );
 
         try{
             if (playlistUpdateDto.getTitle() != null){
@@ -135,13 +144,16 @@ public class PlaylistService {
 
     /**
      * Elimina la playlist del usuario autenticado.
-     * @param title es el nombre de la playlist.
-     * @param username es el nombre de usuario del propietario de la playlist.
+     * @param playlistId es el ID de pla playlist.
      */
     @Transactional
-    public void deletePlaylist(String title, String username) {
+    public void deletePlaylist(Long playlistId) {
 
-        Playlist playlist = this.findPlaylistByUserAndTitle(username, title);
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "La Playlist no existe"
+                )
+        );
 
         try {
             playlistRepository.delete(playlist);
@@ -158,13 +170,16 @@ public class PlaylistService {
      * @param playlistDeleteSongDto contiene los datos de la canción a eliminar.
      */
     public void deleteSongByPlaylist(String username, SongToPlaylistDto playlistDeleteSongDto) {
-        Playlist playlist = this.findPlaylistByUserAndTitle(username, playlistDeleteSongDto.getPlaylistTitle());
+        Playlist playlist = playlistRepository.findById(playlistDeleteSongDto.getPlaylistId()).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "La Playlist no existe"
+                )
+        );
 
-        Song song = songRepository.findByTitleAndAlbumTitle(
-                playlistDeleteSongDto.getSongTitle(), playlistDeleteSongDto.getAlbumTitle()).orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND, "La canción no existe"
-                        )
+        Song song = songRepository.findById(playlistDeleteSongDto.getSongId()).orElseThrow(
+                () -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "La canción no existe"
+                )
         );
 
         if (!playlist.getSongs().contains(song))
@@ -180,19 +195,9 @@ public class PlaylistService {
         }
     }
 
-//    Métodos privados.
-    private Playlist findPlaylistByUserAndTitle(String username, String title) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe")
-        );
-
-        return playlistRepository.findByTitleAndOwner(title, user).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "La playlist no existe")
-        );
-    }
-
     private PlaylistResponseDto mapToDto(Playlist playlist) {
         return PlaylistResponseDto.builder()
+                .playlistId(playlist.getId_playlist())
                 .title(playlist.getTitle())
                 .description(playlist.getDescription())
                 .username(playlist.getOwner().getUsername())
@@ -221,6 +226,7 @@ public class PlaylistService {
 
     private SongResponseDto mapToSongDto(Song song) {
         return SongResponseDto.builder()
+                .songId(song.getId_song())
                 .title(song.getTitle())
                 .artist(song.getArtists().stream().map(User::getUsername).collect(Collectors.toList()))
                 .duration(song.getDuration())

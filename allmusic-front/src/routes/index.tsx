@@ -6,6 +6,8 @@ import { Error404 } from '@shared/page/Error404';
 
 import { Album, Home, Login, Playlist, Preview,Register, Setting } from '../pages';
 import { Profile } from '@pages/Profile';
+import { ArtistProfile } from '@components/profile/ArtistProfile';
+import { AlbumView } from '@components/album/AlbumView';
 
 export const CreateAppRouter = () => {
 
@@ -27,15 +29,17 @@ export const CreateAppRouter = () => {
         <>
           <Route path="/" element={<Home />} >
             <Route path='albums' element={<Album />}/>
+            <Route path='album/:albumname' element={<AlbumView />}/>
             <Route path='settings' element={<Setting />}/>
             <Route path='playlists' element={<Playlist />}/>
             <Route path='profile' element={<Profile />}/>
+            <Route path='profileArtist' element={<ArtistProfile />}/>
           </Route>
         </>
       )}
 
       {/* Rutas no definidas */}
-      <Route path="/" element={<Error404 />} />
+      <Route path="/*" element={<Error404 />} />
     </Routes>
   );
 };

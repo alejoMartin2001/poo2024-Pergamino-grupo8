@@ -36,7 +36,7 @@ export const LoginForm = () => {
         </div> 
       :
         <div>
-          <div className="mt-8">
+          <div className="mt-6">
             <FormInputText
               label="Nombre de usuario"
               name="username"
@@ -50,7 +50,7 @@ export const LoginForm = () => {
             />
           </div>
 
-          <div className="flex mt-4 items-center justify-end">
+          <div className="flex mt-2 items-center justify-end">
             <button
               className="font-medium text-base text-gray-400 cursor-pointer hover:text-gray-300"
               type="button"

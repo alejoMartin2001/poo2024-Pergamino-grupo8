@@ -41,7 +41,15 @@ export const useLogin = () => {
     mutationFn: authLoginAction,
     onSuccess: (data) => handleLoginSucess(data),
     onError: (error: AxiosError) => {
-      let message: string = (error.response) ? error.response.data as string : "Hubo un error en el registro";
+      // Solucionar esto!!
+      console.log(error);
+      let message = "Hubo un error en la autenticación";
+
+      if (error.response && error.response.data) {
+        const errorData = error.response as { data?: string };
+        message = errorData.data || message;
+      }
+
       showAlert("Error de Autenticación", message, "error");
     }
   });
@@ -59,11 +67,11 @@ export const useLogin = () => {
       console.error("Error: No se pudo decodificar el token.");
       return;
     }
-    
+
     const userInfo = await userGetAction(claims.sub);
 
-    login(token, claims, userInfo);
     navigate("/");
+    login(token, claims, userInfo);
   }
 
   return {
