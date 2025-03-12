@@ -1,6 +1,10 @@
+import { PlaylistCard } from "@components/playlist/PlaylistCard";
+import { MediaContainer } from "@shared/media";
 
 export const Playlist = () => {
   return (
-    <div className="text-white">Playlist</div>
-  )
-}
+    <div>
+      <MediaContainer title="Playlists" children={<PlaylistCard />} />
+    </div>
+  );
+};

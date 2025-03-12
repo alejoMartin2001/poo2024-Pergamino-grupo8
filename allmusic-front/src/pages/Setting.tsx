@@ -1,5 +1,5 @@
 import { SettingProfile } from "@components/profile/SettingProfile";
-import { useUser } from "src/hooks/useUser";
+import { useUser } from "src/hooks/useUserUpdate";
 
 export const Setting = () => {
   const { register, errors, handleSubmit,onSubmit } = useUser();

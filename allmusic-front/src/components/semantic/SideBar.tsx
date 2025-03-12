@@ -1,6 +1,6 @@
 
 import { SideBarItem } from "@shared/sidebar";
-import { Compass, Disc, Library, ListMusic, Settings, MicVocal } from "lucide-react";
+import { Compass, Disc, Library, ListMusic, Settings, MicVocal, SquarePlus } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "src/contexts/AuthProvider";
 import { SideBarMedia } from "@shared/sidebar/SideBarMedia";

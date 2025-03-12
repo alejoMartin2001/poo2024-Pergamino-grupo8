@@ -1,14 +1,16 @@
 import { UserUpdateDto } from "src/interfaces/user-interface";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { FormInputText } from "@shared/form";
+import { useUserDelete } from "src/hooks/useUserDelete";
 
 interface Props {
   register: UseFormRegister<UserUpdateDto>;
   errors: FieldErrors<UserUpdateDto>;
 }
 
-export const SettingProfile = ({ register, errors }: Props) => {
-
+export const SettingProfile = ({ register, errors }: Props) => { 
+  const deleteUser = useUserDelete();
+  
   return (
     <div className="flex flex-col w-full h-full bg-gray-800 rounded-3xl shadow-lg p-8 gap-5 max-md:h-full text-white">
       <span className="text-2xl font-bold self-start">Editar perfil</span>
@@ -58,14 +60,29 @@ export const SettingProfile = ({ register, errors }: Props) => {
           error={errors.password}
         />
       </div>
-
-      {/* Botón centrado abajo */}
+      <div className="flex flex-row items-center gap-4">
       <button
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded self-center mt-auto cursor-pointer"
       >
         Actualizar
       </button>
+      <button
+        onClick={() => {
+          const confirmDelete = window.confirm(
+            "¿Estás seguro de que quieres eliminar tu usuario? Esta acción es irreversible."
+          );
+          if (confirmDelete) {
+            deleteUser;
+          }
+        }}
+        type="button"
+        className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded self-center mt-auto cursor-pointer"
+      >
+        Eliminar Usuario
+      </button>
+
+      </div>
     </div>
   );
 };
