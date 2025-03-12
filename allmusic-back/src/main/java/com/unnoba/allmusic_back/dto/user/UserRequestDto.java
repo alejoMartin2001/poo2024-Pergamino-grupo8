@@ -1,6 +1,7 @@
 package com.unnoba.allmusic_back.dto.user;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Data
@@ -13,6 +14,6 @@ public class UserRequestDto {
     private String email;
     private String username;
     private String password;
-    private String profilePicture;
+    private MultipartFile profilePicture;
     private String bio;
 }

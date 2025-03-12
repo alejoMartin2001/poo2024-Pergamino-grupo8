@@ -5,6 +5,7 @@ import com.unnoba.allmusic_back.entity.MusicEnthusiastUser;
 import com.unnoba.allmusic_back.mapper.UserMapper;
 import com.unnoba.allmusic_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +19,10 @@ public class EnthusiastController {
     @Autowired
     private UserMapper userMapper;
 
-    @PostMapping
-    public ResponseEntity<?> createEnthusiast(@RequestBody UserRequestDto userRequestDto) {
-        userService.registerUser(this.mapToDtoEnthusiast(userRequestDto));
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createEnthusiast(@ModelAttribute UserRequestDto userRequestDto) {
+        System.out.println("Imagen recibida: " + userRequestDto.getProfilePicture().getOriginalFilename());
+        userService.registerUser(this.mapToDtoEnthusiast(userRequestDto), userRequestDto.getProfilePicture());
         return ResponseEntity.ok().build();
     }
 

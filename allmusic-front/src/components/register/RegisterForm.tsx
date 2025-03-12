@@ -39,6 +39,7 @@ export const RegisterForm = () => {
     isLoading 
   } = useRegister(isArtist);
 
+
   return (
     <form
       className="flex flex-col px-6 py-10 my-2 bg-gray-800 rounded-3xl max-md:m-3 max-md:px-5"
@@ -115,7 +116,7 @@ export const RegisterForm = () => {
                     setPasswordValid={setPasswordValid}
                     watch={watch}
                   />
-                )}
+                )} 
 
                 <div className="mt-5 flex gap-2">
                   {step === 2 && (
@@ -144,7 +145,7 @@ export const RegisterForm = () => {
 
                   <button
                     type={"submit"}
-                    className={` ${step === 1 && "hidden"} p-2 w-full rounded-md font-medium text-white 
+                    className={` ${step === 1 && "hidden"}  p-2 w-full rounded-md font-medium text-white 
                       bg-gradient-to-l ${isArtist ? bgArtist : bgEnthusiast}
                       bg-[length:200%_200%] bg-left 
                       transition-all duration-300 ease-in-out 

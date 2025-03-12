@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -20,10 +21,13 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private S3Service s3Service;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void registerUser(User userDto) {
+    public void registerUser(User userDto, MultipartFile image) {
         Optional<User> user = userRepository.findByUsername(userDto.getUsername());
         if (user.isPresent())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El Usuario ya existe.");
@@ -32,6 +36,8 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El Email de este usuario ya existe.");
 
         try{
+            String fileProfile = s3Service.uploadFile("users/", image);
+            userDto.setProfilePicture(fileProfile);
             userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
             userRepository.save(userDto);
         }catch(Exception e){

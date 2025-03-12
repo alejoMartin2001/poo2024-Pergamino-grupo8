@@ -5,11 +5,9 @@ import com.unnoba.allmusic_back.entity.MusicArtiesUser;
 import com.unnoba.allmusic_back.mapper.UserMapper;
 import com.unnoba.allmusic_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/artist")
@@ -21,9 +19,9 @@ public class ArtistController {
     @Autowired
     private UserMapper userMapper;
 
-    @PostMapping
-    public ResponseEntity<?> createArtist(@RequestBody UserRequestDto userRequestDto){
-        userService.registerUser(this.mapToDtoArtist(userRequestDto));
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createArtist(@ModelAttribute UserRequestDto userRequestDto){
+        userService.registerUser(this.mapToDtoArtist(userRequestDto), userRequestDto.getProfilePicture());
         return ResponseEntity.ok().build();
     }
 

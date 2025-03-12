@@ -10,6 +10,7 @@ interface Props {
   errors: FieldErrors<UserRequestDto>;
   control: Control<UserRequestDto, any>;
 
+  
   register: UseFormRegister<UserRequestDto>;
   setValue: UseFormSetValue<UserRequestDto>;
   setIsValidProfile: (isValidProfile: boolean) => void;
@@ -21,7 +22,7 @@ export const RegisterFormProfile = ({
   control,
   register,
   setValue,
-  setIsValidProfile
+  setIsValidProfile,
 }: Props) => {
 
   const [firstName, lastName, email] = useWatch({

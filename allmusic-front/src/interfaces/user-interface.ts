@@ -14,7 +14,7 @@ export interface UserRequestDto {
     email: string;
     username: string;
     password: string;
-    profilePicture: string;
+    profilePicture: FileList;
     bio: string;
 }
 

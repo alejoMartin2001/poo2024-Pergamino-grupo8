@@ -32,6 +32,7 @@ export const useRegister = (isArtist: boolean) => {
     onError: (error: AxiosError) => {
       // Solucionar esto!!
       let message = "Hubo un error en el registro";
+      console.log(error);
 
       if (error.response && error.response.data) {
         const errorData = error.response as { data?: string };
@@ -40,15 +41,28 @@ export const useRegister = (isArtist: boolean) => {
 
       showAlert("Error de registro", message, "error");
     }
-    
+
   });
 
-  const onSubmit = (formData: UserRequestDto, passwordValid: boolean) => {
-    if (passwordValid ) {
+  const onSubmit = (data: UserRequestDto, passwordValid: boolean) => {
+    if (passwordValid) {
       // mutation.mutate({...formData, profilePicture: "admin-0.png"});
-      console.log(formData);
-      mutation.mutate(formData);
+      // console.log(formData);
+      const formData = new FormData();
+      formData.append("firstName", data.firstName);
+      formData.append("lastName", data.lastName);
+      formData.append("email", data.email);
+      formData.append("username", data.username);
+      formData.append("password", data.password);
+      if (data.profilePicture) {
+        formData.append("profilePicture", data.profilePicture[0]);
+      } else {
+        console.log("No se seleccionó una imagen");
+      }
+      formData.append("bio", data.bio);
 
+      mutation.mutate(formData);
+      console.log(data);
     };
     return;
 

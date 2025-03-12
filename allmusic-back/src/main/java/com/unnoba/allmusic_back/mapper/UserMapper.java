@@ -12,9 +12,9 @@ public class UserMapper {
         user.setLastName(userRequestDto.getLastName());
         user.setEmail(userRequestDto.getEmail());
         user.setBio(userRequestDto.getBio());
-        user.setProfilePicture(userRequestDto.getProfilePicture());
         user.setUsername(userRequestDto.getUsername());
         user.setPassword(userRequestDto.getPassword());
+        user.setProfilePicture("");
         return user;
     }
 }

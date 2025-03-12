@@ -3,7 +3,6 @@ import { GradientIcon } from '@shared/components/GradientIcon';
 import { LogOut, User, MicVocal } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useImage } from 'src/hooks/useImage';
 import { UserResponseDto } from 'src/interfaces/user-interface';
 
 interface Props {
@@ -15,7 +14,6 @@ interface Props {
 export const ProfileHead = ({ logout, user, isArtist }: Props) => {
 
   const navigate = useNavigate();
-  const { getAvatarEnthusiast } = useImage();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -25,7 +23,7 @@ export const ProfileHead = ({ logout, user, isArtist }: Props) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
-          src={getAvatarEnthusiast(user!.profilePicture)}
+          src={user!.profilePicture}
           alt="Perfil"
           className="w-9 h-9 rounded-full object-cover"
         />
