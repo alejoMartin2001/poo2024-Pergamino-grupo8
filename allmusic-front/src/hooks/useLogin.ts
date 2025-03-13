@@ -43,12 +43,7 @@ export const useLogin = () => {
     onError: (error: AxiosError) => {
       // Solucionar esto!!
       console.log(error);
-      let message = "Hubo un error en la autenticación";
-
-      if (error.response && error.response.data) {
-        const errorData = error.response as { data?: string };
-        message = errorData.data || message;
-      }
+      let message = "Credenciales incorrectas. Por favor, verifica tu usuario y contraseña.";
 
       showAlert("Error de Autenticación", message, "error");
     }

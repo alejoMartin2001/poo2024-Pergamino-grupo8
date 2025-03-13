@@ -36,7 +36,13 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El Email de este usuario ya existe.");
 
         try{
-            String fileProfile = s3Service.uploadFile("users/", image);
+            String fileProfile;
+            if (image == null || image.isEmpty()) { // Asegurar que no sea null ni esté vacío
+                fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/users/user-default.png";
+            } else {
+                fileProfile = s3Service.uploadFile("users/", image);
+            }
+
             userDto.setProfilePicture(fileProfile);
             userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
             userRepository.save(userDto);

@@ -32,6 +32,9 @@ public class PlaylistService {
     @Autowired
     private SongRepository songRepository;
 
+    @Autowired
+    private S3Service s3Service;
+
     /**
      * Crea una playlist vacía.
      * @param playlistRequestDto son los datos para crear una playlist vacía.
@@ -39,9 +42,8 @@ public class PlaylistService {
      */
     @Transactional
     public void createPlaylist(PlaylistRequestDto playlistRequestDto, String username) {
-        Playlist playlist = this.mapToPlaylist(playlistRequestDto, username);
-
         try{
+            Playlist playlist = this.mapToPlaylist(playlistRequestDto, username);
             this.playlistRepository.save(playlist);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear el playlist");
@@ -213,11 +215,18 @@ public class PlaylistService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado")
         );
 
+        String fileProfile;
+        if (playlistRequestDto.getImage() == null || playlistRequestDto.getImage().isEmpty()) { // Asegurar que no sea null ni esté vacío
+            fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/playlists/playlist-default.png";
+        } else {
+            fileProfile = s3Service.uploadFile("playlists/", playlistRequestDto.getImage());
+        }
+
         Playlist playlist = new Playlist();
         playlist.setTitle(playlistRequestDto.getTitle());
-        playlist.setImageUrl(playlistRequestDto.getImageUrl());
+        playlist.setImageUrl(fileProfile);
         playlist.setDescription(playlistRequestDto.getDescription());
-        playlist.setPrivate(playlistRequestDto.isPrivate());
+        playlist.setPrivate(false);
         playlist.setOwner(user);
 
         user.getPlaylists().add(playlist);

@@ -21,7 +21,6 @@ public class EnthusiastController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createEnthusiast(@ModelAttribute UserRequestDto userRequestDto) {
-        System.out.println("Imagen recibida: " + userRequestDto.getProfilePicture().getOriginalFilename());
         userService.registerUser(this.mapToDtoEnthusiast(userRequestDto), userRequestDto.getProfilePicture());
         return ResponseEntity.ok().build();
     }

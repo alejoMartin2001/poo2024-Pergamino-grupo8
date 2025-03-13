@@ -7,6 +7,7 @@ import com.unnoba.allmusic_back.dto.song.SongToPlaylistDto;
 import com.unnoba.allmusic_back.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,11 +21,11 @@ public class PlaylistController {
     @Autowired
     private PlaylistService playlistService;
 
-    @PostMapping("/playlists")
-    public ResponseEntity<?> createPlaylist(@RequestBody PlaylistRequestDto playlistRequestDto) {
+    @PostMapping(value = "/playlists", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createPlaylist(@ModelAttribute PlaylistRequestDto playlistRequestDto) {
         String username = this.getUsername();
         playlistService.createPlaylist(playlistRequestDto, username);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/playlists/song")

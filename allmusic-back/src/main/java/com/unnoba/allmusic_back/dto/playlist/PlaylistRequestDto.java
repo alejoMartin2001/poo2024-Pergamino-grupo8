@@ -2,6 +2,7 @@ package com.unnoba.allmusic_back.dto.playlist;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
@@ -10,9 +11,9 @@ import lombok.*;
 @Builder
 public class PlaylistRequestDto {
     public String title;
-    public String imageUrl;
+    public MultipartFile image;
     public String description;
-    @JsonProperty("isPrivate")
-    private boolean isPrivate;
+//    @JsonProperty("isPrivate")
+//    private boolean isPrivate;
 }
 
