@@ -1,24 +1,20 @@
-// import { MediaContainer } from "@shared/media/MediaContainer";
-// import { MediaSection } from "@shared/media/MediaSection";
 
-import { useEffect } from "react";
-import { useAlbum } from "src/hooks/useAlbum";
+import { AlbumCreate } from "@components/album/AlbumCreate";
+import { MediaContainer, MediaSection } from "@shared/media";
+import { useAlbum } from "src/hooks/useAlbums";
 
 export const Album = () => {
 
-  const { allAlbumsQuery } = useAlbum();
+  const { allAlbumsData, isLoadingAlbumsMe } = useAlbum();
 
-  useEffect(() => {
-    console.log(allAlbumsQuery.data)
-  }, [])
-
+  console.log(allAlbumsData)
   return (
     <div className="flex flex-col text-white">
-      {/* Prueba. Después BORRAR */}
-      {
-        allAlbumsQuery.isFetching ? <h1>Cargando...</h1>
-        : <p>{JSON.stringify(allAlbumsQuery.data, null, 2)}</p>
-      }
+      <AlbumCreate />
+      <MediaContainer title="Mis Álbumes">
+        <MediaSection isLoading={isLoadingAlbumsMe} data={allAlbumsData ?? []} isAlbum={true} />
+
+      </MediaContainer>
     </div>
   );
 };

@@ -35,8 +35,8 @@ export const useRegister = (isArtist: boolean) => {
       console.log(error);
 
       if (error.response && error.response.data) {
-        const errorData = error.response as { data?: string };
-        message = errorData.data || message;
+        const errorData = error.response.data as { message?: string };
+        message = errorData.message || message;
       }
 
       showAlert("Error de registro", message, "error");

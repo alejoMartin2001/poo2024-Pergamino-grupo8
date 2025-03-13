@@ -1,7 +1,7 @@
 import { LoaderSpinner } from "@shared/components";
 import { FormInputText, FormTextArea } from "@shared/form";
 import { useState } from "react";
-import { usePlaylist } from "src/hooks/usePlaylist"
+import { usePlaylist } from "src/hooks/usePlaylists"
 
 interface Props {
   setIsModalOpen: (isModalOpen: boolean) => void;
@@ -12,7 +12,7 @@ export const PlaylistForm = ({ setIsModalOpen }: Props) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const {
     errors,
-    isLoading,
+    isLoadingCreation,
     register,
     handleSubmit,
     onSubmit,
@@ -32,7 +32,7 @@ export const PlaylistForm = ({ setIsModalOpen }: Props) => {
       onSubmit={handleSubmit((data) => onSubmit(data))}
       className="flex flex-col gap-4 p-4 bg-transparent rounded-lg text-gray-400"
     >
-      {isLoading ? 
+      {isLoadingCreation ? 
         <div className="flex items-center justify-center h-max">
           <LoaderSpinner />
         </div> :

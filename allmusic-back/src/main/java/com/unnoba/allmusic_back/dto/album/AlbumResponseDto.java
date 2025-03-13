@@ -12,9 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 public class AlbumResponseDto {
     private Long albumId;
-    private String albumName;
+    private String albumTitle;
     private String imageUrl;
     private String artistName;
+    private String artistUsername;
+    private String type;
     private LocalDate releaseDate;
     private List<SongRequestDto> songs;
 }

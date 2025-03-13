@@ -1,12 +1,18 @@
-import { PlaylistCard } from "@components/playlist/PlaylistCard";
+
 import { PlaylistCreate } from "@components/playlist/PlaylistCreate";
-import { MediaContainer } from "@shared/media";
+import { MediaContainer, MediaSection } from "@shared/media";
+import { usePlaylist } from "src/hooks/usePlaylists";
 
 export const Playlist = () => {
+  const { allPlaylistsData, isLoadingAllPlaylist } = usePlaylist();
+  console.log(allPlaylistsData);
   return (
     <div>
       <PlaylistCreate />
-      {/* <MediaContainer title="Playlists" children={<PlaylistCard />} /> */}
+      <MediaContainer title="Mis playlists">
+        <MediaSection isLoading={isLoadingAllPlaylist} data={allPlaylistsData ?? []}/>
+
+      </MediaContainer>
     </div>
   );
 };

@@ -1,7 +1,8 @@
 package com.unnoba.allmusic_back.controller;
 
-import com.unnoba.allmusic_back.dto.playlist.PlaylistRequestDto;
 import com.unnoba.allmusic_back.dto.playlist.PlaylistResponseDto;
+import com.unnoba.allmusic_back.dto.playlist.SectionDto;
+import com.unnoba.allmusic_back.dto.playlist.PlaylistRequestDto;
 import com.unnoba.allmusic_back.dto.playlist.PlaylistUpdateDto;
 import com.unnoba.allmusic_back.dto.song.SongToPlaylistDto;
 import com.unnoba.allmusic_back.service.PlaylistService;
@@ -36,17 +37,22 @@ public class PlaylistController {
     }
 
     @GetMapping("me/playlist")
-    public ResponseEntity<List<PlaylistResponseDto>> getPlaylistByMe() {
+    public ResponseEntity<List<SectionDto>> getPlaylistByMe() {
         String username = this.getUsername();
-        List<PlaylistResponseDto> playlists = playlistService.getAllPlaylistsByUsername(username);
+        List<SectionDto> playlists = playlistService.getAllPlaylistsByUsername(username);
         return ResponseEntity.ok(playlists);
     }
 
+    @PostMapping("playlists/{id}")
+    public ResponseEntity<PlaylistResponseDto> getPlaylistById(@PathVariable Long id) {
+        PlaylistResponseDto playlistResponseDto = playlistService.getPlaylistById(id);
+        return ResponseEntity.ok(playlistResponseDto);
+    }
+
     @PatchMapping("/playlists/private/{playlistId}")
-    public ResponseEntity<?> changeIsPrivate(@PathVariable Long playlistId) {
-        String username = this.getUsername();
-        playlistService.isPrivatePlaylist(playlistId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Boolean> changeIsPrivate(@PathVariable Long playlistId) {
+        boolean isPrivate = playlistService.isPrivatePlaylist(playlistId);
+        return ResponseEntity.ok(isPrivate);
     }
 
     @PutMapping("/playlists")

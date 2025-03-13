@@ -4,9 +4,12 @@ import { Vibrant } from "node-vibrant/browser";
 interface Props {
   image: string;
   title: string;
+  type: string;
+  ownerName: string;
+  duration?: number;
 }
 
-export const ViewBanner = ({ image, title }: Props) => {
+export const ViewBanner = ({ image, title, type, ownerName }: Props) => {
 
   const [dominantColor, setDominantColor] = useState<string | null>(null);
 
@@ -35,9 +38,9 @@ export const ViewBanner = ({ image, title }: Props) => {
         className="w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 object-cover shadow-2xl rounded-md"
       />
       <div className="flex flex-col text-center md:text-left">
-        <span className="text-sm uppercase font-semibold text-gray-300">{title}</span>
-        <h1 className="text-3xl md:text-5xl font-bold text-white mt-2">Future Bass</h1>
-        <p className="text-gray-300 text-sm md:text-base mt-1">Hecho por <span className="font-semibold">Enzo Villanueva</span></p>
+        <span className="text-sm uppercase font-semibold text-gray-300">{type}</span>
+        <h1 className="text-3xl md:text-5xl font-bold text-white mt-2">{title}</h1>
+        <p className="text-gray-300 text-sm md:text-base mt-1">Hecho por <span className="font-semibold">{ownerName}</span></p>
       </div>
     </div>
   )

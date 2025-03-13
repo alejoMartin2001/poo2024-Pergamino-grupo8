@@ -1,15 +1,10 @@
-import { Modal } from "@shared/components"
-import { Plus } from "lucide-react"
+import { Modal } from "@shared/components";
+import { Plus } from "lucide-react";
 import { useState } from "react";
-import { PlaylistForm } from "./PlaylistForm";
+import { AlbumForm } from "./AlbumForm";
 
 
-interface Props {
-
-}
-
-export const PlaylistCreate = ({ }: Props) => {
-
+export const AlbumCreate = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -23,17 +18,17 @@ export const PlaylistCreate = ({ }: Props) => {
           <div className=" flex items-center justify-center size-full">
             <Plus className="w-48 h-48 bg-transparent" />
           </div>
-          <h3 className="text-center font-medium">Crear playlist</h3>
+          <h3 className="text-center font-medium">Crear Álbum</h3>
         </div>
       </div>
 
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Crear playlist"
+        title="Crear Álbum"
         size="large"
       >
-        <PlaylistForm setIsModalOpen={setIsModalOpen}/>
+        <AlbumForm setIsModalOpen={setIsModalOpen}/>
       </Modal>
     </div>
   )

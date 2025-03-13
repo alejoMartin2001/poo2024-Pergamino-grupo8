@@ -8,10 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 public class ErrorMessage {
     private String message;
-    private int status;
     private String details;
-
-//    private String path;
-    private byte[] imageUrl;
-    private String codeImage;
 }

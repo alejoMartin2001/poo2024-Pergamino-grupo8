@@ -1,5 +1,6 @@
 package com.unnoba.allmusic_back.service;
 
+import com.unnoba.allmusic_back.dto.playlist.SectionDto;
 import com.unnoba.allmusic_back.dto.playlist.PlaylistRequestDto;
 import com.unnoba.allmusic_back.dto.playlist.PlaylistResponseDto;
 import com.unnoba.allmusic_back.dto.playlist.PlaylistUpdateDto;
@@ -85,11 +86,11 @@ public class PlaylistService {
      * @param username es el nombre de usuario cuyas playlists queremos.
      * @return retorna todas sus playlists.
      */
-    public List<PlaylistResponseDto> getAllPlaylistsByUsername(String username) {
+    public List<SectionDto> getAllPlaylistsByUsername(String username) {
         List<Playlist> playlist = playlistRepository.findPlaylistByOwnerUsername(username);
 
         try {
-            return playlist.stream().map(this::mapToDto).collect(Collectors.toList());
+            return playlist.stream().map(this::mapToSectionDto).collect(Collectors.toList());
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al retornar la/s playlist/s"
@@ -97,11 +98,22 @@ public class PlaylistService {
         }
     }
 
+    public PlaylistResponseDto getPlaylistById(Long playlistId) {
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El Playlist no existe")
+        );
+        try{
+            return this.mapToDto(playlist);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al retornar el Playlist");
+        }
+    }
+
     /**
      * Cambia la visibilidad de la playlist.
      * @param playlistId es el ID de la playlist.
      */
-    public void isPrivatePlaylist(Long playlistId){
+    public boolean isPrivatePlaylist(Long playlistId){
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "La Playlist no existe"
@@ -112,6 +124,7 @@ public class PlaylistService {
             boolean isPrivate = playlist.isPrivate();
             playlist.setPrivate(!isPrivate);
             playlistRepository.save(playlist);
+            return !isPrivate;
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
         }
@@ -198,15 +211,30 @@ public class PlaylistService {
     }
 
     private PlaylistResponseDto mapToDto(Playlist playlist) {
+        String ownerName = playlist.getOwner().getFirstName() + " " + playlist.getOwner().getLastName();
         return PlaylistResponseDto.builder()
                 .playlistId(playlist.getId_playlist())
                 .title(playlist.getTitle())
                 .description(playlist.getDescription())
+                .owner(ownerName)
                 .username(playlist.getOwner().getUsername())
                 .isPrivate(playlist.isPrivate())
                 .imageUrl(playlist.getImageUrl())
+                .type("Playlist")
                 // TODO: Este método no funciona!
                 .songs(playlist.getSongs().stream().map(this::mapToSongDto).collect(Collectors.toList()))
+                .build();
+    }
+
+    private SectionDto mapToSectionDto(Playlist playlist){
+        String nameOwner = playlist.getOwner().getUsername() + " " + playlist.getOwner().getLastName();
+        return SectionDto.builder()
+                .sectionId(playlist.getId_playlist())
+                .sectionName(playlist.getTitle())
+                .ownerName(nameOwner)
+                .ownerUsername(playlist.getOwner().getUsername())
+                .imageUrl(playlist.getImageUrl())
+                .type("Playlist")
                 .build();
     }
 

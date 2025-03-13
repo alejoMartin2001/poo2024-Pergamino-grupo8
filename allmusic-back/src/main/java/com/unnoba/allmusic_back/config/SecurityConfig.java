@@ -38,8 +38,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, UserService userService) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/artist").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/enth").permitAll()
+                        .requestMatchers("/artist/**").permitAll()
+                        .requestMatchers("/enth/**").permitAll()
                         .requestMatchers("/user/**").permitAll()
                         .requestMatchers("/playlists/**").hasAnyRole(ARTIST, ENTHUSIAST)
                         .requestMatchers("/me/**").hasAnyRole(ARTIST, ENTHUSIAST)
@@ -63,7 +63,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
 
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
 

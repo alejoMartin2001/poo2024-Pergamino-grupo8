@@ -3,22 +3,22 @@ import { FormInputText, FormTextArea } from "@shared/form";
 import { Lock, LockOpen, Pencil, Play, Search } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { PlaylistFormData } from "src/interfaces/playlist-interface";
 
 interface Props {
-  images: string;
+  images?: string;
+  isAlbum?: boolean;
+  isPrivate?: boolean;
+
+  handleChangePrivate: () => void;
 }
 
-interface EditProps {
-  title: string;
-  description: string;
-}
+export const ViewOptions = ({ images = "", isAlbum = false, isPrivate = false, handleChangePrivate }: Props) => {
 
-export const ViewOptions = ({ images }: Props) => {
-
-  const [lock, setLock] = useState<boolean>(true);
+  // const [lock, setLock] = useState<boolean>(isPrivate);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const { register } = useForm<EditProps>();
+  const { register } = useForm<PlaylistFormData>();
 
   const [image, setImage] = useState<File | null>(null);
 
@@ -28,6 +28,7 @@ export const ViewOptions = ({ images }: Props) => {
     }
   };
 
+  console.log(isPrivate);
   return (
     <div className='flex items-center justify-between px-10 py-5'>
       <div className="flex gap-7 text-gray-300">
@@ -40,12 +41,14 @@ export const ViewOptions = ({ images }: Props) => {
         >
           <Pencil />
         </button>
-        <button
-          className='cursor-pointer hover:text-white'
-          onClick={() => setLock(!lock)}
-        >
-          {lock ? <Lock /> : <LockOpen />}
-        </button>
+        {!isAlbum &&
+          <button
+            className='cursor-pointer hover:text-white'
+            onClick={handleChangePrivate}
+          >
+            {isPrivate ? <Lock /> : <LockOpen />}
+          </button>
+        }
       </div>
 
       <Modal
@@ -55,7 +58,7 @@ export const ViewOptions = ({ images }: Props) => {
         size="large"
       >
         <div className="max-w-2xl mt-2 mx-auto text-white rounded-lg flex items-center gap-4 md:gap-6 max-md:flex-col">
-          <label 
+          <label
             className="relative cursor-pointer w-44 h-44 bg-gray-800 rounded-md overflow-hidden 
               flex items-center justify-center
             "

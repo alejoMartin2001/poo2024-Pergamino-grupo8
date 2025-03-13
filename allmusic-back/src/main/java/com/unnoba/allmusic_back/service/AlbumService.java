@@ -3,15 +3,15 @@ package com.unnoba.allmusic_back.service;
 import com.unnoba.allmusic_back.dto.album.AlbumDto;
 import com.unnoba.allmusic_back.dto.album.AlbumRequestDto;
 import com.unnoba.allmusic_back.dto.album.AlbumResponseDto;
+import com.unnoba.allmusic_back.dto.playlist.SectionDto;
 import com.unnoba.allmusic_back.dto.song.SongRequestDto;
-import com.unnoba.allmusic_back.entity.Album;
-import com.unnoba.allmusic_back.entity.MusicArtiesUser;
-import com.unnoba.allmusic_back.entity.Song;
+import com.unnoba.allmusic_back.entity.*;
 import com.unnoba.allmusic_back.repository.AlbumRepository;
 import com.unnoba.allmusic_back.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -26,18 +26,28 @@ public class AlbumService {
     @Autowired
     private ArtistRepository artistRepository;
 
+    @Autowired
+    private S3Service s3Service;
+
     /**
      * Crea un álbum vacío.
      * @param albumDto son los datos del álbum a crear.
      * @param username es el nombre de usuario del artista.
      */
-    public void createAlbum(Album albumDto, String username) {
+    public void createAlbum(Album albumDto, String username, MultipartFile image) {
         MusicArtiesUser musicArtiesUser = artistRepository.findByUsername(username).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El artista no existe")
         );
 
         try{
+            String fileProfile;
+            if (image == null || image.isEmpty()) {
+                fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/playlists/playlist-default.png";
+            } else {
+                fileProfile = s3Service.uploadFile("albums/", image );
+            }
             albumDto.setAuthor(musicArtiesUser);
+            albumDto.setImageUrl(fileProfile);
             musicArtiesUser.getAlbums().add(albumDto);
             albumRepository.save(albumDto);
         }catch (Exception e){
@@ -72,11 +82,22 @@ public class AlbumService {
      * @param username es el nombre de usuario del artista.
      * @return retorna todos sus álbumes.
      */
-    public List<AlbumResponseDto> getAllAlbumsByMe(String username){
+    public List<SectionDto> getAllAlbumsByMe(String username){
         List<Album> albums = albumRepository.findAlbumByAuthorUsername(username);
 
         try{
-            return albums.stream().map(this::getAlbumResponseDto).collect(Collectors.toList());
+            return albums.stream().map(this::mapToSectionDto).collect(Collectors.toList());
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener el album");
+        }
+    }
+
+    public AlbumResponseDto getAlbumById(Long albumId) {
+        Album album = albumRepository.findById(albumId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")
+        );
+        try {
+            return this.getAlbumResponseDto(album);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener el album");
         }
@@ -86,11 +107,11 @@ public class AlbumService {
      * Devuelve TODOS los álbumes registrados.
      * @return retorna todos los álbumes.
      */
-    public List<AlbumDto> getAllAlbums(){
+    public List<SectionDto> getAllAlbums(){
         List<Album> albums = albumRepository.findAll();
 
         try {
-            return albums.stream().map(this::mapToAlbumDto).collect(Collectors.toList());
+            return albums.stream().map(this::mapToSectionDto).collect(Collectors.toList());
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener los álbumes");
         }
@@ -101,26 +122,26 @@ public class AlbumService {
      * @param albumRequestDto son los datos actualizados del álbum a actualizar.
      * @param albumId es el ID del álbum.
      */
-    public void updateAlbum(AlbumRequestDto albumRequestDto, Long albumId) {
-        Album album = albumRepository.findById(albumId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")
-        );
-
-        try {
-            if (albumRequestDto.getAlbumName() != null) {
-                album.setTitle(albumRequestDto.getAlbumName());
-            }
-            if (albumRequestDto.getImageUrl() != null) {
-                album.setImageUrl(albumRequestDto.getImageUrl());
-            }
-            if (albumRequestDto.getReleaseDate() != null){
-                album.setReleaseDate(albumRequestDto.getReleaseDate());
-            }
-            albumRepository.save(album);
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el album");
-        }
-    }
+//    public void updateAlbum(AlbumRequestDto albumRequestDto, Long albumId) {
+//        Album album = albumRepository.findById(albumId).orElseThrow(
+//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")
+//        );
+//
+//        try {
+//            if (albumRequestDto.getAlbumName() != null) {
+//                album.setTitle(albumRequestDto.getAlbumName());
+//            }
+//            if (albumRequestDto.getImageUrl() != null) {
+//                album.setImageUrl(albumRequestDto.getImageUrl());
+//            }
+//            if (albumRequestDto.getReleaseDate() != null){
+//                album.setReleaseDate(albumRequestDto.getReleaseDate());
+//            }
+//            albumRepository.save(album);
+//        }catch (Exception e){
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el album");
+//        }
+//    }
 
     /**
      * Elimina un álbum
@@ -138,23 +159,48 @@ public class AlbumService {
         }
     }
 
-    private AlbumDto mapToAlbumDto(Album album) {
+    private SectionDto mapToSectionDto(Album album) {
         String nameArtist = album.getAuthor().getFirstName() + " " + album.getAuthor().getLastName();
-        return AlbumDto.builder()
-                .albumId(album.getId_album())
-                .albumName(album.getTitle())
-                .artistName(nameArtist)
-                .artistUsername(album.getAuthor().getUsername())
+        String typeAlbum;
+//        ¡Mala práctica! :(
+        if (album instanceof AlbumExtendedPlay) {
+            typeAlbum = "EP";
+        } else if (album instanceof AlbumLongPlay) {
+            typeAlbum = "Álbum";
+        } else {
+            typeAlbum = "Sencillo";
+        }
+
+        return SectionDto.builder()
+                .sectionId(album.getId_album())
+                .sectionName(album.getTitle())
+                .ownerName(nameArtist)
+                .ownerUsername(album.getAuthor().getUsername())
+                .imageUrl(album.getImageUrl())
+                .type(typeAlbum)
                 .build();
     }
 
     private AlbumResponseDto getAlbumResponseDto(Album album){
+        String nameArtist = album.getAuthor().getFirstName() + " " + album.getAuthor().getLastName();
+        String typeAlbum;
+//        ¡Mala práctica! :(
+        if (album instanceof AlbumExtendedPlay) {
+            typeAlbum = "EP";
+        } else if (album instanceof AlbumLongPlay) {
+            typeAlbum = "Álbum";
+        } else {
+            typeAlbum = "Sencillo";
+        }
+
         AlbumResponseDto albumDto = new AlbumResponseDto();
         albumDto.setAlbumId(album.getId_album());
-        albumDto.setAlbumName(album.getTitle());
+        albumDto.setAlbumTitle(album.getTitle());
         albumDto.setImageUrl(album.getImageUrl());
-        albumDto.setArtistName(album.getAuthor().getUsername());
+        albumDto.setArtistName(nameArtist);
+        albumDto.setArtistUsername(album.getAuthor().getUsername());
         albumDto.setReleaseDate(album.getReleaseDate());
+        albumDto.setType(typeAlbum);
         albumDto.setSongs( album.getSongs().stream().map(this::getSongDto).collect(Collectors.toList()));
         return albumDto;
     }

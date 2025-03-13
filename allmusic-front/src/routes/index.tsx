@@ -8,6 +8,7 @@ import { Album, Home, Login, Playlist, Preview,Register, Setting } from '../page
 import { Profile } from '@pages/Profile';
 import { ArtistProfile } from '@components/profile/ArtistProfile';
 import { AlbumView } from '@components/album/AlbumView';
+import { PlaylistView } from '@components/playlist/PlaylistView';
 
 export const CreateAppRouter = () => {
 
@@ -29,9 +30,10 @@ export const CreateAppRouter = () => {
         <>
           <Route path="/" element={<Home />} >
             <Route path='albums' element={<Album />}/>
-            <Route path='album/:albumname' element={<AlbumView />}/>
+            <Route path='album/:albumId' element={<AlbumView />}/>
             <Route path='settings' element={<Setting />}/>
             <Route path='playlists' element={<Playlist />}/>
+            <Route path='playlist/:playlistId' element={<PlaylistView />}/>
             <Route path='profile' element={<Profile />}/>
             <Route path='profileArtist' element={<ArtistProfile />}/>
           </Route>

@@ -1,26 +1,23 @@
 import { Link } from "react-router";
+import { Sections } from "src/interfaces/section-interface";
 
-// Prueba
-interface MediaData {
-  image: string;
-  title: string;
-  subtitle: string;
-}
+
 
 interface MediaCardProps {
-  data?: MediaData;
+  data?: Sections;
+  isAlbum: boolean;
 }
 
-export const MediaCard = ({ data }: MediaCardProps) => {
+export const MediaCard = ({ data, isAlbum }: MediaCardProps) => {
 
   return (
     <Link className={`w-48 p-3 ${data ? "hover:bg-gray-800 rounded-lg transition duration-200 cursor-pointer" : "animate-pulse"}`}
-      to={`/album/${data?.title}`}>
+      to={`/${isAlbum ? "album" : "playlist"}/${data?.sectionId}`}>
       {data ? (
         <>
-          <img src={data.image} alt={data.title} className="w-full h-48 rounded-lg object-cover" />
-          <div className="mt-1 text-base font-semibold">{data.title}</div>
-          <div className="mt-1 text-sm font-medium text-gray-500 hover:underline hover:text-gray-400">{data.subtitle}</div>
+          <img src={data.imageUrl} className="w-full h-48 rounded-lg object-cover" />
+          <div className="mt-1 text-base font-semibold">{data.sectionName}</div>
+          <div className="mt-1 text-sm font-medium text-gray-500 hover:underline hover:text-gray-400">{`${data.type} - ${data.ownerName}`}</div>
         </>
       ) : (
         <>

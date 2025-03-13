@@ -18,6 +18,7 @@ public class PlaylistResponseDto {
     public String username;
     public String description;
     public String imageUrl;
+    public String type;
     @JsonProperty("isPrivate")
     private boolean isPrivate;
 

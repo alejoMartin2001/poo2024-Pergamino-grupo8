@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query"
-import { albumGetAction } from "src/services/albums/album-get-action"
+import { albumById } from "src/services/albums/album-post-action";
 
+export const useAlbum = (album: number) => {
 
-export const useAlbum = () => {
-
-  const allAlbumsQuery = useQuery({
-    queryKey: ["allAlbum"],
-    queryFn: albumGetAction,
-  })
+  const albumQuery = useQuery({
+    queryKey: ["album"],
+    queryFn: () => albumById(album)
+  });
 
   return {
-    allAlbumsQuery,
+    albumData: albumQuery.data
   }
 }

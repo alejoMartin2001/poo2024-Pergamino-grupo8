@@ -3,6 +3,8 @@ import albumImage from "@images/album/20230607_190841.jpg"
 import { ViewBanner } from "@shared/view";
 import { ViewOptions } from "@shared/view/ViewOptions";
 import { TableView } from "@shared/view/TableView";
+import { usePlaylist } from "src/hooks/usePlaylist";
+import { useAlbum } from "src/hooks/useAlbum";
 
 const songs = [
   {
@@ -41,13 +43,19 @@ const songs = [
 
 export const AlbumView = () => {
 
-  const { albumname } = useParams();
+  const { albumId } = useParams();
+  const { albumData } = useAlbum(Number(albumId) ?? 1)
 
   return (
     <div className="flex flex-col">
-      <ViewBanner title={albumname ?? "Prueba"} image={albumImage} />
-      <ViewOptions images={albumImage} />
-      <TableView songs={songs} />
+      <ViewBanner 
+        title={albumData?.albumTitle ?? "Prueba"} 
+        image={albumData?.imageUrl ?? ""}
+        ownerName={albumData?.artistName ?? "Desconocido"}
+        type={albumData?.type ?? "Desconocido"} 
+      />
+      {/* <ViewOptions images={albumImage} /> */}
+      <TableView isAlbum={true} songAlbum={albumData?.songs}/>
     </div>
   )
 }
