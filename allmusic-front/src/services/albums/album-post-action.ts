@@ -1,10 +1,8 @@
 import { AlbumResponseDto } from "src/interfaces/album-interface";
 import { AuthService } from "../AuthService";
+import { Sections } from "src/interfaces/section-interface";
 
-// const albumPostAction = async (): Promise<AllAlbumDto[]> => {
-//   const { data } = await AuthService.post(`/albums/{albumId}`)
-//   return data;
-// }
+
 export const albumCreateSingle = async (single: FormData) => {
   const { data } = await AuthService.post(`/albums/single`, single);
   return data;
@@ -22,5 +20,10 @@ export const albumCreateLp = async (long: FormData) => {
 
 export const albumById = async (albumId: number): Promise<AlbumResponseDto> => {
   const { data } = await AuthService.post(`album/${albumId}`);
+  return data;
+}
+
+export const albumsByArtist = async (artistUsername: string): Promise<Sections[]> => {
+  const { data } = await AuthService.post(`albums/artist/${artistUsername}`);
   return data;
 }

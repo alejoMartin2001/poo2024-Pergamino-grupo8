@@ -9,3 +9,13 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Ocultar el icono (Calendario) en Chrome, Edge, y Safari */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+/* Ocultar el icono (Calendario) en Firefox */
+input[type="date"]::-moz-calendar-picker-indicator {
+  display: none;
+}

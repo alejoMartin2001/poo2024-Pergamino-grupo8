@@ -1,6 +1,7 @@
 package com.unnoba.allmusic_back.mapper;
 
 import com.unnoba.allmusic_back.dto.user.UserRequestDto;
+import com.unnoba.allmusic_back.entity.MusicArtiesUser;
 import com.unnoba.allmusic_back.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ public class UserMapper {
         user.setUsername(userRequestDto.getUsername());
         user.setPassword(userRequestDto.getPassword());
         user.setProfilePicture("");
+
         return user;
     }
 }

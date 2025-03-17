@@ -16,10 +16,10 @@ interface SpotifyTableProps {
   isAlbum: boolean;
 }
 
-function segundosAMinutosSegundos(segundos: number): string {
-  const minutos = Math.floor(segundos / 60);
-  const segundosRestantes = segundos % 60;
-  return `${minutos}:${segundosRestantes.toString().padStart(2, '0')}`;
+const handleSeconds = (seconds: number): string => {
+  const minuutes = Math.floor(seconds / 60);
+  const secondsRemaining = seconds % 60;
+  return `${minuutes}:${secondsRemaining.toString().padStart(2, '0')}`;
 }
 
 export const TableView = ({ songs = [], songAlbum = [], isAlbum = false }: SpotifyTableProps) => {
@@ -61,7 +61,7 @@ export const TableView = ({ songs = [], songAlbum = [], isAlbum = false }: Spoti
                   </td>
 
                   <td className="p-3 max-lg:hidden">
-                    <span className="text-gray-400 ">{segundosAMinutosSegundos(song.duration)}</span>
+                    <span className="text-gray-400 ">{handleSeconds(song.duration)}</span>
                   </td>
 
                   <td >

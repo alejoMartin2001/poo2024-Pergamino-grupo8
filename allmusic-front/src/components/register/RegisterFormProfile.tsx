@@ -10,7 +10,7 @@ interface Props {
   errors: FieldErrors<UserRequestDto>;
   control: Control<UserRequestDto, any>;
 
-  
+
   register: UseFormRegister<UserRequestDto>;
   setValue: UseFormSetValue<UserRequestDto>;
   setIsValidProfile: (isValidProfile: boolean) => void;
@@ -25,16 +25,17 @@ export const RegisterFormProfile = ({
   setIsValidProfile,
 }: Props) => {
 
-  const [firstName, lastName, email] = useWatch({
+  const [firstName, lastName, email, artistName] = useWatch({
     control,
-    name: ["firstName", "lastName", "email"],
+    name: ["firstName", "lastName", "email", "artistName"],
   });
-
+  
   useEffect(() => {
     const isValidEmail = email?.trim() !== "" && !errors.email;
-    const isValid = Boolean(firstName) && Boolean(lastName) && isValidEmail;
+    const isValidArtistName = isArtist ? Boolean(artistName) : true;
+    const isValid = Boolean(firstName) && Boolean(lastName) && isValidEmail && isValidArtistName;
     setIsValidProfile(isValid);
-  }, [firstName, lastName, email, errors.email, setIsValidProfile]);
+  }, [firstName, lastName, email, artistName, errors.email, isArtist, setIsValidProfile]);
 
   return (
     <>
@@ -54,6 +55,18 @@ export const RegisterFormProfile = ({
           requiredMessage="El campo Apellido está vacio."
         />
       </div>
+
+      {isArtist &&
+        <div className='mt-3'>
+          <FormInputText
+            label='Nombre artístico'
+            name='artistName'
+            register={register}
+            error={errors.artistName}
+            requiredMessage='El nombre artístico está vacio'
+          />
+        </div>
+      }
 
       <div className="mt-3">
         <FormInputText

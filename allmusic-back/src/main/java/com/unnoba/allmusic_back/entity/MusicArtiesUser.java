@@ -13,6 +13,9 @@ import java.util.List;
 @DiscriminatorValue("ARTIST")
 public class MusicArtiesUser extends User{
 
+    @Column(name = "artist_name")
+    private String artistName;
+
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Album> albums = new ArrayList<>();
 

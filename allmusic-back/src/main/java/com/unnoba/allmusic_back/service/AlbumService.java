@@ -42,7 +42,7 @@ public class AlbumService {
         try{
             String fileProfile;
             if (image == null || image.isEmpty()) {
-                fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/playlists/playlist-default.png";
+                fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/albums/playlist-default.png";
             } else {
                 fileProfile = s3Service.uploadFile("albums/", image );
             }
@@ -159,8 +159,7 @@ public class AlbumService {
         }
     }
 
-    private SectionDto mapToSectionDto(Album album) {
-        String nameArtist = album.getAuthor().getFirstName() + " " + album.getAuthor().getLastName();
+    private String getAlbumType(Album album){
         String typeAlbum;
 //        ¡Mala práctica! :(
         if (album instanceof AlbumExtendedPlay) {
@@ -170,11 +169,17 @@ public class AlbumService {
         } else {
             typeAlbum = "Sencillo";
         }
+        return typeAlbum;
+    }
+
+
+    private SectionDto mapToSectionDto(Album album) {
+        String typeAlbum = this.getAlbumType(album);
 
         return SectionDto.builder()
                 .sectionId(album.getId_album())
                 .sectionName(album.getTitle())
-                .ownerName(nameArtist)
+                .ownerName(album.getAuthor().getArtistName())
                 .ownerUsername(album.getAuthor().getUsername())
                 .imageUrl(album.getImageUrl())
                 .type(typeAlbum)
@@ -182,22 +187,13 @@ public class AlbumService {
     }
 
     private AlbumResponseDto getAlbumResponseDto(Album album){
-        String nameArtist = album.getAuthor().getFirstName() + " " + album.getAuthor().getLastName();
-        String typeAlbum;
-//        ¡Mala práctica! :(
-        if (album instanceof AlbumExtendedPlay) {
-            typeAlbum = "EP";
-        } else if (album instanceof AlbumLongPlay) {
-            typeAlbum = "Álbum";
-        } else {
-            typeAlbum = "Sencillo";
-        }
+        String typeAlbum = this.getAlbumType(album);
 
         AlbumResponseDto albumDto = new AlbumResponseDto();
         albumDto.setAlbumId(album.getId_album());
         albumDto.setAlbumTitle(album.getTitle());
         albumDto.setImageUrl(album.getImageUrl());
-        albumDto.setArtistName(nameArtist);
+        albumDto.setArtistName(album.getAuthor().getArtistName());
         albumDto.setArtistUsername(album.getAuthor().getUsername());
         albumDto.setReleaseDate(album.getReleaseDate());
         albumDto.setType(typeAlbum);

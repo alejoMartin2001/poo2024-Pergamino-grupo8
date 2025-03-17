@@ -227,7 +227,8 @@ public class PlaylistService {
     }
 
     private SectionDto mapToSectionDto(Playlist playlist){
-        String nameOwner = playlist.getOwner().getUsername() + " " + playlist.getOwner().getLastName();
+//        TODO: Paso username en vez de first name.
+        String nameOwner = playlist.getOwner().getFirstName() + " " + playlist.getOwner().getLastName();
         return SectionDto.builder()
                 .sectionId(playlist.getId_playlist())
                 .sectionName(playlist.getTitle())

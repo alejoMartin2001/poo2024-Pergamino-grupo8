@@ -1,3 +1,5 @@
+
+import { useQueryClient } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useContext, useEffect, useReducer } from "react"
 import { AuthState, TokenDecode } from "src/interfaces/auth-interface";
 import { UserResponseDto } from "src/interfaces/user-interface";
@@ -12,6 +14,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+
+  const queryClient = useQueryClient();
 
   const [state, dispatch] = useReducer(authReducer, {
     isAuth: false,
@@ -49,7 +53,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     localStorage.clear();
 
     dispatch({ type: "logout" });
-
+    // Esto es bueno sólo en esta ocasión
+    queryClient.clear();
   };
 
   return (

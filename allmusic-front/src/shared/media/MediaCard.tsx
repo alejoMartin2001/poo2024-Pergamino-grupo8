@@ -1,3 +1,4 @@
+import { Dot } from "lucide-react";
 import { Link } from "react-router";
 import { Sections } from "src/interfaces/section-interface";
 
@@ -17,7 +18,24 @@ export const MediaCard = ({ data, isAlbum }: MediaCardProps) => {
         <>
           <img src={data.imageUrl} className="w-full h-48 rounded-lg object-cover" />
           <div className="mt-1 text-base font-semibold">{data.sectionName}</div>
-          <div className="mt-1 text-sm font-medium text-gray-500 hover:underline hover:text-gray-400">{`${data.type} - ${data.ownerName}`}</div>
+          <div className="mt-1 text-sm font-medium text-gray-500 flex items-center">
+            <p className="font-medium">{data.type}</p>
+            <Dot />
+            {isAlbum ?
+              <Link
+                to={`/profileArtist/${data.ownerUsername}`}
+                className="capitalize hover:underline hover:text-gray-400 truncate max-w-[120px] overflow-hidden whitespace-nowrap"
+                title={data.ownerName}
+              >
+                {data.ownerName}
+              </Link> :
+              <p
+                className="capitalize hover:underline hover:text-gray-400 truncate max-w-[120px] overflow-hidden whitespace-nowrap"
+                title={data.ownerName}
+              >
+                {data.ownerName}
+              </p>}
+          </div>
         </>
       ) : (
         <>

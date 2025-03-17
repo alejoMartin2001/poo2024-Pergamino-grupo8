@@ -4,6 +4,7 @@ export interface UserResponseDto {
     lastName: string;
     email: string;
     username: string;
+    artistName?: string;
     profilePicture: string;
     bio: string;
 }
@@ -12,6 +13,7 @@ export interface UserRequestDto {
     firstName: string;
     lastName: string;
     email: string;
+    artistName?: string;
     username: string;
     password: string;
     profilePicture: FileList;

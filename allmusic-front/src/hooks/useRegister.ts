@@ -30,7 +30,6 @@ export const useRegister = (isArtist: boolean) => {
       navigate("/login");
     },
     onError: (error: AxiosError) => {
-      // Solucionar esto!!
       let message = "Hubo un error en el registro";
       console.log(error);
 
@@ -48,6 +47,9 @@ export const useRegister = (isArtist: boolean) => {
     if (passwordValid) {
       const formData = new FormData();
       formData.append("firstName", data.firstName);
+      if (data.artistName){
+        formData.append("artistName", data.artistName);
+      }
       formData.append("lastName", data.lastName);
       formData.append("email", data.email);
       formData.append("username", data.username);

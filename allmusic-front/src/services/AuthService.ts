@@ -12,9 +12,14 @@ export const AuthService = axios.create({
 
 // Agregar un interceptor para que cada solicitud tenga el token actualizado
 AuthService.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  // Verificar si la URL no es de registro o login
+  if (!config.url?.startsWith("/enth") && !config.url?.startsWith("/artist") && !config.url?.startsWith("/login")) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  } else {
+    delete config.headers.Authorization;
   }
   return config;
 }, (error) => {

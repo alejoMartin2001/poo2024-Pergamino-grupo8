@@ -11,9 +11,3 @@ export const playlistIdGetAction = async (numberId: number): Promise<PlaylistRes
   const { data } = await AuthService.post(`playlists/${numberId}`);
   return data;
 }
-
-// Cambiar a otro archivo .ts
-export const playlistIsPrivate = async (numberId: number): Promise<boolean> => {
-  const { data } = await AuthService.patch<boolean>(`playlists/private/${numberId}`);
-  return data;
-};

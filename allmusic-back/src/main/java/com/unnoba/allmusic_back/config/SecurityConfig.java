@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/me/**").hasAnyRole(ARTIST, ENTHUSIAST)
 
                         .requestMatchers(HttpMethod.GET, "/albums").hasAnyRole(ENTHUSIAST, ARTIST)
+                        .requestMatchers(HttpMethod.POST, "/albums/**").hasAnyRole(ENTHUSIAST, ARTIST)
                         .requestMatchers("/albums/**").hasRole(ARTIST)
 
                         .requestMatchers("/h2-console/**").permitAll()

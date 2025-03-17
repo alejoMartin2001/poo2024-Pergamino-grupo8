@@ -15,7 +15,7 @@ export const FormTextArea = ({ label, name, rows = 3, cols = 1, register, text, 
   return (
     <div className="relative w-full">
       <textarea
-        className="peer w-full rounded-md p-3 pt-5 mb-2 bg-[#1A1B25] text-white focus:outline-none focus:ring-1 focus:ring-gray-500"
+        className={`peer w-full rounded-md p-3 pt-5 bg-[#1A1B25] text-white focus:outline-none focus:ring-1 focus:ring-gray-500`}
         id={name}
         rows={rows}
         cols={cols}

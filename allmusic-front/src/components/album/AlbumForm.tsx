@@ -1,7 +1,8 @@
 import { LoaderSpinner } from "@shared/components";
 import { FormInputText } from "@shared/form";
+import { FormInputDate } from "@shared/form/FormInputDate";
 import { useState } from "react";
-import { useAlbum } from "src/hooks/useAlbums";
+import { useAlbums } from "src/hooks/albums/useAlbums";
 
 interface Props {
   setIsModalOpen: (isModalOpen: boolean) => void;
@@ -20,7 +21,7 @@ export const AlbumForm = ({ setIsModalOpen }: Props) => {
     onSubmit,
     // watch,
     // setValue,
-  } = useAlbum(setIsModalOpen, albumType);
+  } = useAlbums(setIsModalOpen, albumType);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -48,17 +49,13 @@ export const AlbumForm = ({ setIsModalOpen }: Props) => {
             requiredMessage="Escriba un titulo"
           />
 
-          {/* Fecha de lanzamiento */}
-          <div className="flex flex-col">
-            <label className="font-medium" htmlFor="releaseDate">Fecha de lanzamiento:</label>
-            <input
-              type="date"
-              id="releaseDate"
-              {...register("releaseDate", { required: "La fecha es obligatoria" })}
-              className="p-2 border-2 rounded"
-            />
-            {errors.releaseDate && <span className="text-red-500 text-sm">{errors.releaseDate.message}</span>}
-          </div>
+          <FormInputDate
+            label="Fecha de lanzamiento"
+            name="releaseDate"
+            register={register}
+            error={errors.releaseDate}
+            requiredMessage="La fecha es obligatoria"
+          />
 
           {/* Tipo de Álbum */}
           <div className="flex flex-col gap-2 md:flex-row md:items-center">

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 public class UserRequestDto {
     private String firstName;
+    private String artistName;
     private String lastName;
     private String email;
     private String username;

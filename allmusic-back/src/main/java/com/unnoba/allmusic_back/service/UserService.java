@@ -1,8 +1,11 @@
 package com.unnoba.allmusic_back.service;
 
+import com.unnoba.allmusic_back.dto.user.ArtistResponseDto;
 import com.unnoba.allmusic_back.dto.user.UserResponseDto;
 import com.unnoba.allmusic_back.dto.user.UserUpdateDto;
+import com.unnoba.allmusic_back.entity.MusicArtiesUser;
 import com.unnoba.allmusic_back.entity.User;
+import com.unnoba.allmusic_back.repository.ArtistRepository;
 import com.unnoba.allmusic_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ArtistRepository artistRepository;
 
     @Autowired
     private S3Service s3Service;
@@ -66,6 +72,28 @@ public class UserService {
         }catch (Exception e){
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Hubo un error en la obtención del usuario."
+            );
+        }
+    }
+
+    public ArtistResponseDto getArtistByUsername(String username){
+        MusicArtiesUser user = artistRepository.findByUsername(username).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El artista no existe")
+        );
+
+        try{
+            return ArtistResponseDto.builder()
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .artistName(user.getArtistName())
+                    .email(user.getEmail())
+                    .bio(user.getBio())
+                    .profilePicture(user.getProfilePicture())
+                    .username(user.getUsername())
+                    .build();
+        }catch (Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Hubo un error en la obtención del artista."
             );
         }
     }

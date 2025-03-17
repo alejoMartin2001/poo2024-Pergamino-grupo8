@@ -6,3 +6,7 @@ export const userGetAction = async (username: string): Promise<UserResponseDto> 
   return data;
 }
 
+export const artistGetAction = async (username: string): Promise<UserResponseDto> => {
+  const { data } = await AuthService.get(`/artist/${username}`);
+  return data;
+}

@@ -3,11 +3,11 @@ import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { useAlert } from "src/contexts/AlertProvider";
 import { PlaylistFormData } from "src/interfaces/playlist-interface";
-import { playlistGetAction } from "src/services/playlists/playlist-get-action";
+import { getPlaylistsMeAction } from "src/services/playlists/playlist-get-action";
 import { playlistCreateAction } from "src/services/playlists/playlist-post-action";
 
 
-export const usePlaylist = ( setIsModalOpen?: (isModalOpen: boolean) => void ) => {
+export const usePlaylists = ( setIsModalOpen?: (isModalOpen: boolean) => void ) => {
 
   const { showAlert } = useAlert();
 
@@ -20,28 +20,29 @@ export const usePlaylist = ( setIsModalOpen?: (isModalOpen: boolean) => void ) =
     formState: { errors, isSubmitting }
   } = useForm<PlaylistFormData>();
 
-
-  const allPlaylistsQuery = useQuery({
-    queryKey: ["allPlaylist"],
-    queryFn: playlistGetAction,
+  // Queries.
+  const allPlaylistsMeQuery = useQuery({
+    queryKey: ["allPlaylistMe"],
+    queryFn: getPlaylistsMeAction,
     staleTime: 1000 * 60 * 60,
   })
 
   
-
-  const mutation = useMutation({
+  // Mutates.
+  const playlistCreate = useMutation({
     mutationFn: playlistCreateAction,
     onSuccess: () => {
       setIsModalOpen && setIsModalOpen(false);
       showAlert("Playlist Creada", "¡Ahora puedes añadirle las canciones que te gustan!", "success");
-      allPlaylistsQuery.refetch();
+      allPlaylistsMeQuery.refetch();
     },
     onError: (error: AxiosError) => {
       console.log(error);
-      showAlert("Error al crear una playlist", "Algo", "error")
+      showAlert("Error al crear una playlist", "Algo no salió bién", "error")
     }
   });
 
+  // Funciones.
   const onSubmit = (data: PlaylistFormData) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -50,16 +51,21 @@ export const usePlaylist = ( setIsModalOpen?: (isModalOpen: boolean) => void ) =
       formData.append("image", data.image[0]);
     }
     console.log(data);
-    mutation.mutate(formData);
+    playlistCreate.mutate(formData);
     return;
   }
 
   return {
-    allPlaylistsData: allPlaylistsQuery.data,
+    // Datos  
+    allPlaylistsData: allPlaylistsMeQuery.data,
+
+    // Loaders
+    isLoadingAllPlaylist: allPlaylistsMeQuery.isLoading,
+    isLoadingCreation: playlistCreate.isPending,
+
     errors,
     isSubmitting,
-    isLoadingAllPlaylist: allPlaylistsQuery.isLoading,
-    isLoadingCreation: mutation.isPending,
+    
     register,
     handleSubmit,
     onSubmit,

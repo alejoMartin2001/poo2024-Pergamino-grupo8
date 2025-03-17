@@ -62,6 +62,12 @@ public class AlbumController {
         return ResponseEntity.ok().body(albumResponseDto);
     }
 
+    @PostMapping("albums/artist/{username}")
+    public ResponseEntity<?> getAlbumByArtist(@PathVariable String username) {
+        List<SectionDto> albums = albumService.getAllAlbumsByMe(username);
+        return ResponseEntity.ok().body(albums);
+    }
+
     @GetMapping("albums")
     public ResponseEntity<List<SectionDto>> getAllAlbums() {
         List<SectionDto> albums = albumService.getAllAlbums();
@@ -104,7 +110,6 @@ public class AlbumController {
     private <T extends Album> T mapToAlbum(T album, AlbumRequestDto albumRequestDto) {
         album.setTitle(albumRequestDto.getAlbumName());
         album.setReleaseDate(albumRequestDto.getReleaseDate());
-//        album.setImageUrl(albumRequestDto.getImageUrl());
         return album;
     }
 

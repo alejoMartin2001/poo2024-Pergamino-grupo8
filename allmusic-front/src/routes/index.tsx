@@ -29,13 +29,17 @@ export const CreateAppRouter = () => {
       {isAuth && (
         <>
           <Route path="/" element={<Home />} >
+
             <Route path='albums' element={<Album />}/>
             <Route path='album/:albumId' element={<AlbumView />}/>
+
             <Route path='settings' element={<Setting />}/>
+
             <Route path='playlists' element={<Playlist />}/>
             <Route path='playlist/:playlistId' element={<PlaylistView />}/>
+            
             <Route path='profile' element={<Profile />}/>
-            <Route path='profileArtist' element={<ArtistProfile />}/>
+            <Route path='profileArtist/:usernameArtist' element={<ArtistProfile />}/>
           </Route>
         </>
       )}

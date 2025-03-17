@@ -1,7 +1,7 @@
 import { LoaderSpinner } from "@shared/components";
 import { FormInputText, FormTextArea } from "@shared/form";
 import { useState } from "react";
-import { usePlaylist } from "src/hooks/usePlaylists"
+import { usePlaylists } from "src/hooks/playlists/usePlaylists"
 
 interface Props {
   setIsModalOpen: (isModalOpen: boolean) => void;
@@ -18,7 +18,7 @@ export const PlaylistForm = ({ setIsModalOpen }: Props) => {
     onSubmit,
     // watch,
     // setValue,
-  } = usePlaylist(setIsModalOpen);
+  } = usePlaylists(setIsModalOpen);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

@@ -1,12 +1,12 @@
 
-import { SideBarItem } from "@shared/sidebar";
-import { Compass, Disc, Library, ListMusic, Settings, MicVocal, SquarePlus } from "lucide-react";
-import { useState } from "react";
-import { useAuth } from "src/contexts/AuthProvider";
-import { SideBarMedia } from "@shared/sidebar/SideBarMedia";
+import { Compass, Disc, Library, ListMusic, Settings } from 'lucide-react';
+import { useState } from 'react';
+import { useAuth } from 'src/contexts/AuthProvider';
 
-import album from "@images/album/20230607_190836.jpg"
-import album_two from "@images/album/20230607_190841.jpg"
+import album from '@images/album/20230607_190836.jpg';
+import album_two from '@images/album/20230607_190841.jpg';
+import { SideBarItem } from '@shared/sidebar';
+import { SideBarMedia } from '@shared/sidebar/SideBarMedia';
 
 interface Props {
   collapsed: boolean;
@@ -75,16 +75,6 @@ export const SideBar = ({ collapsed, setCollapsed }: Props) => {
             hoveredItem={hoveredItem}
             setHoveredItem={setHoveredItem}
           />
-          {/* Prueba */}
-          <SideBarItem
-            icon={MicVocal}
-            label="Artista"
-            navigate="profileArtist"
-            collapsed={collapsed}
-            animating={animating}
-            hoveredItem={hoveredItem}
-            setHoveredItem={setHoveredItem}
-          />
 
           {isArtist &&
             <SideBarItem
@@ -102,22 +92,22 @@ export const SideBar = ({ collapsed, setCollapsed }: Props) => {
 
         {/* Prueba */}
       </div>
-        <div className="flex flex-col gap-3 h-full overflow-y-auto no-scrollbar">
-          {albums.map((album , key) => (
-            <SideBarMedia
-              key={key}
-              name={album.title}
-              image={album.image}
-              type="album"
-              navigate={`album/${album.title}`}
-              author={album.subtitle}
-              collapsed={collapsed}
-              animating={animating}
-              hoveredItem={hoveredItem}
-              setHoveredItem={setHoveredItem}
-            />
-          ))}
-        </div>
+      <div className="flex flex-col gap-3 h-full overflow-y-auto no-scrollbar">
+        {albums.map((album, key) => (
+          <SideBarMedia
+            key={key}
+            name={album.title}
+            image={album.image}
+            type="album"
+            navigate={`album/${album.title}`}
+            author={album.subtitle}
+            collapsed={collapsed}
+            animating={animating}
+            hoveredItem={hoveredItem}
+            setHoveredItem={setHoveredItem}
+          />
+        ))}
+      </div>
 
 
       <div>

@@ -1,11 +1,3 @@
-// export interface AllAlbumDto {
-//   albumId:     number;
-//   albumName:   string;
-//   imageUrl:    string;
-//   artistName:  string;
-//   releaseDate: Date;
-//   songs:       Song[];
-// }
 
 export interface AlbumCreate {
   title: string;

@@ -13,7 +13,8 @@ const albumMutation = {
   long: albumCreateLp,
 };
 
-export const useAlbum = (setIsModalOpen?: (isModalOpen: boolean) => void, albumType?: string) => {
+
+export const useAlbums = (setIsModalOpen?: (isModalOpen: boolean) => void, albumType?: string) => {
 
   const {
     register,
@@ -26,23 +27,26 @@ export const useAlbum = (setIsModalOpen?: (isModalOpen: boolean) => void, albumT
 
   const { showAlert } = useAlert();
 
-  const allAlbums = useQuery({
+  // Queries
+  const allAlbumsQuery = useQuery({
     queryKey: ["allAlbums"],
     queryFn: albumGetAllAction,
     staleTime: 1000 * 60 * 60,
   })
 
-  const allAlbumsQuery = useQuery({
+  const allAlbumsMeQuery = useQuery({
     queryKey: ["allAlbumsMe"],
     queryFn: albumGetAction,
     staleTime: 1000 * 60 * 60,
   });
 
-  const mutation = useMutation({
+  // Mutaties.
+  const albumCreate = useMutation({
     mutationFn: albumType === "single" ? albumMutation.single : ( albumType === 'ep' ? albumMutation.extended : albumMutation.long),
     onSuccess: () => {
       setIsModalOpen && setIsModalOpen(false);
-      showAlert("Álbum creado", "Ahora puedes a", "success");
+      showAlert("Álbum creado", "¡Ahora puedes agregar canciones a tu álbum!", "success");
+      allAlbumsMeQuery.refetch();
       allAlbumsQuery.refetch();
     },
     onError: (error: AxiosError) => {
@@ -50,6 +54,7 @@ export const useAlbum = (setIsModalOpen?: (isModalOpen: boolean) => void, albumT
     },
   });
 
+  // Funciones.
   const onSubmit = (data: AlbumCreate) => {
     const formData = new FormData();
     formData.append("albumName", data.title);
@@ -57,17 +62,22 @@ export const useAlbum = (setIsModalOpen?: (isModalOpen: boolean) => void, albumT
     if (data.image && data.image.length > 0) {
       formData.append("imageUrl", data.image[0]);
     }
-    console.log(data)
-
-    mutation.mutate(formData);
+    
+    albumCreate.mutate(formData);
   };
 
 
   return {
-    allAlbums: allAlbums.data,
-    allAlbumsData: allAlbumsQuery.data,
-    isLoadingAlbumsMe: allAlbumsQuery.isLoading,
-    isLoadingCreation: mutation.isPending,
+    // Datos.
+    allAlbums: allAlbumsQuery.data,
+    albumsMeData: allAlbumsMeQuery.data,
+    
+
+    // Loaders.
+    isLoadingAlbumsMe: allAlbumsMeQuery.isLoading,
+    isLoadingCreation: albumCreate.isPending,
+    isLoadingAll: allAlbumsQuery.isLoading,
+    
     errors,
     isSubmitting,
 

@@ -1,5 +1,6 @@
 package com.unnoba.allmusic_back.controller;
 
+import com.unnoba.allmusic_back.dto.user.ArtistResponseDto;
 import com.unnoba.allmusic_back.dto.user.UserRequestDto;
 import com.unnoba.allmusic_back.entity.MusicArtiesUser;
 import com.unnoba.allmusic_back.mapper.UserMapper;
@@ -25,7 +26,15 @@ public class ArtistController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("{username}")
+    public ResponseEntity<ArtistResponseDto> getArtistByUsername(@PathVariable String username){
+        ArtistResponseDto artistResponseDto = userService.getArtistByUsername(username);
+        return ResponseEntity.ok().body(artistResponseDto);
+    }
+
     private MusicArtiesUser mapToDtoArtist(UserRequestDto userRequestDto){
-        return userMapper.mapToUser(new MusicArtiesUser(), userRequestDto);
+        MusicArtiesUser artist = userMapper.mapToUser(new MusicArtiesUser(), userRequestDto);
+        artist.setArtistName(userRequestDto.getArtistName());
+        return artist;
     }
 }

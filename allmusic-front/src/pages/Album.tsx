@@ -1,20 +1,21 @@
 
 import { AlbumCreate } from "@components/album/AlbumCreate";
 import { MediaContainer, MediaSection } from "@shared/media";
-import { useAlbum } from "src/hooks/useAlbums";
+import { useAlbums } from "src/hooks/albums/useAlbums";
 
 export const Album = () => {
 
-  const { allAlbumsData, isLoadingAlbumsMe } = useAlbum();
+  const { albumsMeData, isLoadingAlbumsMe } = useAlbums();
 
-  console.log(allAlbumsData)
   return (
     <div className="flex flex-col text-white">
       <AlbumCreate />
-      <MediaContainer title="Mis Álbumes">
-        <MediaSection isLoading={isLoadingAlbumsMe} data={allAlbumsData ?? []} isAlbum={true} />
 
+      {(isLoadingAlbumsMe ||  albumsMeData!.length > 0) && 
+      <MediaContainer title="Mis Álbumes">
+        <MediaSection isLoading={isLoadingAlbumsMe} data={albumsMeData ?? []} isAlbum={true} />
       </MediaContainer>
+      }
     </div>
   );
 };
