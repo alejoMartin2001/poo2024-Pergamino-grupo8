@@ -1,5 +1,6 @@
 import { AlertTriangle, CheckCircle, Info, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import ReactDOM from "react-dom";
 
 interface Props {
   type?: "success" | "error" | "warning" | "info";
@@ -33,9 +34,9 @@ export const Alert = ({ title, type = "info", message, duration = 5000 }: Props)
     info: "bg-blue-100 border-blue-500 text-blue-700",
   };
 
-  return (
+  const alert = (
     <div
-      className={`fixed bottom-4 right-4  p-2 border-l-4 rounded-md shadow-lg transition-all duration-300 ease-in-out
+      className={`fixed bottom-4 right-4  p-2 border-l-4 rounded-md shadow-lg transition-all duration-300 ease-in-out z-50
         ${colors[type]} ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-5"}
       `}
     >
@@ -52,4 +53,6 @@ export const Alert = ({ title, type = "info", message, duration = 5000 }: Props)
       </div>
     </div>
   )
+
+  return ReactDOM.createPortal(alert, document.body);
 }

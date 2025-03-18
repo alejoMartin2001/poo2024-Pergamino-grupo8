@@ -1,7 +1,7 @@
 import { Modal } from "@shared/components";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { AlbumForm } from "./AlbumForm";
+import { AlbumCreateForm } from "./form/AlbumCreateForm";
 
 
 export const AlbumCreate = () => {
@@ -28,7 +28,7 @@ export const AlbumCreate = () => {
         title="Crear Álbum"
         size="large"
       >
-        <AlbumForm setIsModalOpen={setIsModalOpen}/>
+        <AlbumCreateForm setIsModalOpen={setIsModalOpen}/>
       </Modal>
     </div>
   )

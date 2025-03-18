@@ -48,6 +48,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/albums/**").hasAnyRole(ENTHUSIAST, ARTIST)
                         .requestMatchers("/albums/**").hasRole(ARTIST)
 
+                        .requestMatchers("/favorites/**").hasAnyRole(ENTHUSIAST, ARTIST)
+
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))

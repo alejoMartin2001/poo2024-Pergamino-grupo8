@@ -40,12 +40,7 @@ public class AlbumService {
         );
 
         try{
-            String fileProfile;
-            if (image == null || image.isEmpty()) {
-                fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/albums/playlist-default.png";
-            } else {
-                fileProfile = s3Service.uploadFile("albums/", image );
-            }
+            String fileProfile = this.getImageUrlAlbum(image);
             albumDto.setAuthor(musicArtiesUser);
             albumDto.setImageUrl(fileProfile);
             musicArtiesUser.getAlbums().add(albumDto);
@@ -122,26 +117,29 @@ public class AlbumService {
      * @param albumRequestDto son los datos actualizados del álbum a actualizar.
      * @param albumId es el ID del álbum.
      */
-//    public void updateAlbum(AlbumRequestDto albumRequestDto, Long albumId) {
-//        Album album = albumRepository.findById(albumId).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")
-//        );
-//
-//        try {
-//            if (albumRequestDto.getAlbumName() != null) {
-//                album.setTitle(albumRequestDto.getAlbumName());
-//            }
-//            if (albumRequestDto.getImageUrl() != null) {
-//                album.setImageUrl(albumRequestDto.getImageUrl());
-//            }
-//            if (albumRequestDto.getReleaseDate() != null){
-//                album.setReleaseDate(albumRequestDto.getReleaseDate());
-//            }
-//            albumRepository.save(album);
-//        }catch (Exception e){
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el album");
-//        }
-//    }
+    public void updateAlbum(AlbumRequestDto albumRequestDto, Long albumId) {
+        Album album = albumRepository.findById(albumId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")
+        );
+
+        try {
+
+            if ( !(album.getTitle().equals(albumRequestDto.getAlbumName()) )) {
+                album.setTitle(albumRequestDto.getAlbumName());
+            }
+            if (albumRequestDto.getImageUrl() != null) {
+                String fileProfile = this.getImageUrlAlbum(albumRequestDto.getImageUrl());
+                album.setImageUrl(fileProfile);
+            }
+            if ( !(album.getReleaseDate().equals(albumRequestDto.getReleaseDate()) )) {
+                album.setReleaseDate(albumRequestDto.getReleaseDate());
+            }
+            albumRepository.save(album);
+
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el album");
+        }
+    }
 
     /**
      * Elimina un álbum
@@ -157,6 +155,16 @@ public class AlbumService {
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el album");
         }
+    }
+
+    private String getImageUrlAlbum(MultipartFile imageAlbum) {
+        String fileProfile;
+        if (imageAlbum == null || imageAlbum.isEmpty()) {
+            fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/albums/playlist-default.png";
+        } else {
+            fileProfile = s3Service.uploadFile("albums/", imageAlbum );
+        }
+        return fileProfile;
     }
 
     private String getAlbumType(Album album){

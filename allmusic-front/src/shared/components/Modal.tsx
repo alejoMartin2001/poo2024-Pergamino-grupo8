@@ -38,16 +38,6 @@ export const Modal = ({ isOpen, onClose, title, children, size = "medium" }: Pro
         }
 
         <div>{children}</div>
-
-        {/* <div className="mt-4 w-full flex justify-end">
-          <button
-            onClick={onClose}
-            className="w-1/2 bg-[#db2777] text-white py-2 rounded-lg font-medium max-lg:w-full"
-          >
-            Guardar
-          </button>
-
-        </div> */}
       </div>
     </div>
   );

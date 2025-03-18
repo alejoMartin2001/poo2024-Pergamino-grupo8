@@ -1,24 +1,27 @@
-import { Modal } from "@shared/components";
+import { GradientIcon, Modal } from "@shared/components";
 import { FormInputText, FormTextArea } from "@shared/form";
-import { Lock, LockOpen, Pencil, Play, Search } from "lucide-react";
+import { Bookmark, BookmarkCheck, Lock, LockOpen, Pencil, Play, Search } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useFavorites } from "src/hooks/useFavorites";
 import { PlaylistFormData } from "src/interfaces/playlist-interface";
 
 interface Props {
   images?: string;
   isAlbum?: boolean;
   isPrivate?: boolean;
+  playlistId: number;
 
   handleChangePrivate: () => void;
 }
 
-export const ViewOptions = ({ images = "", isAlbum = false, isPrivate = false, handleChangePrivate }: Props) => {
+export const ViewOptions = ({ images = "", isAlbum = false, isPrivate = false, playlistId, handleChangePrivate }: Props) => {
 
-  // const [lock, setLock] = useState<boolean>(isPrivate);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const { register } = useForm<PlaylistFormData>();
+
+  const { isPlaylistFavorite, onSubmitCreate, onSubmitRemove } = useFavorites(playlistId, undefined);
 
   const [image, setImage] = useState<File | null>(null);
 
@@ -32,9 +35,14 @@ export const ViewOptions = ({ images = "", isAlbum = false, isPrivate = false, h
   return (
     <div className='flex items-center justify-between px-10 py-5'>
       <div className="flex gap-7 text-gray-300">
-        <button className="bg-blue-600 hover:bg-blue-800 cursor-pointer text-black font-bold flex items-center rounded-full p-4">
-          <Play />
-        </button>
+
+        <div
+          className="cursor-pointer "
+          onClick={() => isPlaylistFavorite ? onSubmitRemove({ albumId: null, playlistId }) : onSubmitCreate({ albumId: null, playlistId })}
+        >
+          {!isPlaylistFavorite ? <Bookmark /> : <GradientIcon Icon={BookmarkCheck} fromColorHex="db2777" toColorHex="3182ce" size={24} />}
+        </div>
+
         <button
           className='cursor-pointer hover:text-white'
           onClick={() => setIsModalOpen(true)}

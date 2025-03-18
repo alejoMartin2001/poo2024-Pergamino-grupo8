@@ -1,5 +1,6 @@
 package com.unnoba.allmusic_back.repository;
 
+import com.unnoba.allmusic_back.entity.Playlist;
 import com.unnoba.allmusic_back.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -85,7 +85,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .subject(username)
                 .signWith(TokenJwtConfig.SECRET_KEY)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))  // 1 hora
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 5))  // 5 hora
                 .compact();
 
         response.addHeader(TokenJwtConfig.HEADER_AUTHORIZATION, TokenJwtConfig.PREFIX_TOKEN + token);

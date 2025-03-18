@@ -6,6 +6,13 @@ export interface AlbumCreate {
   albumType: string;
 }
 
+
+export interface AlbumUpdate {
+  image: FileList | null;
+  albumName: string;
+  releaseDate: Date;
+}
+
 export interface AlbumResponseDto {
   albumId: number;
   albumTitle: string;

@@ -8,7 +8,7 @@ interface Props {
   setIsModalOpen: (isModalOpen: boolean) => void;
 }
 
-export const AlbumForm = ({ setIsModalOpen }: Props) => {
+export const AlbumCreateForm = ({ setIsModalOpen }: Props) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const [albumType, setAlbumType] = useState("");
@@ -19,8 +19,6 @@ export const AlbumForm = ({ setIsModalOpen }: Props) => {
     register,
     handleSubmit,
     onSubmit,
-    // watch,
-    // setValue,
   } = useAlbums(setIsModalOpen, albumType);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

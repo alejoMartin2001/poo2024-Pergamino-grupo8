@@ -3,33 +3,22 @@ import { Compass, Disc, Library, ListMusic, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from 'src/contexts/AuthProvider';
 
-import album from '@images/album/20230607_190836.jpg';
-import album_two from '@images/album/20230607_190841.jpg';
 import { SideBarItem } from '@shared/sidebar';
 import { SideBarMedia } from '@shared/sidebar/SideBarMedia';
+import { useFavorites } from 'src/hooks/useFavorites';
 
 interface Props {
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
 }
 
-// Prueba. Después BORRAR
-const albums = [
-  { image: album_two, title: "Album 1", subtitle: "Artist 1" },
-  { image: album, title: "Album 2", subtitle: "Artist 2" },
-  { image: album_two, title: "Album 3", subtitle: "Artist 1" },
-  { image: album, title: "Album 4", subtitle: "Artist 2" },
-  { image: album_two, title: "Album 5", subtitle: "Artist 1" },
-  { image: album, title: "Album 6", subtitle: "Artist 2" },
-  { image: album_two, title: "Album 7", subtitle: "Artist 1" },
-  { image: album, title: "Album 8", subtitle: "Artist 2" },
-];
 
 export const SideBar = ({ collapsed, setCollapsed }: Props) => {
 
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [animating, setAnimating] = useState(true);
   const { isArtist } = useAuth();
+  const { allFavorites } = useFavorites();
 
   const toggleSidebar = () => {
     setAnimating(true);
@@ -93,14 +82,14 @@ export const SideBar = ({ collapsed, setCollapsed }: Props) => {
         {/* Prueba */}
       </div>
       <div className="flex flex-col gap-3 h-full overflow-y-auto no-scrollbar">
-        {albums.map((album, key) => (
+        {allFavorites?.map((fav, key) => (
           <SideBarMedia
             key={key}
-            name={album.title}
-            image={album.image}
-            type="album"
-            navigate={`album/${album.title}`}
-            author={album.subtitle}
+            name={fav.sectionName}
+            image={fav.imageUrl}
+            type={fav.type}
+            navigate={fav.type === 'Playlist' ? `/playlist/${fav.sectionId}` : `/album/${fav.sectionId}`}
+            author={fav.ownerName}
             collapsed={collapsed}
             animating={animating}
             hoveredItem={hoveredItem}

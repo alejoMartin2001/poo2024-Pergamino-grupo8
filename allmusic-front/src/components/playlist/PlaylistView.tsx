@@ -18,6 +18,7 @@ export const PlaylistView = () => {
         type={dataPlaylist?.type ?? "Desconocido"}
       />
       <ViewOptions
+        playlistId={dataPlaylist?.playlistId ?? 1}
         images={dataPlaylist?.imageUrl ?? ""}
         isAlbum={false}
         isPrivate={dataPlaylist?.isPrivate ?? false}

@@ -13,8 +13,6 @@ export const ArtistProfile = () => {
   const { albumsArtist } = useAlbumByArtist(usernameArtist ?? "");
   const { artistData} = useArtistUsername(usernameArtist ?? "");
 
-
-  console.log(artistData)
   return (
     <div className="flex flex-col text-white ">
       <div className="relative w-full h-80 bg-gradient-to-b from-gray-800 to-black">

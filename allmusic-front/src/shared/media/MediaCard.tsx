@@ -1,5 +1,5 @@
 import { Dot } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Sections } from "src/interfaces/section-interface";
 
 
@@ -10,6 +10,8 @@ interface MediaCardProps {
 }
 
 export const MediaCard = ({ data, isAlbum }: MediaCardProps) => {
+
+  const navigate = useNavigate()
 
   return (
     <Link className={`w-48 p-3 ${data ? "hover:bg-gray-800 rounded-lg transition duration-200 cursor-pointer" : "animate-pulse"}`}
@@ -22,13 +24,16 @@ export const MediaCard = ({ data, isAlbum }: MediaCardProps) => {
             <p className="font-medium">{data.type}</p>
             <Dot />
             {isAlbum ?
-              <Link
-                to={`/profileArtist/${data.ownerUsername}`}
-                className="capitalize hover:underline hover:text-gray-400 truncate max-w-[120px] overflow-hidden whitespace-nowrap"
+              <span
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`/profileArtist/${data.ownerUsername}`);
+                }}
+                className="capitalize hover:underline hover:text-gray-400 truncate max-w-[120px] overflow-hidden whitespace-nowrap cursor-pointer"
                 title={data.ownerName}
               >
                 {data.ownerName}
-              </Link> :
+              </span> :
               <p
                 className="capitalize hover:underline hover:text-gray-400 truncate max-w-[120px] overflow-hidden whitespace-nowrap"
                 title={data.ownerName}

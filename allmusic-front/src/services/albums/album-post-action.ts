@@ -1,4 +1,4 @@
-import { AlbumResponseDto } from "src/interfaces/album-interface";
+import { AlbumResponseDto, SongAlbum } from "src/interfaces/album-interface";
 import { AuthService } from "../AuthService";
 import { Sections } from "src/interfaces/section-interface";
 
@@ -25,5 +25,10 @@ export const albumById = async (albumId: number): Promise<AlbumResponseDto> => {
 
 export const albumsByArtist = async (artistUsername: string): Promise<Sections[]> => {
   const { data } = await AuthService.post(`albums/artist/${artistUsername}`);
+  return data;
+}
+
+export const albumsAddSongs = async (albumId: number, songs: SongAlbum[]) => {
+  const {data} = await AuthService.post(`albums/${albumId}`, songs);
   return data;
 }

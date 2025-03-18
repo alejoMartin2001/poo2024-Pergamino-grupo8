@@ -81,12 +81,12 @@ public class AlbumController {
         return ResponseEntity.ok(albums);
     }
 
-//    @PutMapping("albums/{albumId}")
-//    public ResponseEntity<?> updateAlbum(
-//            @PathVariable Long albumId, @RequestBody AlbumRequestDto albumRequestDto) {
-//        albumService.updateAlbum(albumRequestDto, albumId);
-//        return ResponseEntity.ok().build();
-//    }
+    @PutMapping(value = "albums/{albumId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateAlbum(
+            @PathVariable Long albumId, @ModelAttribute AlbumRequestDto albumRequestDto) {
+        albumService.updateAlbum(albumRequestDto, albumId);
+        return ResponseEntity.ok().build();
+    }
 
     @DeleteMapping("albums/{albumId}")
     public ResponseEntity<?> deleteAlbum(@PathVariable Long albumId) {

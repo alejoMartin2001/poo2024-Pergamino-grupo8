@@ -4,7 +4,7 @@ import { Link } from "react-router"
 interface Props {
   name: string;
   image: string;
-  type: "album" | "playlist";
+  type: string;
   author: string;
 
   navigate?: string;
@@ -25,14 +25,14 @@ export const SideBarMedia = ({ name, image, type = "playlist", author, collapsed
       {!collapsed && !animating ? (
         <div>
           <p className="font-medium">{name}</p>
-          <p className="text-sm text-gray-400 font-medium">{`${type === "playlist" ? "Playlist" : "Álbum"} - ${author}`}</p>
+          <p className="text-sm text-gray-400 font-medium">{`${type} - ${author}`}</p>
         </div>
       ) : collapsed && hoveredItem === name ? (
         <div className=" flex flex-col
           absolute px-2 py-1 font-medium text-white bg-gray-800 rounded-md left-18 z-40 whitespace-nowrap"
         >
           <p className="font-medium">{name}</p>
-          <p className="text-sm text-gray-400 font-medium">{`${type === "playlist" ? "Playlist" : "Álbum"} - ${author}`}</p>
+          <p className="text-sm text-gray-400 font-medium">{`${type} - ${author}`}</p>
         </div>
       ) : null}
     </Link>
