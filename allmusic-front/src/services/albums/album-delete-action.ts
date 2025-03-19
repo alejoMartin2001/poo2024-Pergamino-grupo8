@@ -1,7 +1,7 @@
-import { AllAlbumDto } from "src/interfaces/album-interface";
 import { AuthService } from "../AuthService";
+import { AlbumResponseDto } from "src/interfaces/album-interface";
 
-const albumDeleteAction = async():Promise<AllAlbumDto[]> => {
-  const { data } = await AuthService.delete(`/albums/{albumId}`)
+export const albumDeleteAction = async (albumId: number): Promise<AlbumResponseDto> => {
+  const { data } = await AuthService.delete(`/albums/${albumId}`);
   return data;
-}
+};

@@ -5,7 +5,7 @@ import { useAlert } from "src/contexts/AlertProvider";
 import { AlbumCreate } from "src/interfaces/album-interface";
 import { albumGetAction, albumGetAllAction } from "src/services/albums/album-get-action";
 import { albumCreateSingle, albumCreateEp, albumCreateLp } from "src/services/albums/album-post-action"; // Ajusta el import
-
+import { albumDeleteAction } from "src/services/albums/album-delete-action";
 
 const albumMutation = {
   single: albumCreateSingle,
@@ -25,7 +25,7 @@ export const useAlbums = (setIsModalOpen?: (isModalOpen: boolean) => void, album
     formState: { errors, isSubmitting }
   } = useForm<AlbumCreate>();
 
-  const { showAlert } = useAlert();
+  const { showAlert, } = useAlert();
 
   // Queries
   const allAlbumsQuery = useQuery({
@@ -54,6 +54,31 @@ export const useAlbums = (setIsModalOpen?: (isModalOpen: boolean) => void, album
     },
   });
 
+
+  // Mutación para eliminar álbum
+  const albumDelete = useMutation({
+    mutationFn: (albumId:number) => albumDeleteAction(albumId),
+    onSuccess: () => {
+      showAlert("Álbum eliminado", "El álbum se eliminó correctamente.", "success");
+      allAlbumsMeQuery.refetch();
+      allAlbumsQuery.refetch();
+    },
+    onError: (error: AxiosError) => {
+      showAlert("Error", "No se pudo eliminar el álbum.", "error");
+      console.error(error);
+    }
+  });
+
+  const onDeleteAlbum = (albumId: number) => {
+    const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar este álbum?");
+  
+    if (confirmDelete) {
+      showAlert("Álbum eliminado", "El álbum ha sido eliminado correctamente.", "warning", 5000);
+      albumDelete.mutate(albumId); // Llamas a la mutación para eliminar el álbum
+    }
+  };
+
+
   // Funciones.
   const onSubmit = (data: AlbumCreate) => {
     const formData = new FormData();
@@ -72,6 +97,7 @@ export const useAlbums = (setIsModalOpen?: (isModalOpen: boolean) => void, album
     allAlbums: allAlbumsQuery.data,
     albumsMeData: allAlbumsMeQuery.data,
     
+    onDeleteAlbum,
 
     // Loaders.
     isLoadingAlbumsMe: allAlbumsMeQuery.isLoading,
