@@ -114,9 +114,9 @@ public class UserService {
                 user.setFirstName(userUpdateDto.getFirstName());
             }if(userUpdateDto.getEmail() != null){
                 user.setEmail(userUpdateDto.getEmail());
-            }if(userUpdateDto.getPassword() != null){
-                user.setPassword(userUpdateDto.getPassword());
-            }if(userUpdateDto.getLastName() != null){
+            }//if(userUpdateDto.getPassword() != null){
+               // user.setPassword(userUpdateDto.getPassword());}
+            if(userUpdateDto.getLastName() != null){
                 user.setLastName(userUpdateDto.getLastName());
             }if(userUpdateDto.getProfilePicture() != null){
                 user.setProfilePicture(userUpdateDto.getProfilePicture());

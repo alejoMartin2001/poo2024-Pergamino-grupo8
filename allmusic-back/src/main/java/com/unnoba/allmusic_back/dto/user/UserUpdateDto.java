@@ -14,5 +14,4 @@ public class UserUpdateDto {
     private String email;
     private String profilePicture;
     private String bio;
-    private String password;
 }
