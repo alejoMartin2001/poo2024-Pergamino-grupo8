@@ -52,13 +52,6 @@ export const SettingProfile = ({ register, errors }: Props) => {
           register={register}
           error={errors.bio}
         />
-        <FormInputText
-          label="Password"
-          type="password"
-          name="password"
-          register={register}
-          error={errors.password}
-        />
       </div>
       <div className="flex flex-row items-center gap-4">
       <button

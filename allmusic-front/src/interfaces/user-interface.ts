@@ -26,5 +26,4 @@ export interface UserUpdateDto {
     email?: string | null;
     profilePicture?: string | null;
     bio?: string | null;
-    password?: string | null;
 }
