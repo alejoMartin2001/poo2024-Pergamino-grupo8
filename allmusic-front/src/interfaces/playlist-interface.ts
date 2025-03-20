@@ -1,3 +1,4 @@
+import { Songs } from "./song-interface";
 
 export interface PlaylistResponseDto {
   playlistId: number;
@@ -8,9 +9,8 @@ export interface PlaylistResponseDto {
   imageUrl: string;
   type: string;
   isPrivate: boolean;
-  songs: Song[];
+  songs: Songs[];
 }
-
 
 export interface PlaylistFormData {
   title: string;
@@ -18,8 +18,18 @@ export interface PlaylistFormData {
   image: FileList;
 }
 
-export interface Song {
+export interface PlaylistUpdateForm {
   title: string;
-  duration: number;
-  genre: string;
+  description: string;
+  image: FileList | null;
+}
+
+export interface playlistsTable {
+  playlistId: number;
+  playlistName: string;
+}
+
+export interface PlaylistSong {
+  playlistId: number;
+  songId: number;
 }

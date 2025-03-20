@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { useAlert } from "src/contexts/AlertProvider";
@@ -15,7 +15,7 @@ const albumMutation = {
 
 
 export const useAlbums = (setIsModalOpen?: (isModalOpen: boolean) => void, albumType?: string) => {
-
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -62,6 +62,7 @@ export const useAlbums = (setIsModalOpen?: (isModalOpen: boolean) => void, album
       showAlert("Álbum eliminado", "El álbum se eliminó correctamente.", "success");
       allAlbumsMeQuery.refetch();
       allAlbumsQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: ["AllFavotires"] });
     },
     onError: (error: AxiosError) => {
       showAlert("Error", "No se pudo eliminar el álbum.", "error");

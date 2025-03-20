@@ -90,7 +90,8 @@ public class AlbumController {
 
     @DeleteMapping("albums/{albumId}")
     public ResponseEntity<?> deleteAlbum(@PathVariable Long albumId) {
-        albumService.deleteAlbum(albumId);
+        String username = this.getUsername();
+        albumService.deleteAlbum(albumId, username);
         return ResponseEntity.ok().build();
     }
 

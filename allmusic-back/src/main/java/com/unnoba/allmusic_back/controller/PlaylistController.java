@@ -31,7 +31,6 @@ public class PlaylistController {
 
     @PostMapping("/playlists/song")
     public ResponseEntity<?> addPlaylist(@RequestBody SongToPlaylistDto songToPlaylistRequestDto) {
-        String username = this.getUsername();
         playlistService.addSongsToPlaylist(songToPlaylistRequestDto);
         return ResponseEntity.ok().build();
     }
@@ -43,8 +42,9 @@ public class PlaylistController {
         return ResponseEntity.ok(playlists);
     }
 
-    @PostMapping("playlists/{id}")
-    public ResponseEntity<PlaylistResponseDto> getPlaylistById(@PathVariable Long id) {
+
+    @PostMapping(value = "playlists/{id}")
+    public ResponseEntity<PlaylistResponseDto> getPlaylistUpdateById(@PathVariable Long id) {
         PlaylistResponseDto playlistResponseDto = playlistService.getPlaylistById(id);
         return ResponseEntity.ok(playlistResponseDto);
     }
@@ -55,19 +55,19 @@ public class PlaylistController {
         return ResponseEntity.ok(isPrivate);
     }
 
-    @PutMapping("/playlists")
+    @PutMapping(value = "/playlists/{playlistId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updatePlaylist(
-            @RequestBody PlaylistUpdateDto playlistUpdateDto) {
+            @PathVariable Long playlistId,
+            @ModelAttribute PlaylistRequestDto playlistUpdateDto) {
 
-        String username = this.getUsername();
-        playlistService.updatePlaylist(playlistUpdateDto);
+        playlistService.updatePlaylist(playlistUpdateDto, playlistId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/playlists/{playlistId}")
     public ResponseEntity<?> deletePlaylist(@PathVariable Long playlistId) {
         String username = this.getUsername();
-        playlistService.deletePlaylist(playlistId);
+        playlistService.deletePlaylist(playlistId, username);
         return ResponseEntity.ok().build();
     }
 

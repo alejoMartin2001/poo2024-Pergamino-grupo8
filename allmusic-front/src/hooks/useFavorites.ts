@@ -13,7 +13,6 @@ export const useFavorites = (playlistId?: number, albumId?: number) => {
   // Consultar si una playlist es favorita
   const {
     data: isPlaylistFavorite,
-    isLoading: isLoadingPlaylist,
     isError: isErrorPlaylist,
   } = useQuery({
     queryKey: ["favoritePlaylist", playlistId],
@@ -24,7 +23,6 @@ export const useFavorites = (playlistId?: number, albumId?: number) => {
   // Consultar si un álbum es favorito
   const {
     data: isAlbumFavorite,
-    isLoading: isLoadingAlbum,
     isError: isErrorAlbum,
   } = useQuery({
     queryKey: ["favoriteAlbum", albumId],
@@ -76,10 +74,10 @@ export const useFavorites = (playlistId?: number, albumId?: number) => {
     allFavorites,
     isLoadingAllFavorites,
     isPlaylistFavorite,
-    isLoadingPlaylist,
+    isLoadingPlaylist: createFavorite.isPending || removeFavorite.isPending,
     isErrorPlaylist,
     isAlbumFavorite,
-    isLoadingAlbum,
+    isLoadingAlbum : createFavorite.isPending || removeFavorite.isPending,
     isErrorAlbum,
     onSubmitCreate,
     onSubmitRemove,

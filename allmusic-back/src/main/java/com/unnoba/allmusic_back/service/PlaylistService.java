@@ -1,11 +1,13 @@
 package com.unnoba.allmusic_back.service;
 
+import com.unnoba.allmusic_back.dto.favorite.FavoriteCreateDto;
 import com.unnoba.allmusic_back.dto.playlist.SectionDto;
 import com.unnoba.allmusic_back.dto.playlist.PlaylistRequestDto;
 import com.unnoba.allmusic_back.dto.playlist.PlaylistResponseDto;
 import com.unnoba.allmusic_back.dto.playlist.PlaylistUpdateDto;
 import com.unnoba.allmusic_back.dto.song.SongResponseDto;
 import com.unnoba.allmusic_back.dto.song.SongToPlaylistDto;
+import com.unnoba.allmusic_back.entity.MusicArtiesUser;
 import com.unnoba.allmusic_back.entity.Playlist;
 import com.unnoba.allmusic_back.entity.Song;
 import com.unnoba.allmusic_back.entity.User;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -32,6 +35,9 @@ public class PlaylistService {
 
     @Autowired
     private SongRepository songRepository;
+
+    @Autowired
+    private FavotiresService favotiresService;
 
     @Autowired
     private S3Service s3Service;
@@ -134,20 +140,24 @@ public class PlaylistService {
      * Actualiza el título, descripción y (Muy Pronto) la portada de la playlist.
      * @param playlistUpdateDto es la información a actualizar en la playlist.
      */
-    public void updatePlaylist(PlaylistUpdateDto playlistUpdateDto) {
+    public void updatePlaylist(PlaylistRequestDto playlistUpdateDto, Long playlistId) {
 
-        Playlist playlist = playlistRepository.findById(playlistUpdateDto.getPlaylistId()).orElseThrow(
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "La Playlist no existe"
                 )
         );
 
         try{
-            if (playlistUpdateDto.getTitle() != null){
+            if ( !(playlist.getTitle().equals(playlistUpdateDto.getTitle())) ) {
                 playlist.setTitle(playlistUpdateDto.getTitle());
             }
-            if (playlistUpdateDto.getDescription() != null){
+            if ( !(playlist.getDescription().equals(playlistUpdateDto.getDescription())) ) {
                 playlist.setDescription(playlistUpdateDto.getDescription());
+            }
+            if ( playlistUpdateDto.getImage() != null) {
+                String fileCover = this.getImageUrl(playlistUpdateDto.getImage());
+                playlist.setImageUrl(fileCover);
             }
             playlistRepository.save(playlist);
         }catch(Exception e){
@@ -162,7 +172,7 @@ public class PlaylistService {
      * @param playlistId es el ID de pla playlist.
      */
     @Transactional
-    public void deletePlaylist(Long playlistId) {
+    public void deletePlaylist(Long playlistId, String username) {
 
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(
                 () -> new ResponseStatusException(
@@ -171,6 +181,7 @@ public class PlaylistService {
         );
 
         try {
+            favotiresService.removeFavotire(username, new FavoriteCreateDto(playlistId, null));
             playlistRepository.delete(playlist);
         }catch (Exception e){
             throw new ResponseStatusException(
@@ -210,6 +221,16 @@ public class PlaylistService {
         }
     }
 
+    private String getImageUrl(MultipartFile imagePlaylist) {
+        String fileProfile;
+        if (imagePlaylist == null || imagePlaylist.isEmpty()) { // Asegurar que no sea null ni esté vacío
+            fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/playlists/playlist-default.png";
+        } else {
+            fileProfile = s3Service.uploadFile("playlists/", imagePlaylist);
+        }
+        return fileProfile;
+    }
+
     private PlaylistResponseDto mapToDto(Playlist playlist) {
         String ownerName = playlist.getOwner().getFirstName() + " " + playlist.getOwner().getLastName();
         return PlaylistResponseDto.builder()
@@ -227,7 +248,6 @@ public class PlaylistService {
     }
 
     private SectionDto mapToSectionDto(Playlist playlist){
-//        TODO: Paso username en vez de first name.
         String nameOwner = playlist.getOwner().getFirstName() + " " + playlist.getOwner().getLastName();
         return SectionDto.builder()
                 .sectionId(playlist.getId_playlist())
@@ -244,12 +264,7 @@ public class PlaylistService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado")
         );
 
-        String fileProfile;
-        if (playlistRequestDto.getImage() == null || playlistRequestDto.getImage().isEmpty()) { // Asegurar que no sea null ni esté vacío
-            fileProfile = "https://allmusicstorage.s3.sa-east-1.amazonaws.com/playlists/playlist-default.png";
-        } else {
-            fileProfile = s3Service.uploadFile("playlists/", playlistRequestDto.getImage());
-        }
+        String fileProfile = this.getImageUrl(playlistRequestDto.getImage());
 
         Playlist playlist = new Playlist();
         playlist.setTitle(playlistRequestDto.getTitle());
@@ -266,8 +281,10 @@ public class PlaylistService {
         return SongResponseDto.builder()
                 .songId(song.getId_song())
                 .title(song.getTitle())
-                .artist(song.getArtists().stream().map(User::getUsername).collect(Collectors.toList()))
+                .artist(song.getArtists().stream().map(MusicArtiesUser::getArtistName).collect(Collectors.toList()))
                 .duration(song.getDuration())
+                .imageAlbum(song.getAlbum().getImageUrl())
+                .albumId(song.getAlbum().getId_album())
                 .albumName(song.getAlbum().getTitle())
                 .genre(song.getGenre())
                 .build();

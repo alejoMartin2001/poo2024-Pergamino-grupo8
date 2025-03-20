@@ -6,11 +6,14 @@ import { AlbumOptions } from './view/AlbumOptions';
 import { useAuth } from 'src/contexts/AuthProvider';
 import { AlbumTable } from './view/AlbumTable';
 import { useEffect, useState } from 'react';
+import { usePlaylists } from 'src/hooks/playlists/usePlaylists';
+import { playlistsTable } from 'src/interfaces/playlist-interface';
 
 export const AlbumView = () => {
 
   const { albumId } = useParams();
   const { albumData } = useAlbumById(Number(albumId) ?? 1);
+  const { allPlaylistsData } = usePlaylists();
 
   // Abre el modal para agregar canciones.
   const [isAddSongsOpen, setIsAddSongsOpen] = useState<boolean>(false);
@@ -19,6 +22,7 @@ export const AlbumView = () => {
   const [hasSongs, setHasSongs] = useState<boolean>(false);
   const [isOwner, setIsOwner] = useState<boolean>(false);
 
+  const [playlists, setPlaylists] = useState<playlistsTable[]>([]);
 
   const { user } = useAuth();
 
@@ -29,7 +33,16 @@ export const AlbumView = () => {
     setIsOwner(isOwner);
   }, [albumData])
 
-  console.log(albumData)
+
+  useEffect(() => {
+    const transformed = allPlaylistsData?.map(playlist => ({
+      playlistId: playlist.sectionId,
+      playlistName: playlist.sectionName
+    }));
+    setPlaylists(transformed ?? []);
+  }, [allPlaylistsData]);
+
+
   return (
     <div className="flex flex-col">
       <ViewBanner
@@ -37,6 +50,9 @@ export const AlbumView = () => {
         image={albumData?.imageUrl ?? ""}
         ownerName={albumData?.artistName ?? "Desconocido"}
         type={albumData?.type ?? "Desconocido"}
+        songs={albumData?.songs ?? []}
+        isPlaylist={false}
+        date={albumData?.releaseDate}
       />
       <AlbumOptions
         images={albumData?.imageUrl ?? ""}
@@ -49,7 +65,7 @@ export const AlbumView = () => {
       />
 
       {isOwner
-        ? (hasSongs ? <TableView isAlbum={true} songAlbum={albumData?.songs} />
+        ? (hasSongs ? <TableView songs={albumData?.songs ?? []} isPlaylist={false} playlistName={playlists} playlistId={0}/>
           :
           <AlbumTable
             albumType={albumData?.type ?? 'LP'}
@@ -57,7 +73,7 @@ export const AlbumView = () => {
             isAddSongsOpen={isAddSongsOpen}
             setIsAddSongsOpen={setIsAddSongsOpen}
           />)
-        : (hasSongs && <TableView isAlbum={true} songAlbum={albumData?.songs} />)
+        : (hasSongs && <TableView songs={albumData?.songs ?? []} isPlaylist={false} playlistName={playlists} playlistId={0}/>)
       }
     </div>
   )

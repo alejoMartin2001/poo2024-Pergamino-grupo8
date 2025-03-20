@@ -3,8 +3,10 @@ package com.unnoba.allmusic_back.service;
 import com.unnoba.allmusic_back.dto.album.AlbumDto;
 import com.unnoba.allmusic_back.dto.album.AlbumRequestDto;
 import com.unnoba.allmusic_back.dto.album.AlbumResponseDto;
+import com.unnoba.allmusic_back.dto.favorite.FavoriteCreateDto;
 import com.unnoba.allmusic_back.dto.playlist.SectionDto;
 import com.unnoba.allmusic_back.dto.song.SongRequestDto;
+import com.unnoba.allmusic_back.dto.song.SongResponseDto;
 import com.unnoba.allmusic_back.entity.*;
 import com.unnoba.allmusic_back.repository.AlbumRepository;
 import com.unnoba.allmusic_back.repository.ArtistRepository;
@@ -25,6 +27,9 @@ public class AlbumService {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private FavotiresService favotiresService;
 
     @Autowired
     private S3Service s3Service;
@@ -145,12 +150,13 @@ public class AlbumService {
      * Elimina un álbum
      * @param albumId es el ID del álbum.
      */
-    public void deleteAlbum(Long albumId) {
+    public void deleteAlbum(Long albumId, String username) {
         Album album = albumRepository.findById(albumId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El álbum no existe")
         );
 
         try {
+            favotiresService.removeFavotire(username, new FavoriteCreateDto(null, album.getId_album()));
             albumRepository.delete(album);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el album");
@@ -209,8 +215,9 @@ public class AlbumService {
         return albumDto;
     }
 
-    private SongRequestDto getSongDto(Song song){
-        SongRequestDto songDto = new SongRequestDto();
+    private SongResponseDto getSongDto(Song song){
+        SongResponseDto songDto = new SongResponseDto();
+        songDto.setSongId(song.getId_song());
         songDto.setTitle(song.getTitle());
         songDto.setDuration(song.getDuration());
         songDto.setGenre(song.getGenre());

@@ -14,6 +14,8 @@ public class SongResponseDto {
     private Long songId;
     private String title;
     private int duration;
+    private String imageAlbum;
+    private Long albumId;
     private Genre genre;
     private String albumName;
     private List<String> artist;

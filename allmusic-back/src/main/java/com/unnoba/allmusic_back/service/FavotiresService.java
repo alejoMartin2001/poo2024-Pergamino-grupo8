@@ -34,6 +34,12 @@ public class FavotiresService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Verifica si la playlist está anclada.
+     * @param username es el nombre de usuario.
+     * @param playlistId es el ID de la playlist.
+     * @return true si está anclado; caso contrario, false.
+     */
     public boolean isPlaylistFavorite(String username, Long playlistId) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(
@@ -108,6 +114,11 @@ public class FavotiresService {
         }
     }
 
+    /**
+     * Devuelve todos los favoritos (playlists y álbumes) del usuario mapeados en SectionDto.
+     * @param username es el nombre de usuario.
+     * @return retorna favoritos del usuario mapeados a Section.
+     */
     public List<SectionDto> getAllFavoritesByUsername(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe")
@@ -151,7 +162,7 @@ public class FavotiresService {
 
             favoritesRepository.deleteByUserAndPlaylist(user, playlist);
 
-            // Si elimino el álbum nomás.
+        // Si elimino el álbum nomás.
         } else if (favoriteCreateDto.getAlbumId() != null) {
             Album album = albumRepository.findById(favoriteCreateDto.getAlbumId()).orElseThrow(
                     () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El album no existe")

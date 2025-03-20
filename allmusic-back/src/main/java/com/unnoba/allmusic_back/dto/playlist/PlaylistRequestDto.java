@@ -13,7 +13,5 @@ public class PlaylistRequestDto {
     public String title;
     public MultipartFile image;
     public String description;
-//    @JsonProperty("isPrivate")
-//    private boolean isPrivate;
 }
 

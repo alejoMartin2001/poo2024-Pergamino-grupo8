@@ -1,6 +1,6 @@
 // AlbumOptions.tsx
 
-import { GradientIcon, Modal } from "@shared/components";
+import { GradientIcon, LoaderSpinner, Modal } from "@shared/components";
 import { Bookmark, BookmarkCheck, Pencil, SquarePlus, Trash } from "lucide-react";
 import { AlbumUpdateForm } from "../form/AlbumUpdateForm";
 import { useState } from "react";
@@ -29,18 +29,23 @@ export const AlbumOptions = ({
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const { isAlbumFavorite, onSubmitCreate, onSubmitRemove } = useFavorites(undefined, albumId);
+  const { isLoadingAlbum, isAlbumFavorite, onSubmitCreate, onSubmitRemove } = useFavorites(undefined, albumId);
   const { onDeleteAlbum } = useAlbums(); // Obtienes la función para eliminar álbum
 
   return (
     <div className="flex items-center justify-between px-10 py-5 w-full">
       <div className='flex gap-7 text-gray-400'>
-        <div
-          className="cursor-pointer "
-          onClick={() => isAlbumFavorite ? onSubmitRemove({albumId, playlistId: null}) : onSubmitCreate({albumId, playlistId: null})}
-        >
-          {!isAlbumFavorite ? <Bookmark /> : <GradientIcon Icon={BookmarkCheck} fromColorHex="db2777" toColorHex="3182ce" size={24} />}
-        </div>
+        {isLoadingAlbum ?
+          <div className="flex items-center justify-center h-max">
+            <LoaderSpinner size={18}/>
+          </div> :
+          <div
+            className="cursor-pointer "
+            onClick={() => isAlbumFavorite ? onSubmitRemove({ albumId, playlistId: null }) : onSubmitCreate({ albumId, playlistId: null })}
+          >
+            {!isAlbumFavorite ? <Bookmark /> : <GradientIcon Icon={BookmarkCheck} fromColorHex="db2777" toColorHex="3182ce" size={24} />}
+          </div>
+        }
 
         {isOwner && (
           <button

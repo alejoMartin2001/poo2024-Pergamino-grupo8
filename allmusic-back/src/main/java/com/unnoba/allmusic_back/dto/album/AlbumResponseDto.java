@@ -1,6 +1,7 @@
 package com.unnoba.allmusic_back.dto.album;
 
 import com.unnoba.allmusic_back.dto.song.SongRequestDto;
+import com.unnoba.allmusic_back.dto.song.SongResponseDto;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -18,5 +19,5 @@ public class AlbumResponseDto {
     private String artistUsername;
     private String type;
     private LocalDate releaseDate;
-    private List<SongRequestDto> songs;
+    private List<SongResponseDto> songs;
 }

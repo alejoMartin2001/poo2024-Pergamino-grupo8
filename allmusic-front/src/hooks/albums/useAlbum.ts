@@ -72,11 +72,13 @@ export const useAlbumUpdate = (
 export const useAlbumAddSong = (albumId: number) => {
 
   const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
 
   const addSongsAlbum = useMutation({
     mutationFn: ({albumId, songs}: {albumId: number; songs: SongAlbum[]}) => 
       albumsAddSongs(albumId, songs),
     onSuccess: () => {
+      showAlert("¡Canciones agregadas exitosamente al álbum!", "", "success");
       queryClient.invalidateQueries({ queryKey: ["album"] }); 
     }
   });

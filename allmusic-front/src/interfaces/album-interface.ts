@@ -1,3 +1,4 @@
+import { Songs } from "./song-interface";
 
 export interface AlbumCreate {
   title: string;
@@ -21,11 +22,11 @@ export interface AlbumResponseDto {
   artistUsername: string;
   type: string;
   releaseDate: Date;
-  songs: SongAlbum[];
+  songs: Songs[];
 }
 
 export interface SongAlbum {
-  title:    string;
+  title: string;
   duration: number;
-  genre:    string;
+  genre: string;
 }
